@@ -37,7 +37,18 @@ export function smsEnv(): SmsEnv {
   });
 }
 
-/** Development only: log OTPs instead of sending SMS. Never honoured in production. */
+/**
+ * Log OTPs instead of sending SMS, for local runs (dev server or `npm start`) and
+ * Vercel previews. Never honoured on the Vercel production deployment.
+ */
 export function shouldLogOtp(): boolean {
-  return process.env.NODE_ENV !== "production" && process.env.DEV_LOG_OTP === "1";
+  return process.env.VERCEL_ENV !== "production" && process.env.DEV_LOG_OTP === "1";
+}
+
+export function smsConfigured(): boolean {
+  return smsSchema.safeParse({
+    AT_USERNAME: process.env.AT_USERNAME,
+    AT_API_KEY: process.env.AT_API_KEY,
+    AT_SENDER_ID: process.env.AT_SENDER_ID || undefined,
+  }).success;
 }

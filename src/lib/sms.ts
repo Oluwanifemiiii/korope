@@ -1,5 +1,5 @@
 import "server-only";
-import { shouldLogOtp, smsEnv } from "@/lib/env";
+import { shouldLogOtp, smsConfigured, smsEnv } from "@/lib/env";
 
 export class SmsError extends Error {
   constructor(
@@ -21,6 +21,12 @@ export async function sendSms(to: string, message: string, { timeoutMs = 8000 } 
   if (shouldLogOtp()) {
     console.info(`[dev sms] to ${to}: ${message}`);
     return "dev-log";
+  }
+  if (!smsConfigured()) {
+    throw new SmsError(
+      "SMS is not configured. Set AT_USERNAME and AT_API_KEY, or DEV_LOG_OTP=1 to print codes to the server log (not on Vercel production).",
+      500,
+    );
   }
   const env = smsEnv();
   const body = new URLSearchParams({ username: env.AT_USERNAME, to, message });

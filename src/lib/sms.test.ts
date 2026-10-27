@@ -53,10 +53,26 @@ describe("sendSms (Africa's Talking)", () => {
     await expect(sendSms("+2348034127765", "hi")).rejects.toBeInstanceOf(SmsError);
   });
 
-  it("never logs codes instead of sending in production, even if the flag is set", async () => {
+  it("never logs codes instead of sending on Vercel production, even if the flag is set", async () => {
+    vi.stubEnv("VERCEL_ENV", "production");
     vi.stubEnv("DEV_LOG_OTP", "1");
     const { sendSms } = await import("./sms");
     await sendSms("+2348034127765", "hi");
     expect(fetchMock).toHaveBeenCalledOnce();
+  });
+
+  it("logs codes for a local production build when the flag is set", async () => {
+    vi.stubEnv("DEV_LOG_OTP", "1");
+    vi.spyOn(console, "info").mockImplementation(() => {});
+    const { sendSms } = await import("./sms");
+    await expect(sendSms("+2348034127765", "hi")).resolves.toBe("dev-log");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("explains what to set when SMS is not configured", async () => {
+    vi.stubEnv("AT_API_KEY", "");
+    const { sendSms } = await import("./sms");
+    await expect(sendSms("+2348034127765", "hi")).rejects.toThrow(/Set AT_USERNAME and AT_API_KEY/);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });
