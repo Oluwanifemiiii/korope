@@ -49,7 +49,7 @@ A short expiry would break the offline pass. Tokens expire 2 hours after the sch
 SOS SMS, driver contact and receipts depend on a phone number.
 
 ### D-015 Single Next.js package for now
-`src/lib/contracts` holds the Zod schemas. When the Expo app starts, contracts and the generated Supabase types move to a `packages/` workspace without changing the backend.
+`src/lib/contracts` holds the Zod schemas. When the Expo app starts, contracts and the database types move to a `packages/` workspace without changing the backend.
 
 ### D-016 Map styling
 The handoff provides legacy style JSON. Vector maps with a Map ID use cloud-based styling, so the JSON is imported into two Cloud Console styles (light, night) and referenced by `NEXT_PUBLIC_MAP_ID_LIGHT/NIGHT`. Overlay colours are read from CSS tokens at runtime.
@@ -83,3 +83,18 @@ Screen 21b shows "Seat 3B was taken a moment ago. Your money hasn't moved. We're
 
 ### D-024 Logo and app icons
 The refined Route Pair mark (B02) is the logo. Favicon cuts at 16, 24, 32 and 48 px use the thicker strokes drawn on the canvas, and the PWA icon is the 512 px square on Primary/600 with the mark inside the maskable 80% safe zone.
+
+### D-025 Neon instead of Supabase; self-hosted Better Auth (2026-10-28)
+Requested by the product owner. Postgres, realtime, storage and scheduled jobs move to the Neon project `Korope` (aws-eu-central-1, the closest region to Lagos with Neon Realtime). Neon's managed Auth only allows phone sign-in for existing accounts, so we run Better Auth ourselves in the Next.js app on the same database: phone-first sign-up works, Google works, and Better Auth's Expo plugin serves the future native app. Auth tables are `auth_user`, `auth_session`, `auth_account`, `auth_verification`, `auth_rate_limit` with uuid ids.
+
+### D-026 Africa's Talking for SMS
+Chosen over Twilio Verify (cost) and Sendchamp (vendor size). Better Auth generates and checks codes; Africa's Talking only delivers them. Production needs a registered alphanumeric sender ID for Nigeria so codes reach DND numbers. Development logs codes to the server console (`DEV_LOG_OTP=1`, ignored in production); the Africa's Talking sandbox works with `AT_USERNAME=sandbox`.
+
+### D-027 RLS without PostgREST: asUser transactions; Realtime authorised by sealing
+The browser never connects to Postgres. Server code runs user work in `asUser(userId, fn)`, which sets `request.jwt.claims` and `set local role authenticated` inside a transaction (safe with Neon's transaction-mode pooler), so the RLS policies from the Supabase design apply unchanged and are tested the same way. Neon Realtime has no RLS yet, so the route handler that seals a live query is the authorization point, and sealed queries select only columns the requester may see. Polling endpoints back every live query while Realtime is in beta.
+
+### D-028 Scheduled work on Neon
+The hold sweeper is SQL on `pg_cron` (every 30 s). The simulator needs HTTP (it posts to `/api/ingest/position`), so it runs as a Neon Function on a scheduled trigger that loops in 5 s steps per run. Confirm trigger granularity and cost in M1; fallback is a small always-on worker. Note `pg_cron` jobs keep the compute awake, which affects scale-to-zero cost.
+
+### D-029 Driver role only from a verified phone
+Better Auth lets a signed-in user put any number in `phoneNumber`. The signup and phone-change triggers therefore link a pre-registered driver, and copy the phone to the profile, only when `phoneNumberVerified` is true. Tested in `010_identity_rls.test.sql`.

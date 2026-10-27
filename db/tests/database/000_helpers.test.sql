@@ -1,16 +1,23 @@
 -- Test helpers. Not wrapped in a transaction so later files can use them.
--- Runs first (file order) under both `supabase test db` and `npm run test:sql`.
+-- Runs first (file order). Only ever applied to a test database or the Neon `ci` branch.
+
+create extension if not exists pgtap;
 
 create schema if not exists tests;
-grant usage on schema tests to anon, authenticated, service_role;
+grant usage on schema tests to anon, authenticated;
 
-/** Creates an auth user (the signup trigger adds profile and passenger role). */
-create or replace function tests.create_user(p_phone text, p_name text default null) returns uuid
-language plpgsql security definer set search_path = '' as $$
+/** Creates a user the way Better Auth's phone sign-up does (signup trigger adds profile and role). */
+create or replace function tests.create_user(p_phone text, p_name text default null, p_verified boolean default true)
+returns uuid language plpgsql security definer set search_path = '' as $$
 declare v uuid;
 begin
-  insert into auth.users (id, phone, raw_user_meta_data)
-  values (gen_random_uuid(), p_phone, jsonb_build_object('full_name', p_name))
+  insert into public.auth_user (name, email, "phoneNumber", "phoneNumberVerified")
+  values (
+    coalesce(p_name, p_phone),
+    regexp_replace(p_phone, '\D', '', 'g') || '@phone.korope.test',
+    p_phone,
+    p_verified
+  )
   returning id into v;
   return v;
 end $$;
@@ -20,12 +27,11 @@ language sql security definer set search_path = '' as $$
   insert into public.user_roles (user_id, role) values (p_user, p_role) on conflict do nothing
 $$;
 
-/** Switches to the API role for a user, the way PostgREST does per request. */
+/** Switches to the API role for a user, the way src/lib/db.ts does per request. */
 create or replace function tests.authenticate_as(p_user uuid) returns void
 language plpgsql as $$
 begin
   perform set_config('request.jwt.claims', json_build_object('sub', p_user, 'role', 'authenticated')::text, true);
-  perform set_config('request.jwt.claim.sub', p_user::text, true);
   execute 'set local role authenticated';
 end $$;
 
@@ -33,7 +39,6 @@ create or replace function tests.authenticate_anon() returns void
 language plpgsql as $$
 begin
   perform set_config('request.jwt.claims', '{"role":"anon"}', true);
-  perform set_config('request.jwt.claim.sub', '', true);
   execute 'set local role anon';
 end $$;
 
@@ -42,10 +47,9 @@ language plpgsql as $$
 begin
   execute 'reset role';
   perform set_config('request.jwt.claims', '', true);
-  perform set_config('request.jwt.claim.sub', '', true);
 end $$;
 
-grant execute on all functions in schema tests to anon, authenticated, service_role;
+grant execute on all functions in schema tests to anon, authenticated;
 
 select plan(1);
 select ok(true, 'test helpers installed');

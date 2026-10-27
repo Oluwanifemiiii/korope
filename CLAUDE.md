@@ -7,12 +7,12 @@ Read first: `docs/korope-bible.md` (product and design source of truth), `docs/A
 Screens and components: `design/canvas/` mirrors the Claude Design canvas (https://claude.ai/code/artifact/5e43fc40-8359-490f-ba0a-1a71f42c0d05). Artboards are named by screen number (`S09_Seats.dc.html` is screen 09); `C0x` are components, `B0x` brand foundations, `H0x` motion and inventory. `korope-ui.css` there is the reference styling to port, not a stylesheet to import. The canvas wins over the bible on layout and copy; the rules below win over both.
 
 ## Stack
-Next.js App Router (TS strict) · Tailwind with the Korope token preset · Supabase (Postgres + PostGIS, Auth, Realtime, Storage, Edge Functions, Cron) · Google Maps Platform (Maps JS vector + Map ID, Places New, Routes) · Paystack · Termii · Serwist · vaul · Zod · TanStack Query · Vitest · Playwright · pgTAP · Sentry · Vercel.
+Next.js App Router (TS strict) · Tailwind with the Korope token preset · Neon (Postgres 17 + PostGIS, Realtime live queries, object storage, Functions, pg_cron) · Better Auth (self-hosted, phone OTP + Google) · Africa's Talking SMS · Google Maps Platform (Maps JS vector + Map ID, Places New, Routes) · Paystack · Serwist · vaul · Zod · TanStack Query · Vitest · Playwright · pgTAP · Sentry · Vercel.
 
 ## Where logic lives
 - Business rules (fares, availability, holds, bookings, refunds, wallet, boarding) are Postgres functions. Route handlers and Server Actions validate with Zod (`src/lib/contracts`), call one RPC, and return. No business logic in React components. A future Expo app must be able to reuse every backend path.
 - Concurrency is enforced in the database (exclusion constraint on `seat_occupancy`, unique ledger `reference`, non-negative wallet check, row locks). Never "check then insert" in app code.
-- Every table has RLS. Every new policy gets a pgTAP test with allowed and denied personas. The service role key is only used in server route handlers that need it.
+- Every table has RLS. Every new policy gets a pgTAP test with allowed and denied personas. The browser never connects to the database: user work runs in `asUser(userId, fn)` from `src/lib/db.ts` (RLS applies); `asService` (owner, bypasses RLS) only where it must, such as auth internals, webhooks and ingestion.
 - Positions from drivers and the simulator go through `POST /api/ingest/position` only.
 - Write any decision not covered by the bible or brief into `docs/DECISIONS.md`.
 
@@ -39,5 +39,6 @@ Next.js App Router (TS strict) · Tailwind with the Korope token preset · Supab
 
 ## Workflow
 - Small commits with clear messages. Secrets only in env vars; keep `.env.example` current.
-- Before pushing: `pnpm typecheck && pnpm lint && pnpm test && supabase test db`.
+- Before pushing: `npm run typecheck && npm run lint && npm test && npm run test:sql` (SQL tests run on the Neon `ci` branch via `TEST_DATABASE_URL`).
+- Migrations: add `db/migrations/NNNN_name.sql`, run `npm run db:migrate` (applies to the branch in `DATABASE_URL_UNPOOLED`). Never edit an applied migration; add a new one.
 - Each milestone ends in a deployed Vercel preview.

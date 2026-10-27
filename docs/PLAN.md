@@ -8,7 +8,7 @@ Legend: `[ ]` todo, `[x]` done.
 
 ## M0 Foundation
 
-- [ ] Next.js (latest stable, App Router, TS strict), pnpm, ESLint, Prettier, `size-limit`
+- [x] Next.js 16 (App Router, TS strict), npm, ESLint, Prettier (`size-limit` still to wire in CI)
 - [x] Mirror the design canvas into `design/canvas/` and the handoff files into `design/`
 - [ ] `src/styles/tokens.css` (verbatim copy of `design/canvas/korope-tokens.css`) and the `tailwind.korope.js` preset
 - [ ] Port `design/canvas/korope-ui.css` component by component into React + token utilities (not shipped as global CSS)
@@ -18,9 +18,11 @@ Legend: `[ ]` todo, `[x]` done.
 - [ ] ESLint rules: no hex colours / arbitrary px values in `className`, no `rounded-pill` on `<button>`, no em dash in JSX text, no emoji in JSX text
 - [ ] `lib/money.ts` (`formatNaira(kobo)` → `₦1,500`) and `lib/time.ts` (Africa/Lagos) with unit tests
 - [ ] Base components: Button, IconButton, Input (phone +234, amount), OtpInput, Chip, Badge, Toast, Banner, Skeleton, EmptyState, BottomSheet (vaul: peek 176 px, half 50%, full top 56)
-- [ ] Supabase project (staging) + local CLI; migration 0001: extensions (postgis, btree_gist, pg_trgm, pg_cron, pg_net), organizations, profiles, user_roles, role helpers, profile trigger, custom access token hook
-- [ ] RLS on every table from day one; pgTAP harness with persona helpers; CI job `supabase test db`
-- [ ] Auth: phone OTP via Send SMS hook → `/api/auth/sms-hook` → Termii; Google provider; phone-required gate after Google
+- [x] Neon project `Korope` (aws-eu-central-1) with `main`, `dev`, `ci` branches; migration 0001: extensions, API roles, Better Auth tables, organizations, profiles, user_roles, role helpers, signup triggers, audit log, rate limits
+- [x] RLS on every table from day one; pgTAP tests with persona helpers, run on the Neon `ci` branch (30 assertions passing)
+- [ ] CI job running `npm run test:sql` against the `ci` branch
+- [x] Auth: self-hosted Better Auth, phone OTP sign-up and sign-in via Africa's Talking, Google provider, proxy redirect, `requireRole` for /driver and /ops
+- [ ] Phone-required gate after Google sign-in (before first booking, M2)
 - [ ] Middleware role routing for `/driver` and `/ops`
 - [ ] PWA shell: manifest (passenger and driver scopes), Serwist SW, offline banner, placeholder icons (maskable)
 - [ ] Custom 404, `/legal`, `/privacy`, `/terms` shells
@@ -67,7 +69,7 @@ Screens follow `design/canvas/S*.dc.html`, checked against the 360 x 740 (X*) an
 - [ ] `departure:{id}:live` subscription, marker animation, approach states
 - [ ] Push: VAPID keys, subscribe flow, iOS add-to-home-screen explainer, outbox + dispatcher, "2 stops away", "arriving", "your stop is next"
 - [ ] Boarding pass: token issue/rotate, IndexedDB + SW cache, offline variant
-- [ ] Live trip: TimelineRoute, progress, occupancy, share trip (`trip_shares`, `/t/[token]`), SOS (hold 2 s → `tel:112` + Termii SMS to contacts)
+- [ ] Live trip: TimelineRoute, progress, occupancy, share trip (`trip_shares`, `/t/[token]`), SOS (hold 2 s → `tel:112` + Africa's Talking SMS to contacts)
 - [ ] Arrival card, rating tags, receipt
 - [ ] Trips tab: upcoming, active, past, cancel with refund
 
@@ -107,4 +109,4 @@ Screens follow `design/canvas/S*.dc.html`, checked against the 360 x 740 (X*) an
 | Custom 404 matching the design | Not started; design is 21c |
 | Paystack live keys and webhook URL set | Not started |
 | Google Maps keys restricted | Not started |
-| Termii sender ID approved | Not started; apply early, approval takes days |
+| Africa's Talking sender ID registered for Nigeria (DND) | Not started; apply early, approval takes days |

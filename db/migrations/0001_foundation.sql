@@ -1,16 +1,105 @@
--- M0 foundation: extensions, organizations, identity, roles, drivers (sign-in only),
--- audit log and rate limiting. Every table has RLS on. See docs/ARCHITECTURE.md section 6.
+-- M0 foundation on Neon: API roles, request identity, Better Auth tables, organizations,
+-- profiles, roles, drivers (sign-in only), audit log and rate limiting.
+-- Every table has RLS on. See docs/ARCHITECTURE.md section 6 and DECISIONS D-025 to D-028.
 
-create extension if not exists postgis with schema extensions;
-create extension if not exists btree_gist with schema extensions;
-create extension if not exists pg_trgm with schema extensions;
+create extension if not exists postgis;
+create extension if not exists btree_gist;
+create extension if not exists pg_trgm;
 
--- Internal helpers live in `private`, which API roles cannot reach directly.
+-- ---------------------------------------------------------------------------
+-- API roles. The app connects as the database owner (which bypasses RLS) and,
+-- for anything done on a user's behalf, switches to `authenticated` or `anon`
+-- inside the transaction with the user id in request.jwt.claims (src/lib/db.ts).
+-- ---------------------------------------------------------------------------
+do $$ begin
+  if not exists (select 1 from pg_roles where rolname = 'anon') then create role anon nologin noinherit; end if;
+  if not exists (select 1 from pg_roles where rolname = 'authenticated') then create role authenticated nologin noinherit; end if;
+end $$;
+grant anon, authenticated to current_user;
+grant usage on schema public to anon, authenticated;
+
+-- Identity of the current request, set per transaction by the app.
+create schema if not exists auth;
+grant usage on schema auth to anon, authenticated;
+
+create or replace function auth.jwt() returns jsonb language sql stable as $$
+  select coalesce(nullif(current_setting('request.jwt.claims', true), ''), '{}')::jsonb
+$$;
+
+create or replace function auth.uid() returns uuid language sql stable as $$
+  select nullif(auth.jwt() ->> 'sub', '')::uuid
+$$;
+
+grant execute on function auth.jwt(), auth.uid() to anon, authenticated;
+
+-- Internal helpers live in `private`; nothing there is callable unless granted below.
 create schema if not exists private;
 revoke all on schema private from public;
-grant usage on schema private to authenticated, service_role;
--- Nothing in `private` is callable unless granted explicitly below.
+grant usage on schema private to authenticated;
 alter default privileges in schema private revoke execute on functions from public;
+
+-- ---------------------------------------------------------------------------
+-- Better Auth tables (self-hosted Better Auth, D-025). Column names are Better
+-- Auth's own camelCase; ids are uuids so the rest of the schema can reference them.
+-- API roles never touch these; only the app's Better Auth instance does.
+-- ---------------------------------------------------------------------------
+create table public.auth_user (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null unique,
+  "emailVerified" boolean not null default false,
+  image text,
+  "phoneNumber" text unique,
+  "phoneNumberVerified" boolean,
+  "createdAt" timestamptz not null default now(),
+  "updatedAt" timestamptz not null default now()
+);
+
+create table public.auth_session (
+  id uuid primary key default gen_random_uuid(),
+  "userId" uuid not null references public.auth_user (id) on delete cascade,
+  token text not null unique,
+  "expiresAt" timestamptz not null,
+  "ipAddress" text,
+  "userAgent" text,
+  "createdAt" timestamptz not null default now(),
+  "updatedAt" timestamptz not null default now()
+);
+create index auth_session_user_idx on public.auth_session ("userId");
+
+create table public.auth_account (
+  id uuid primary key default gen_random_uuid(),
+  "userId" uuid not null references public.auth_user (id) on delete cascade,
+  "accountId" text not null,
+  "providerId" text not null,
+  "accessToken" text,
+  "refreshToken" text,
+  "idToken" text,
+  "accessTokenExpiresAt" timestamptz,
+  "refreshTokenExpiresAt" timestamptz,
+  scope text,
+  password text,
+  "createdAt" timestamptz not null default now(),
+  "updatedAt" timestamptz not null default now()
+);
+create index auth_account_user_idx on public.auth_account ("userId");
+
+create table public.auth_verification (
+  id uuid primary key default gen_random_uuid(),
+  identifier text not null,
+  value text not null,
+  "expiresAt" timestamptz not null,
+  "createdAt" timestamptz not null default now(),
+  "updatedAt" timestamptz not null default now()
+);
+create index auth_verification_identifier_idx on public.auth_verification (identifier);
+
+create table public.auth_rate_limit (
+  id uuid primary key default gen_random_uuid(),
+  key text not null unique,
+  count integer not null,
+  "lastRequest" bigint not null
+);
 
 -- ---------------------------------------------------------------------------
 -- Organizations: one row in v1. Every operational table carries organization_id
@@ -30,11 +119,11 @@ values ('00000000-0000-0000-0000-00000000c0de', 'Korope Public', 'public');
 
 create function private.default_org() returns uuid
 language sql immutable as $$ select '00000000-0000-0000-0000-00000000c0de'::uuid $$;
-grant execute on function private.default_org() to authenticated, service_role;
+grant execute on function private.default_org() to authenticated;
 
 -- ---------------------------------------------------------------------------
--- Phone numbers are stored as E.164 digits without the plus, which is how
--- Supabase Auth stores auth.users.phone (2348034127765).
+-- Phone numbers are stored as E.164 digits without the plus (2348034127765).
+-- Better Auth keeps its own copy with the plus ("+2348034127765").
 -- ---------------------------------------------------------------------------
 create function private.normalize_phone(raw text) returns text
 language plpgsql immutable as $$
@@ -46,13 +135,13 @@ begin
   if length(d) = 10 and left(d, 1) in ('7', '8', '9') then return '234' || d; end if;
   return d;
 end $$;
-grant execute on function private.normalize_phone(text) to authenticated, service_role;
+grant execute on function private.normalize_phone(text) to authenticated;
 
 -- ---------------------------------------------------------------------------
 -- Profiles and roles
 -- ---------------------------------------------------------------------------
 create table public.profiles (
-  id uuid primary key references auth.users (id) on delete cascade,
+  id uuid primary key references public.auth_user (id) on delete cascade,
   full_name text,
   phone text unique,
   avatar_path text,
@@ -65,15 +154,15 @@ create table public.profiles (
 create type public.app_role as enum ('passenger', 'driver', 'ops_admin');
 
 create table public.user_roles (
-  user_id uuid not null references auth.users (id) on delete cascade,
+  user_id uuid not null references public.auth_user (id) on delete cascade,
   role public.app_role not null,
   organization_id uuid not null default private.default_org() references public.organizations (id),
-  granted_by uuid references auth.users (id),
+  granted_by uuid references public.auth_user (id),
   created_at timestamptz not null default now(),
   primary key (user_id, role, organization_id)
 );
 
--- Role checks read the table, not JWT claims, so a revoked role takes effect at once (D-004).
+-- Role checks read the table, so a revoked role takes effect at once (D-004).
 create function private.has_role(r public.app_role) returns boolean
 language sql stable security definer set search_path = '' as $$
   select exists (
@@ -89,7 +178,7 @@ $$;
 grant execute on function private.has_role(public.app_role), private.is_ops() to authenticated;
 
 -- ---------------------------------------------------------------------------
--- Drivers. Ops pre-register them by phone; the first OTP sign-in with that
+-- Drivers. Ops pre-register them by phone; the first verified sign-in with that
 -- phone links the account and grants the driver role. Fleet fields arrive in M1.
 -- ---------------------------------------------------------------------------
 create type public.driver_status as enum ('active', 'suspended', 'left');
@@ -97,7 +186,7 @@ create type public.driver_status as enum ('active', 'suspended', 'left');
 create table public.drivers (
   id uuid primary key default gen_random_uuid(),
   organization_id uuid not null default private.default_org() references public.organizations (id),
-  user_id uuid unique references auth.users (id) on delete set null,
+  user_id uuid unique references public.auth_user (id) on delete set null,
   phone text not null unique check (phone ~ '^234[0-9]{10}$'),
   full_name text not null,
   photo_path text,
@@ -120,7 +209,7 @@ end $$;
 create trigger drivers_normalize before insert or update on public.drivers
 for each row execute function private.normalize_driver_phone();
 
-/** Used by the /driver sign-in route (service role) before an OTP is sent. */
+/** Used by the /driver sign-in screen (server, owner connection) before a code is sent. */
 create function private.can_driver_sign_in(raw_phone text) returns boolean
 language sql stable security definer set search_path = '' as $$
   select exists (
@@ -128,9 +217,8 @@ language sql stable security definer set search_path = '' as $$
     where d.phone = private.normalize_phone(raw_phone) and d.status = 'active'
   )
 $$;
-grant execute on function private.can_driver_sign_in(text) to service_role;
 
--- Links a signed-in user to a pre-registered driver with the same phone.
+-- Links a user to a pre-registered driver with the same verified phone.
 create function private.link_driver(p_user uuid, p_phone text) returns void
 language plpgsql security definer set search_path = '' as $$
 declare
@@ -147,57 +235,47 @@ begin
   end if;
 end $$;
 
--- New auth user: profile, passenger role, driver link.
+-- New user: profile, passenger role, and a driver link if the phone is verified.
+-- Unverified phone numbers are never trusted: Better Auth lets a user type any
+-- number into their profile, so only phoneNumberVerified = true counts.
 create function private.handle_new_user() returns trigger
 language plpgsql security definer set search_path = '' as $$
+declare
+  v_phone text := case when new."phoneNumberVerified" then private.normalize_phone(new."phoneNumber") end;
 begin
   insert into public.profiles (id, full_name, phone)
-  values (
-    new.id,
-    coalesce(new.raw_user_meta_data ->> 'full_name', new.raw_user_meta_data ->> 'name'),
-    private.normalize_phone(new.phone)
-  )
+  values (new.id, nullif(new.name, new."phoneNumber"), v_phone)
   on conflict (id) do nothing;
   insert into public.user_roles (user_id, role) values (new.id, 'passenger') on conflict do nothing;
-  perform private.link_driver(new.id, new.phone);
+  perform private.link_driver(new.id, v_phone);
   return new;
 end $$;
 
-create trigger on_auth_user_created after insert on auth.users
+create trigger on_auth_user_created after insert on public.auth_user
 for each row execute function private.handle_new_user();
 
--- A Google user who later verifies a phone (D-014) also gets linked.
+-- A Google user who later verifies a phone (D-014) gets it on their profile and,
+-- if ops registered that number, the driver role.
 create function private.handle_user_phone_change() returns trigger
 language plpgsql security definer set search_path = '' as $$
+declare
+  v_phone text := case when new."phoneNumberVerified" then private.normalize_phone(new."phoneNumber") end;
 begin
-  update public.profiles set phone = private.normalize_phone(new.phone), updated_at = now()
-  where id = new.id;
-  perform private.link_driver(new.id, new.phone);
+  update public.profiles set phone = v_phone, updated_at = now() where id = new.id;
+  perform private.link_driver(new.id, v_phone);
   return new;
 end $$;
 
-create trigger on_auth_user_phone_changed after update of phone on auth.users
-for each row when (new.phone is distinct from old.phone)
+create trigger on_auth_user_phone_changed after update of "phoneNumber", "phoneNumberVerified" on public.auth_user
+for each row
+when (new."phoneNumber" is distinct from old."phoneNumber" or new."phoneNumberVerified" is distinct from old."phoneNumberVerified")
 execute function private.handle_user_phone_change();
 
--- ---------------------------------------------------------------------------
--- Custom access token hook: adds `app_roles` to the JWT for proxy routing only.
--- ---------------------------------------------------------------------------
-create function public.custom_access_token_hook(event jsonb) returns jsonb
-language plpgsql stable security definer set search_path = '' as $$
-declare
-  claims jsonb := coalesce(event -> 'claims', '{}'::jsonb);
-  roles jsonb;
-begin
-  select coalesce(jsonb_agg(distinct ur.role), '[]'::jsonb) into roles
-  from public.user_roles ur where ur.user_id = (event ->> 'user_id')::uuid;
-  claims := jsonb_set(claims, '{app_roles}', roles);
-  return jsonb_set(event, '{claims}', claims);
-end $$;
-
-revoke all on function public.custom_access_token_hook(jsonb) from public, anon, authenticated;
-grant execute on function public.custom_access_token_hook(jsonb) to supabase_auth_admin;
-grant select on public.user_roles to supabase_auth_admin;
+/** Roles for a user, read by the app after Better Auth resolves the session. */
+create function private.user_roles_of(p_user uuid) returns public.app_role[]
+language sql stable security definer set search_path = '' as $$
+  select coalesce(array_agg(distinct ur.role order by ur.role), '{}') from public.user_roles ur where ur.user_id = p_user
+$$;
 
 -- ---------------------------------------------------------------------------
 -- Audit log, written by triggers on ops-editable tables.
@@ -238,7 +316,8 @@ create trigger audit_drivers after insert or update or delete on public.drivers
 for each row execute function private.audit();
 
 -- ---------------------------------------------------------------------------
--- Rate limiting (D-013): fixed windows in a small table.
+-- Rate limiting for our own endpoints (D-013). Better Auth rate-limits its own
+-- routes in auth_rate_limit.
 -- ---------------------------------------------------------------------------
 create table public.rate_limits (
   key text not null,
@@ -262,30 +341,15 @@ begin
   returning r.count into v_count;
   return v_count <= p_max;
 end $$;
-grant execute on function private.rate_limit(text, integer, interval) to service_role;
-
--- ---------------------------------------------------------------------------
--- Service-only RPCs. `private` is never exposed through the API, so route handlers
--- using the service role call these thin public wrappers instead.
--- ---------------------------------------------------------------------------
-create function public.svc_can_driver_sign_in(raw_phone text) returns boolean
-language sql stable security definer set search_path = '' as $$
-  select private.can_driver_sign_in(raw_phone)
-$$;
-
-create function public.svc_rate_limit(p_key text, p_max integer, p_window_seconds integer) returns boolean
-language sql security definer set search_path = '' as $$
-  select private.rate_limit(p_key, p_max, make_interval(secs => p_window_seconds))
-$$;
-
-revoke all on function public.svc_can_driver_sign_in(text) from public, anon, authenticated;
-revoke all on function public.svc_rate_limit(text, integer, integer) from public, anon, authenticated;
-grant execute on function public.svc_can_driver_sign_in(text) to service_role;
-grant execute on function public.svc_rate_limit(text, integer, integer) to service_role;
 
 -- ---------------------------------------------------------------------------
 -- Row Level Security
 -- ---------------------------------------------------------------------------
+alter table public.auth_user enable row level security;
+alter table public.auth_session enable row level security;
+alter table public.auth_account enable row level security;
+alter table public.auth_verification enable row level security;
+alter table public.auth_rate_limit enable row level security;
 alter table public.organizations enable row level security;
 alter table public.profiles enable row level security;
 alter table public.user_roles enable row level security;
@@ -305,11 +369,11 @@ create policy profiles_own_update on public.profiles for update to authenticated
   using (id = (select auth.uid()) or (select private.is_ops()))
   with check (id = (select auth.uid()) or (select private.is_ops()));
 
--- Passengers may not change their own phone through the table; it follows auth.users.
+-- The phone on a profile follows the verified sign-in phone; nobody edits it directly.
 create function private.guard_profile_phone() returns trigger
 language plpgsql as $$
 begin
-  if new.phone is distinct from old.phone and current_user = 'authenticated' then
+  if new.phone is distinct from old.phone and current_user in ('authenticated', 'anon') then
     raise exception 'phone is managed by sign-in' using errcode = '42501';
   end if;
   new.updated_at := now();
@@ -338,13 +402,14 @@ create policy drivers_ops_update on public.drivers for update to authenticated
 create policy drivers_ops_delete on public.drivers for delete to authenticated
   using ((select private.is_ops()));
 
--- audit_log: ops read only. rate_limits: no API access at all.
+-- audit_log: ops read only.
 create policy audit_log_ops_read on public.audit_log for select to authenticated
   using ((select private.is_ops()));
 
--- Anonymous visitors get nothing from these tables.
-revoke all on public.organizations, public.profiles, public.user_roles, public.drivers,
-  public.audit_log, public.rate_limits from anon;
-revoke all on public.rate_limits from authenticated;
-revoke insert, delete on public.profiles from authenticated;
-revoke insert, update, delete on public.audit_log from authenticated;
+-- Grants: API roles get only what the policies above are for.
+grant select, update on public.organizations to authenticated;
+grant select, update on public.profiles to authenticated;
+grant select, insert, update, delete on public.user_roles to authenticated;
+grant select, insert, update, delete on public.drivers to authenticated;
+grant select on public.audit_log to authenticated;
+-- Better Auth tables and rate_limits: no API role access at all (not granted).

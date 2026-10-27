@@ -26,46 +26,47 @@ flowchart LR
 
   subgraph Vercel["Vercel: Next.js App Router"]
     RSC["RSC pages + Server Actions"]
-    API["Route handlers<br/>/api/ingest/position<br/>/api/paystack/webhook<br/>/api/auth/sms-hook<br/>/api/push/dispatch<br/>/api/qr/*"]
+    API["Route handlers<br/>/api/auth/* (Better Auth)<br/>/api/ingest/position<br/>/api/paystack/webhook<br/>/api/live/* (sealed queries)<br/>/api/push/dispatch<br/>/api/qr/*"]
+    BA["Better Auth (self-hosted)<br/>phone OTP, Google"]
   end
 
-  subgraph Supabase
-    PG[("Postgres + PostGIS<br/>btree_gist, pg_trgm, pg_cron, pg_net")]
-    AUTH["Auth<br/>phone OTP, Google"]
-    RT["Realtime<br/>private broadcast channels"]
-    ST["Storage<br/>stop / driver / incident photos"]
-    EF["Edge Functions<br/>simulator-tick, hold-sweeper"]
+  subgraph Neon["Neon project Korope (aws-eu-central-1)"]
+    PG[("Postgres 17 + PostGIS<br/>btree_gist, pg_trgm, pg_cron<br/>branches: main, dev, ci")]
+    RT["Neon Realtime (beta)<br/>live SQL queries"]
+    ST["Object storage<br/>stop / driver / incident photos"]
+    NF["Neon Functions<br/>simulator-tick (scheduled)"]
   end
 
   subgraph External
     PS["Paystack"]
-    TM["Termii SMS"]
+    AT["Africa's Talking SMS"]
     GM["Google Maps Platform<br/>Maps JS, Places New, Routes"]
     WP["Web Push services"]
     SE["Sentry"]
   end
 
   P & D & O --> RSC
-  P & D & O -. "supabase-js (RLS)" .-> PG
-  P & D & O -. subscribe .-> RT
+  RSC & API -- "pg, RLS via asUser()" --> PG
+  P & D & O -. "subscribe to sealed live queries" .-> RT
+  RT --- PG
   D -- "GPS every ~5 s / 25 m" --> API
-  EF -- "simulated GPS, same endpoint" --> API
-  API --> PG
-  PG -- "realtime.send() from triggers" --> RT
-  AUTH -- "Send SMS hook" --> API --> TM
+  NF -- "simulated GPS, same endpoint" --> API
+  BA --> PG
+  BA -- "send OTP" --> AT
   P -- "inline checkout" --> PS -- "webhook" --> API -- "verify txn" --> PS
   API --> WP
   P & D & O --> GM
   RSC & API --> SE
-  PG -- "pg_cron" --> EF
 ```
+
+Platform (changed 2026-10-28, D-025 to D-028): **Neon** replaces Supabase for Postgres, realtime, storage and scheduled jobs; **self-hosted Better Auth** replaces Supabase Auth; **Africa's Talking** replaces Termii. The browser never talks to the database directly: every read and write goes through Server Components, Server Actions or route handlers, which run user work inside `asUser(userId, ...)` (`src/lib/db.ts`). That switches to the `authenticated` role with the user id in `request.jwt.claims`, so the RLS policies and `auth.uid()` behave exactly as before and as in the SQL tests.
 
 Principles:
 
-1. **Business rules live in Postgres functions** (`public.*` RPCs for callers with a user JWT, `private.*` for service-only). Route handlers and Server Actions validate input with Zod, call one RPC, and shape the response. React components never compute fares, availability, balances or refund amounts. A future Expo app calls the same RPCs and route handlers.
+1. **Business rules live in Postgres functions** (`public.*` functions called as the user through `asUser`, `private.*` for service-only work through `asService`). Route handlers and Server Actions validate input with Zod, call one function, and shape the response. React components never compute fares, availability, balances or refund amounts. A future Expo app calls the same RPCs and route handlers.
 2. **One ingestion path for positions.** Driver phones and the simulator both `POST /api/ingest/position`. Whether a vehicle is simulated is a column (`vehicles.simulated`), not a code branch.
 3. **Concurrency is enforced by constraints**, not by app checks: an exclusion constraint on seat occupancy, a unique reference on ledger transactions, a non-negative balance check on wallet accounts, and row locks inside RPCs.
-4. **Every table has RLS enabled.** Service role is used only in route handlers that need it (webhooks, ingestion, push dispatch) and never ships to the browser.
+4. **Every table has RLS enabled.** The owner connection (`asService`, bypasses RLS) is used only where it must be: Better Auth internals, webhooks, ingestion, push dispatch, service checks. Database credentials never reach the browser.
 
 ---
 
@@ -94,12 +95,13 @@ src/
     contracts/            # Zod schemas shared by Server Actions, route handlers and (later) Expo
     money.ts              # formatNaira(kobo) — the only money formatter
     time.ts               # Africa/Lagos formatting
-    supabase/             # server, browser and service clients
+    db.ts                 # pg pool; asUser / asAnon / asService transactions
+    auth/                 # Better Auth server + client, routes, requireRole
     realtime/             # per-screen channel hooks with cleanup
     qr/                   # sign / verify
   styles/tokens.css       # copied verbatim from the design handoff
-supabase/
-  migrations/  seed/  functions/  tests/   # pgTAP tests run by `supabase test db`
+db/
+  migrations/  migrate.mjs  seed/  tests/   # pgTAP tests run by `npm run test:sql` on a Neon branch
 ```
 
 Surfaces are separated by layout and by `middleware.ts`, which reads the user's role and redirects: `/driver/**` needs `driver`, `/ops/**` needs `ops_admin`. Each surface has its own root layout so ops and driver code never enters the passenger bundle. The middleware is only routing; RLS is the real gate.
@@ -296,20 +298,22 @@ Reasons, first that applies: "Soonest, with seats to spare", "Gets you there fir
 
 ## 4. Realtime
 
-Supabase Realtime **Broadcast from the database** on private channels, authorised by RLS on `realtime.messages`. Triggers call `realtime.send(payload, event, topic, true)`. We avoid `postgres_changes` for shared data because it would expose other passengers' rows.
+**Neon Realtime** (beta) makes a SQL query live. The server decides what a user may watch: a route handler under `/api/live/*` checks the session and the user's right to that departure, booking or wallet, then **seals** a query that selects only the columns that user may see, and returns it with initial data. The browser subscribes to the sealed query and gets deltas. Realtime does not apply RLS yet, so sealing is the authorization point and every sealed query is written to expose no other passenger's identity (D-027).
 
-| Topic | Event(s) | Payload | Who may join | Subscribed on |
-|---|---|---|---|---|
-| `departure:{id}:seats` | `seat` | `{seat_id, segment:[from,to], state, expires_at}` where state is held, reserved or free | any authenticated user | Seat map screen only |
-| `departure:{id}:live` | `position`, `eta`, `status` | `{lat,lng,heading,speed,progress_m,current_seq}` / `{seq, eta, confidence}` / `{status, delay_s}` | holders of an active booking on that departure, its assigned driver, ops | Waiting, live trip, driver home |
-| `booking:{id}` | `status` | `{status, boarded_at}` | booking owner, ops | Booking confirmed, pass, live trip |
-| `user:{uid}:wallet` | `balance`, `topup` | `{balance_kobo}` / `{reference, status}` | that user | Wallet, top-up sheet |
-| `ops:fleet` | `position`, `departure`, `incident` | compact | `ops_admin` | Ops live map, departures board |
-| `driver:{driver_id}` | `manifest` | `{booking_id, seat, status}` | that driver, ops | Driver home, manifest |
+Live queries must be deterministic, so they cannot call `now()`. Seat holds are returned with `expires_at`, and the client hides expired ones; the database ignores them anyway when a hold or booking is created.
 
-Home's "nearby buses" uses a 15 s polled RPC (`nearby_vehicles(point, radius)`) rather than a broad subscription, to protect data on 3G. The public share page polls `/api/share/[token]` every 10 s; no realtime credentials go to anonymous users.
+| Live query | Columns | Who may get it sealed | Used on |
+|---|---|---|---|
+| Seats for departure X | `seat_id, lower(segment), upper(segment), kind, expires_at` from active `seat_occupancy` (no `user_id`) | any signed-in user | Seat map only |
+| Bus for departure X | `vehicle_live` position, heading, speed, progress; `departure_stop_times` ETAs; departure status and delay | holders of an active booking on X, its driver, ops | Waiting, live trip, driver home |
+| Booking X | `status, boarded_at` | booking owner, ops | Confirmed, pass, live trip |
+| My wallet | `balance_kobo` and latest top-up status | that user | Wallet, top-up sheet |
+| Fleet | all `vehicle_live` rows, departure status, open incidents | `ops_admin` | Ops live map, board |
+| Manifest for departure X | `booking_id, seat label, status` | that driver, ops | Driver home, manifest |
 
-Every hook in `lib/realtime` subscribes in `useEffect` and calls `supabase.removeChannel` on unmount.
+Fallback while Realtime is in beta: each `/api/live/*` endpoint also answers plain GETs, and TanStack Query polls them (5 s for the bus, 10 s otherwise) if the subscription fails. Home's "nearby buses" is always a 15 s poll, to protect data on 3G. The public share page polls `/api/share/[token]` every 10 s; anonymous visitors never get a subscription.
+
+Every hook in `lib/realtime` subscribes in `useEffect` and unsubscribes on unmount.
 
 ---
 
@@ -509,10 +513,14 @@ Every policy is covered by pgTAP tests that `set local role authenticated` with 
 
 ## 7. Auth
 
-- **Phone OTP (primary).** Supabase phone provider with the **Send SMS hook** pointed at `POST /api/auth/sms-hook`. The handler verifies the Standard Webhooks signature (`SEND_SMS_HOOK_SECRET`), rate-limits per phone and per IP, and calls Termii's SMS API with the approved sender ID (DND route, since many Lagos numbers are on DND). If Termii fails the hook returns an error so Supabase reports a failure instead of a silent success. OTP length 6, expiry 5 minutes.
-- **Google (secondary).** After a Google sign-in without a phone, the user is asked to add and verify a phone number before booking, because SOS, driver contact and receipts depend on it.
-- **Drivers.** Ops pre-registers drivers by phone. The `/driver` sign-in only sends an OTP if the phone matches an active `drivers` row (checked through `private.can_driver_sign_in(phone)`). The link trigger grants the `driver` role on first sign-in.
+Self-hosted **Better Auth** (`src/lib/auth/server.ts`), mounted at `/api/auth/*`, storing users, sessions, accounts, verifications and its rate limits in the `auth_*` tables in Neon.
+
+- **Phone OTP (primary).** Better Auth's phone-number plugin. The first verified code creates the account (`signUpOnVerification`; phone-only users get a placeholder email `<digits>@phone.korope.app`). The plugin generates and checks the 6-digit code (5-minute expiry, 3 attempts); our `sendOTP` sends it through **Africa's Talking** from the registered sender ID, so it reaches numbers on DND. Limits: 3 codes per phone per 10 minutes (our `private.rate_limit`) plus Better Auth's per-IP limits. In development `DEV_LOG_OTP=1` prints codes to the server log instead; production ignores that flag.
+- **Sessions.** HTTP-only cookie. `proxy.ts` only checks the cookie exists (optimistic redirect to sign-in). `/driver` and `/ops` layouts call `requireRole`, which reads the session and then `user_roles` from the database, so a revoked role takes effect on the next request.
+- **Google (secondary).** Better Auth social provider. After a Google sign-in without a phone, the user verifies a phone before booking (phone-number plugin `verify` with `updatePhoneNumber`), because SOS, driver contact and receipts depend on it.
+- **Drivers.** Ops pre-registers drivers by phone. `/driver/sign-in` checks `private.can_driver_sign_in(phone)` before sending a code. The signup and phone-change triggers grant the `driver` role only when the phone is **verified** (`phoneNumberVerified = true`), because Better Auth lets a user type any number into their profile.
 - **Ops.** `ops_admin` is granted manually (SQL or by another ops admin). Ops sign in with phone OTP or Google.
+- **Native app later.** Better Auth has an Expo plugin; the same `/api/auth/*` endpoints serve it.
 
 ---
 
@@ -539,7 +547,7 @@ Every policy is covered by pgTAP tests that `set local role authenticated` with 
 
 ## 10. Simulator
 
-`simulator-tick` Edge Function, invoked every 5 s by Supabase Cron while `simulator_state.running`:
+`simulator-tick` Neon Function on a scheduled trigger (each run loops in 5 s steps for its window; exact cadence confirmed in M1, D-028), active while `simulator_state.running`. The hold sweeper is plain SQL on `pg_cron` every 30 s.
 
 1. Load active departures whose vehicle is `simulated = true` and whose scheduled window covers now (± 15 min).
 2. Simulated clock per departure: `t = (now - scheduled_at) × speed_multiplier - sim_offset_s`.
@@ -555,7 +563,7 @@ Ops controls: start/stop, speed multiplier (1×, 2×, 5×, 10×), "inject delay"
 
 - Sentry in browser, server and edge runtimes; PII scrubbing for phone numbers and tokens.
 - Rate limits (Postgres `private.rate_limit`): OTP send 3 per phone per 10 min and 10 per IP per hour; `create_hold` 20 per user per 10 min; `confirm_booking` 10 per user per 10 min; top-up start 10 per user per hour.
-- CSP with nonces; Paystack, Google Maps and Supabase origins allowed explicitly.
+- CSP with nonces; Paystack, Google Maps and the Neon Realtime origin allowed explicitly.
 - Performance budget: passenger home ≤ 170 KB gzipped initial JS excluding the Maps SDK, enforced in CI with `size-limit` against the built route chunks. No Framer Motion on the home route.
 - Data retention (privacy policy must match): positions 30 days, OTP/SMS logs 90 days, ledger and bookings 6 years (financial records), SOS events 2 years, Paystack raw events 6 years.
 
@@ -563,4 +571,4 @@ Ops controls: start/stop, speed multiplier (1×, 2×, 5×, 10×), "inject delay"
 
 ## 12. Environment variables
 
-See `.env.example` (created in M0). Public: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY`, `NEXT_PUBLIC_MAP_ID_LIGHT`, `NEXT_PUBLIC_MAP_ID_NIGHT`, `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY`, `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `NEXT_PUBLIC_SENTRY_DSN`. Server only: `SUPABASE_SERVICE_ROLE_KEY`, `SEND_SMS_HOOK_SECRET`, `TERMII_API_KEY`, `TERMII_SENDER_ID`, `PAYSTACK_SECRET_KEY`, `GOOGLE_MAPS_SERVER_KEY`, `QR_SIGNING_SECRET`, `SIMULATOR_TOKEN`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`, `SENTRY_AUTH_TOKEN`, `CRON_SECRET`.
+See `.env.example`. Public: `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY`, `NEXT_PUBLIC_MAP_ID_LIGHT`, `NEXT_PUBLIC_MAP_ID_NIGHT`, `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY`, `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `NEXT_PUBLIC_SENTRY_DSN`, `NEXT_PUBLIC_NEON_REALTIME_URL`. Server only: `DATABASE_URL` (pooled), `DATABASE_URL_UNPOOLED` (migrations), `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `AT_USERNAME`, `AT_API_KEY`, `AT_SENDER_ID`, `NEON_REALTIME_SECRET`, `PAYSTACK_SECRET_KEY`, `GOOGLE_MAPS_SERVER_KEY`, `QR_SIGNING_SECRET`, `SIMULATOR_TOKEN`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`, `SENTRY_AUTH_TOKEN`, `CRON_SECRET`. Tests: `TEST_DATABASE_URL` (Neon `ci` branch, unpooled).

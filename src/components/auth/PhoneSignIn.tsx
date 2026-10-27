@@ -12,7 +12,7 @@ import { IconButton } from "@/components/ui/IconButton";
 import { OtpInput } from "@/components/ui/OtpInput";
 import { authErrorMessage } from "@/lib/auth/errors";
 import { formatPhone, nigerianPhone } from "@/lib/contracts/auth";
-import { getBrowserClient } from "@/lib/supabase/browser";
+import { authClient } from "@/lib/auth/client";
 import { formatCountdown } from "@/lib/time";
 
 const RESEND_AFTER_S = 60;
@@ -53,7 +53,7 @@ export function PhoneSignIn({ next, surface, checkDriver, roleNotice }: Props) {
         return false;
       }
     }
-    const { error: err } = await getBrowserClient().auth.signInWithOtp({ phone: target });
+    const { error: err } = await authClient.phoneNumber.sendOtp({ phoneNumber: target });
     setBusy(false);
     if (err) {
       setError(authErrorMessage(err));
@@ -80,7 +80,7 @@ export function PhoneSignIn({ next, surface, checkDriver, roleNotice }: Props) {
     if (!phone) return;
     setBusy(true);
     setError(undefined);
-    const { error: err } = await getBrowserClient().auth.verifyOtp({ phone, token, type: "sms" });
+    const { error: err } = await authClient.phoneNumber.verify({ phoneNumber: phone, code: token });
     if (err) {
       setBusy(false);
       setError(authErrorMessage(err));
@@ -93,11 +93,7 @@ export function PhoneSignIn({ next, surface, checkDriver, roleNotice }: Props) {
 
   async function google() {
     setBusy(true);
-    const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
-    const { error: err } = await getBrowserClient().auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo },
-    });
+    const { error: err } = await authClient.signIn.social({ provider: "google", callbackURL: next });
     if (err) {
       setBusy(false);
       setError(authErrorMessage(err));

@@ -4,31 +4,40 @@ import { z } from "zod";
  * Environment variables, validated on first use rather than at import so builds
  * and tests that don't touch a service don't need its secrets. See .env.example.
  */
-const publicSchema = z.object({
-  NEXT_PUBLIC_SITE_URL: z.url().default("http://localhost:3000"),
-  NEXT_PUBLIC_SUPABASE_URL: z.url(),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(20),
-});
-
 const serverSchema = z.object({
-  SUPABASE_SERVICE_ROLE_KEY: z.string().min(20),
-  SEND_SMS_HOOK_SECRET: z.string().startsWith("v1,whsec_"),
-  TERMII_API_KEY: z.string().min(10),
-  TERMII_BASE_URL: z.url().default("https://v3.api.termii.com"),
-  TERMII_SENDER_ID: z.string().min(3).max(11),
+  NEXT_PUBLIC_SITE_URL: z.url().default("http://localhost:3000"),
+  /** Neon pooled connection (app queries). */
+  DATABASE_URL: z.string().startsWith("postgres"),
+  BETTER_AUTH_SECRET: z.string().min(32),
+  BETTER_AUTH_URL: z.url().optional(),
+  GOOGLE_CLIENT_ID: z.string().optional(),
+  GOOGLE_CLIENT_SECRET: z.string().optional(),
 });
 
-export type PublicEnv = z.infer<typeof publicSchema>;
-export type ServerEnv = z.infer<typeof serverSchema>;
+const smsSchema = z.object({
+  /** "sandbox" uses Africa's Talking's simulator. */
+  AT_USERNAME: z.string().min(1),
+  AT_API_KEY: z.string().min(10),
+  /** Registered alphanumeric sender ID; empty in sandbox. */
+  AT_SENDER_ID: z.string().max(11).optional(),
+});
 
-export function publicEnv(): PublicEnv {
-  return publicSchema.parse({
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  });
-}
+export type ServerEnv = z.infer<typeof serverSchema>;
+export type SmsEnv = z.infer<typeof smsSchema>;
 
 export function serverEnv(): ServerEnv {
   return serverSchema.parse(process.env);
+}
+
+export function smsEnv(): SmsEnv {
+  return smsSchema.parse({
+    AT_USERNAME: process.env.AT_USERNAME,
+    AT_API_KEY: process.env.AT_API_KEY,
+    AT_SENDER_ID: process.env.AT_SENDER_ID || undefined,
+  });
+}
+
+/** Development only: log OTPs instead of sending SMS. Never honoured in production. */
+export function shouldLogOtp(): boolean {
+  return process.env.NODE_ENV !== "production" && process.env.DEV_LOG_OTP === "1";
 }

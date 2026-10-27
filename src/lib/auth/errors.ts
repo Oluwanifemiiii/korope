@@ -1,29 +1,21 @@
 /**
  * Sign-in error copy. Never blames the user, says what to do next.
- * Supabase Auth error codes: https://supabase.com/docs/guides/auth/debugging/error-codes
+ * Better Auth error codes come from the phone-number plugin and the rate limiter.
  */
 export function authErrorMessage(err: { code?: string; status?: number; message?: string } | null): string {
   if (!err) return "Something went wrong on our side. Try again in a moment.";
   switch (err.code) {
-    case "otp_expired":
+    case "OTP_EXPIRED":
       return "That code has expired. We can send you a new one.";
-    case "invalid_credentials":
-    case "otp_disabled":
+    case "INVALID_OTP":
+    case "OTP_NOT_FOUND":
       return "That code didn't match. Check the latest SMS or request a new one.";
-    case "over_sms_send_rate_limit":
-    case "over_request_rate_limit":
-    case "too_many_requests":
-      return "You've asked for a few codes already. Wait a few minutes and try again.";
-    case "sms_send_failed":
-    case "hook_timeout":
-    case "unexpected_failure":
-      return "We couldn't send the SMS just now. Try again in a moment.";
-    case "phone_provider_disabled":
-      return "Phone sign-in is not available right now. Try Continue with Google.";
+    case "TOO_MANY_ATTEMPTS":
+      return "That code was entered wrongly too many times. Request a new one.";
+    case "INVALID_PHONE_NUMBER":
+      return "That number looks short. Nigerian numbers have 10 digits after +234.";
   }
   if (err.status === 429) return "You've asked for a few codes already. Wait a few minutes and try again.";
-  if (err.message?.toLowerCase().includes("token")) {
-    return "That code didn't match. Check the latest SMS or request a new one.";
-  }
+  if (err.status && err.status >= 500) return "We couldn't send the SMS just now. Try again in a moment.";
   return "Something went wrong on our side. Try again in a moment.";
 }

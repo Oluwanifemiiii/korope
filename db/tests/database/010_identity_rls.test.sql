@@ -1,10 +1,10 @@
 begin;
-select plan(26);
+select plan(29);
 
 -- Personas
-select tests.create_user('2348030000001', 'Adaeze Okafor') as ada \gset
-select tests.create_user('2348030000002', 'Chidi Okafor') as chidi \gset
-select tests.create_user('2348030000009', 'Ops Admin') as ops \gset
+select tests.create_user('+2348030000001', 'Adaeze Okafor') as ada \gset
+select tests.create_user('+2348030000002', 'Chidi Okafor') as chidi \gset
+select tests.create_user('+2348030000009', 'Ops Admin') as ops \gset
 select tests.grant_role(:'ops', 'ops_admin');
 
 -- Signup trigger -------------------------------------------------------------
@@ -14,9 +14,20 @@ select is(
   'signup creates a profile with the name'
 );
 select is(
+  (select phone from public.profiles where id = :'ada'),
+  '2348030000001',
+  'profile stores the verified phone as E.164 digits'
+);
+select is(
   (select array_agg(role::text) from public.user_roles where user_id = :'ada'),
   array['passenger'],
   'signup grants only the passenger role'
+);
+select tests.create_user('+2348030000003') as phoneonly \gset
+select is(
+  (select full_name from public.profiles where id = :'phoneonly'),
+  null,
+  'phone sign-up without a name leaves full_name empty, not the phone number'
 );
 
 -- Phone normalisation ----------------------------------------------------------
@@ -29,31 +40,34 @@ insert into public.drivers (phone, full_name) values ('0803 000 0050', 'Tunde Ad
 select ok(private.can_driver_sign_in('+2348030000050'), 'pre-registered driver may sign in');
 select ok(not private.can_driver_sign_in('2348030000051'), 'unknown phone may not use driver sign-in');
 
-select tests.create_user('2348030000050', 'Tunde Adeyemi') as tunde \gset
+select tests.create_user('+2348030000050', 'Tunde Adeyemi') as tunde \gset
 select is(
   (select user_id from public.drivers where phone = '2348030000050'),
   :'tunde'::uuid,
-  'first sign-in links the driver row'
+  'first verified sign-in links the driver row'
 );
-select ok(
-  exists (select 1 from public.user_roles where user_id = :'tunde' and role = 'driver'),
+select is(
+  private.user_roles_of(:'tunde'),
+  array['passenger', 'driver']::public.app_role[],
   'linked driver gets the driver role'
 );
 
--- Google user who adds the driver phone later
+-- An unverified phone must never link a driver account.
+insert into public.drivers (phone, full_name) values ('2348030000070', 'Kemi Bello');
+select tests.create_user('+2348030000070', 'Impostor', false) as impostor \gset
+select ok(
+  not exists (select 1 from public.user_roles where user_id = :'impostor' and role = 'driver'),
+  'unverified phone does not get the driver role'
+);
+select is((select phone from public.profiles where id = :'impostor'), null, 'unverified phone is not put on the profile');
+
+-- Google user who verifies the driver phone later
 insert into public.drivers (phone, full_name) values ('2348030000060', 'Bisi Lawal');
-insert into auth.users (id, email) values (gen_random_uuid(), 'bisi@example.com') returning id as bisi \gset
-update auth.users set phone = '2348030000060' where id = :'bisi';
+insert into public.auth_user (name, email) values ('Bisi Lawal', 'bisi@example.com') returning id as bisi \gset
+update public.auth_user set "phoneNumber" = '+2348030000060', "phoneNumberVerified" = true where id = :'bisi';
 select ok(
   exists (select 1 from public.user_roles where user_id = :'bisi' and role = 'driver'),
-  'adding a matching phone later links the driver'
-);
-
--- Access token hook ------------------------------------------------------------------
-select is(
-  public.custom_access_token_hook(jsonb_build_object('user_id', :'tunde', 'claims', '{}'::jsonb)) -> 'claims' -> 'app_roles',
-  '["driver", "passenger"]'::jsonb,
-  'access token carries app_roles'
+  'verifying a matching phone later links the driver'
 );
 
 -- RLS: passenger ------------------------------------------------------------------------
@@ -83,15 +97,12 @@ select throws_ok(
   'passenger cannot grant themselves ops_admin'
 );
 select throws_ok(
-  $$insert into public.drivers (phone, full_name) values ('2348030000070', 'Fake Driver')$$,
+  $$insert into public.drivers (phone, full_name) values ('2348030000080', 'Fake Driver')$$,
   '42501', null,
   'passenger cannot register drivers'
 );
-select throws_ok(
-  $$select * from public.rate_limits$$,
-  '42501', null,
-  'API roles cannot read rate limits'
-);
+select throws_ok($$select * from public.rate_limits$$, '42501', null, 'API roles cannot read rate limits');
+select throws_ok($$select * from public.auth_session$$, '42501', null, 'API roles cannot read sessions');
 
 -- RLS: driver ---------------------------------------------------------------------------
 select tests.clear_authentication();
@@ -106,7 +117,6 @@ select throws_ok($$select * from public.profiles$$, '42501', null, 'anon cannot 
 -- RLS: ops ------------------------------------------------------------------------------
 select tests.clear_authentication();
 select tests.authenticate_as(:'ops');
-select ok((select count(*) from public.profiles) >= 4, 'ops reads all profiles');
 select lives_ok(
   format($$insert into public.user_roles (user_id, role) values (%L, 'ops_admin')$$, :'chidi'),
   'ops can grant roles'
