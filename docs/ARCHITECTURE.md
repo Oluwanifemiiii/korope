@@ -2,7 +2,14 @@
 
 Status: draft for review (2026-10-27). Nothing below is built yet.
 
-Sources: `docs/korope-bible.md` (Vol I ch. 3–4, Vol II, Vol III, Vol IV ch. 4) and the Claude Design handoff in `korope docs/` (`korope-tokens.css/json`, `tailwind.korope.js`, `map-style-*.json`, `map-overlays.json`, component inventory and motion boards inside `Korope Design System v1.html`).
+Sources: `docs/korope-bible.md` (Vol I ch. 3–4, Vol II, Vol III, Vol IV ch. 4) and the Claude Design canvas "Korope Design System v1" (https://claude.ai/code/artifact/5e43fc40-8359-490f-ba0a-1a71f42c0d05), mirrored in `design/canvas/`. The canvas has four pages and 59 artboards:
+
+- **Brand foundations** (9): cover, logo directions, refined Route Pair mark and livery, colour scales, light/dark semantics with contrast checks, typography (Onest), spacing/radius/elevation/motion tokens, Lucide icon list, map style.
+- **Components** (6): buttons, inputs/OTP/search/chips/badges, bottom sheet and nav, booking (CardDeparture, SeatMap, CardFare, CardWallet), journey (CardActiveTrip, CardDriver, CardBoardingPass, TimelineRoute, CardStop), safety/notifications/toast/skeleton/empty states.
+- **Passenger screens** (42): 01 splash to 21c 404, including variants (10b insufficient balance, 12b arriving, 15b rating, 16b/17b empty, 18b/18c Paystack and success), 3 dark-mode checks and 5 checks at 360 x 740.
+- **Motion and handoff** (2): motion annotations and the component inventory.
+
+`design/canvas/korope-ui.css` is the reference CSS for every component; we port it to React + Tailwind token utilities rather than shipping it. There are **no driver PWA or ops console designs**; those surfaces are built from the same components and the bible (D-022).
 
 ---
 
@@ -174,9 +181,9 @@ All ids are `uuid default gen_random_uuid()` unless noted. All timestamps are `t
 |---|---|---|
 | `stops` | `id, name, landmark, location geography(Point,4326), is_lit, is_sheltered, accessibility_note, photo_path, active` | GiST index on `location`. |
 | `place_aliases` | `id, alias, alias_norm, stop_id null, google_place_id null, location null, weight` | `pg_trgm` GIN on `alias_norm`. "Chevron" resolves to Chevron Roundabout. |
-| `routes` | `id, organization_id, code, name, path geography(LineString), encoded_polyline, active` | Path comes from Routes API on save in ops. |
+| `routes` | `id, organization_id, code, name, service ('all_stops','express'), path geography(LineString), encoded_polyline, active` | Path comes from Routes API on save in ops. An express service ("Lekki Phase 1 to CMS Express", 3 stops) is its own route row with fewer `route_stops` (D-019). |
 | `route_stops` | `route_id, seq smallint, stop_id, distance_m, baseline_offset_s, dwell_s` | PK `(route_id, seq)`. `seq` starts at 0. Offsets are the baseline ETA from the Routes API. |
-| `fare_rules` | `route_id, mode ('segment','matrix'), base_kobo, per_segment_kobo, effective_from` | Default pricing. |
+| `fare_rules` | `route_id, mode ('segment','matrix'), base_kobo, per_segment_kobo, service_fee_kobo, effective_from` | Default pricing. The design shows "Seat fare ₦1,400 + Service fee ₦100" (D-020). |
 | `fare_matrix` | `route_id, from_seq, to_seq, amount_kobo, effective_from` | Overrides `segment` mode when present. |
 
 **Fleet and schedule**
@@ -188,7 +195,7 @@ All ids are `uuid default gen_random_uuid()` unless noted. All timestamps are `t
 | `vehicles` | `id, organization_id, fleet_no ('Bus 18'), plate, make_model, layout_id, simulated bool, status` | Flip `simulated` to go live. |
 | `vehicle_blocked_seats` | `vehicle_id, seat_id, reason` | "Out of service" seats. |
 | `timetables` | `id, route_id, days smallint[] (ISO 1–7), depart_local time, vehicle_id, driver_id, valid_from, valid_to` | Source of truth for recurring service. |
-| `departures` | `id, organization_id, route_id, timetable_id, service_date, scheduled_at, vehicle_id, driver_id, status, current_seq, delay_s, sim_offset_s` | Status: `scheduled, boarding, in_progress, completed, cancelled`. Unique `(timetable_id, service_date)` keeps generation idempotent. |
+| `departures` | `id, organization_id, route_id, timetable_id, service_date, scheduled_at, vehicle_id, driver_id, status, current_seq, delay_s, delay_reason, sim_offset_s` | Status: `scheduled, boarding, in_progress, completed, cancelled`. Unique `(timetable_id, service_date)` keeps generation idempotent. |
 | `departure_stop_times` | `departure_id, seq, scheduled_at, estimated_at, eta_confidence ('high','moderate','low'), arrived_at, departed_at` | ETAs written by ingestion. |
 
 **Seats, bookings, holds**
@@ -266,7 +273,9 @@ Expired holds and the constraint: an exclusion constraint cannot reference `now(
 | Function | Caller | What it does |
 |---|---|---|
 | `search_departures(origin, dest, after, limit 3)` | passenger | Finds stops within walking radius (800 m, widening to 1.5 km) of origin and destination on the same route with `board_seq < alight_seq`, upcoming departures, seats free for that segment, fare, ETA to boarding stop. Scores and returns up to 3 with a `reason`. |
-| `quote_fare(departure_id, board_seq, alight_seq)` | any | Returns `{lines:[{code,label,amount_kobo}], adjustment_kobo: null, total_kobo}`. |
+| `quote_fare(departure_id, board_seq, alight_seq)` | any | Returns `{lines:[{code:'seat_fare',label:'Seat fare, Chevron to CMS',amount_kobo}, {code:'service_fee',...}], adjustment_kobo: null, total_kobo}`. |
+| `suggest_seat(departure_id, seat_id, board_seq, alight_seq)` | passenger | On `SEAT_TAKEN`, returns the nearest free seat with the same attributes (window, aisle) so the client can offer "We're holding 3A, the next window seat" (screen 21b). |
+| `wallet_summary()` | passenger | Balance plus "enough for N trips to CMS", computed from the passenger's most frequent route fare. |
 | `seat_map(departure_id, board_seq, alight_seq)` | passenger | Every seat with state `available / held / reserved / unavailable / mine` for that segment. No other user ids leak. |
 | `create_hold(departure_id, seat_id, board_seq, alight_seq)` | passenger | Rate-limited. Releases the caller's other active holds, sweeps expired holds on that seat, locks the fare, inserts with `expires_at = now() + 5 min`. Exclusion violation becomes `SEAT_TAKEN`. |
 | `release_hold(hold_id)` | passenger | Owner only. |
@@ -279,9 +288,9 @@ Expired holds and the constraint: an exclusion constraint cannot reference `now(
 | `credit_topup(reference, amount_kobo, paystack_payload)` | service only | Idempotent on `topup:<reference>`. |
 | `wallet_reconcile()` | cron hourly | Compares cached balances with `sum(entries)`; writes to `audit_log` and Sentry on mismatch. |
 
-Departure recommendation score (lower is better, all in minutes):
+Departure recommendation score (lower is better, all in minutes). Screen 07 shows the reason as a line under the Recommended badge, e.g. "Soonest, with seats to spare":
 `score = arrival_at_destination_min + 0.5 × wait_at_stop_min + 0.3 × walk_min + (seats_left ≤ 2 ? 5 : 0)`.
-Reasons, first that applies: "Gets you there first", "Leaves soonest", "Most seats free", "Shortest walk".
+Reasons, first that applies: "Soonest, with seats to spare", "Gets you there first", "Fewest stops", "Most seats free", "Shortest walk".
 
 ---
 
@@ -330,7 +339,8 @@ sequenceDiagram
   B->>N: selectSeat(dep, 3A, board 3, alight 8)
   N->>DB: rpc create_hold(...)
   DB--xN: exclusion_violation (overlaps [1,6))
-  N-->>B: SEAT_TAKEN: "Someone is reserving that seat. Pick another one." (nothing charged)
+  N->>DB: rpc suggest_seat(...) -> 3A
+  N-->>B: "Seat 3B was taken a moment ago. Your money hasn't moved." + [Keep 3A]
 
   Note over DB: pg_cron every 30 s: UPDATE ... SET status='expired' WHERE expires_at < now()<br/>trigger broadcasts {3A, free}
 ```

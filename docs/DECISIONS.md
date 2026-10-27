@@ -24,7 +24,7 @@ Seat and position updates go out through `realtime.send()` from triggers with RL
 It never writes SQL. It authenticates with `SIMULATOR_TOKEN` and may only post for `simulated = true` vehicles; drivers may only post for real vehicles assigned to them.
 
 ### D-008 Primary buttons are not pills
-The bible's Component 001 gives the primary button radius 999. The brief overrides it: Radius/Pill is for chips and badges only. Buttons use `--radius-m` (12 px) pending the screen designs. Lint enforces it.
+The bible's Component 001 gives the primary button radius 999. The brief overrides it: Radius/Pill is for chips and badges only. The design canvas agrees (C01, B06): buttons use Radius/M (12 px), 56 px tall (48 px for M). Lint enforces it.
 
 ### D-009 No emoji in UI
 The bible shows emoji in examples (destination cards, weather chip, seat legend). These are rendered with Lucide icons (the handoff's icon paths are Lucide) and text labels.
@@ -56,3 +56,30 @@ The handoff provides legacy style JSON. Vector maps with a Map ID use cloud-base
 
 ### D-017 Typeface
 Onest (from the handoff, `--font-family`) via `next/font/google`, subsets latin + latin-ext so ₦ (U+20A6) is included. Fallback stack is the handoff's: Instrument Sans, Roboto, system-ui.
+
+### D-018 The Claude Design canvas is the screen source of truth
+`design/canvas/` mirrors https://claude.ai/code/artifact/5e43fc40-8359-490f-ba0a-1a71f42c0d05 (four pages, 59 artboards) as of 2026-10-27. Where the canvas and the bible differ on layout or copy, the canvas wins; where either conflicts with the brief's guardrails, the brief wins. Re-sync the folder when the canvas changes.
+
+### D-019 Express services are separate routes
+Screen 07 shows "Lekki Phase 1 to CMS Express" with 3 stops next to all-stops services. Modelling express as its own route (with fewer `route_stops`) keeps segment ranges, fares and the simulator unchanged. `routes.service` labels it for the Express badge.
+
+### D-020 Fare breakdown has a service fee line
+The confirm screen and Card/Fare show seat fare plus a ₦100 service fee. `fare_rules.service_fee_kobo` is charged once per booking and appears as its own line. The design's "Korope Rewards −₦0" line is left out because rewards are not in v1; the nullable `adjustment` line stays for later.
+
+### D-021 Copy and content in the canvas that v1 changes
+- **Weather chip** ("29°" on Home, 05a): left out. Weather is excluded from v1 in the brief.
+- **"Screen brightness is turned up while it's open"** (13, C5): browsers cannot change screen brightness. The pass instead uses the wake lock to stop the screen sleeping and a white QR panel; the copy becomes "Show this to the driver at the door. Turn your brightness up if the scan is slow."
+- **Search bar voice button** (SearchFloating `onVoice`): not rendered. Voice search is excluded.
+- **Driver rating and "3 years with Korope"** (12a, C5): shown only from real data. Rating is hidden until a driver has 20 rated trips; years only when at least 1.
+- **"Chat" on Card/Driver** (C5): v1 has Call and Share only. Calls go through a masked number later; in v1 the driver's work phone is shown, never the personal one.
+- **"Call Korope safety line"** (21a): needs a real number before launch. Placeholder until then.
+- **"Popular from Lekki"** (16b): a fixed list of seeded routes, not a usage claim.
+
+### D-022 Driver PWA and ops console have no screen designs
+They are built from the canvas components and tokens, following the bible's Vol IV ch. 4 layouts: large targets, maximum contrast, minimal text for the driver; dense tables and a map for ops (laptop-first). I will share screenshots at the end of M1 (ops) and M4 (driver) for review.
+
+### D-023 Seat conflict offers an alternative
+Screen 21b shows "Seat 3B was taken a moment ago. Your money hasn't moved. We're holding 3A, the next window seat." `suggest_seat()` finds it, but the client only holds it when the passenger taps "Keep 3A", so we never hold a seat they didn't choose.
+
+### D-024 Logo and app icons
+The refined Route Pair mark (B02) is the logo. Favicon cuts at 16, 24, 32 and 48 px use the thicker strokes drawn on the canvas, and the PWA icon is the 512 px square on Primary/600 with the mark inside the maskable 80% safe zone.

@@ -9,7 +9,10 @@ Legend: `[ ]` todo, `[x]` done.
 ## M0 Foundation
 
 - [ ] Next.js (latest stable, App Router, TS strict), pnpm, ESLint, Prettier, `size-limit`
-- [ ] Copy handoff into repo: `src/styles/tokens.css` (verbatim), `tailwind.korope.js` preset, `design/map-style-*.json`, `design/map-overlays.json`
+- [x] Mirror the design canvas into `design/canvas/` and the handoff files into `design/`
+- [ ] `src/styles/tokens.css` (verbatim copy of `design/canvas/korope-tokens.css`) and the `tailwind.korope.js` preset
+- [ ] Port `design/canvas/korope-ui.css` component by component into React + token utilities (not shipped as global CSS)
+- [ ] Icons: `lucide-react` with the names listed on B07; Route Pair logo, favicon cuts and maskable PWA icons from B02
 - [ ] Tailwind wired to the preset only (default palette, spacing and radius removed so hex/px utilities fail lint)
 - [ ] Onest via `next/font/google`, subsets `latin` + `latin-ext` (latin-ext carries ₦ U+20A6), weights 400/500/600/700; visual check that ₦ renders in Onest, not the fallback
 - [ ] ESLint rules: no hex colours / arbitrary px values in `className`, no `rounded-pill` on `<button>`, no em dash in JSX text, no emoji in JSX text
@@ -42,7 +45,9 @@ Legend: `[ ]` todo, `[x]` done.
 
 ## M2 Passenger booking
 
-- [ ] Splash, onboarding (4 screens, copy from Vol III ch. 1 without Korope+ promises), sign-in, OTP, contextual permissions
+Screens follow `design/canvas/S*.dc.html`, checked against the 360 x 740 (X*) and dark (D*) artboards.
+
+- [ ] Splash (01), onboarding (02a–c), phone sign-in (03a), OTP (03b), location primer (04)
 - [ ] Home: skeleton map → lazy MapStage, greeting, floating search, saved and recent places, booking sheet (peek/half/full), bottom nav (5 tabs; Korope+ tab is the interest form)
 - [ ] Search: Places (New) autocomplete server route + `search_places()` merge, stops first
 - [ ] `search_departures()` + departure options screen (max 3, Recommended with reason)
@@ -95,11 +100,11 @@ Legend: `[ ]` todo, `[x]` done.
 | Item | Status |
 |---|---|
 | Custom domain connected | Not started |
-| Favicon and app icons (all PWA sizes, maskable) | Not started; needs final logo |
+| Favicon and app icons (all PWA sizes, maskable) | Not started; Route Pair mark and favicon cuts are designed (B02) |
 | No "made with" badges | Not started |
 | Privacy policy (NDPA 2023: location, phone, payment data, retention) | Not started; needs legal review |
 | Terms and conditions incl. booking, cancellation and refund policy | Not started; refund rules need sign-off |
-| Custom 404 matching the design | Not started; 404 design referenced in inventory (21c) but screen not in handoff |
+| Custom 404 matching the design | Not started; design is 21c |
 | Paystack live keys and webhook URL set | Not started |
 | Google Maps keys restricted | Not started |
 | Termii sender ID approved | Not started; apply early, approval takes days |

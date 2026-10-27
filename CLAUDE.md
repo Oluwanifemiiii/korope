@@ -4,6 +4,8 @@ Seat-booking platform for scheduled shared minibuses in Lagos. One Next.js app, 
 
 Read first: `docs/korope-bible.md` (product and design source of truth), `docs/ARCHITECTURE.md`, `docs/PLAN.md`, `docs/DECISIONS.md`.
 
+Screens and components: `design/canvas/` mirrors the Claude Design canvas (https://claude.ai/code/artifact/5e43fc40-8359-490f-ba0a-1a71f42c0d05). Artboards are named by screen number (`S09_Seats.dc.html` is screen 09); `C0x` are components, `B0x` brand foundations, `H0x` motion and inventory. `korope-ui.css` there is the reference styling to port, not a stylesheet to import. The canvas wins over the bible on layout and copy; the rules below win over both.
+
 ## Stack
 Next.js App Router (TS strict) · Tailwind with the Korope token preset · Supabase (Postgres + PostGIS, Auth, Realtime, Storage, Edge Functions, Cron) · Google Maps Platform (Maps JS vector + Map ID, Places New, Routes) · Paystack · Termii · Serwist · vaul · Zod · TanStack Query · Vitest · Playwright · pgTAP · Sentry · Vercel.
 
