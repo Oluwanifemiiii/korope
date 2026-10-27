@@ -29,9 +29,10 @@ html {
     overflow-x: hidden;
   }
 
+  /* C01: focus is a 2 px Border/Focus outline offset by 2 px. */
   :focus-visible {
-    outline: none;
-    box-shadow: var(--focus-ring);
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
   }
 
   ::selection {
@@ -80,6 +81,19 @@ html {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Spinner loop and taken-seat nudge (C01, C04). */
+@utility animate-spin {
+  animation: spin 800ms var(--ease-linear) infinite;
+}
+
+@utility animate-nudge {
+  animation: nudge var(--duration-base) var(--ease-standard) 1;
+}
+
+@utility animate-toast-in {
+  animation: toast-in var(--duration-base) var(--ease-enter) both;
 }
 
 @keyframes nudge {

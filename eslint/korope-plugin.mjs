@@ -70,8 +70,8 @@ const noPillButtons = {
         if (!["button", "Button", "a", "Link"].includes(name)) return;
         for (const attr of el.attributes) {
           if (!isClassAttr(attr)) continue;
-          for (const { node, value } of classStrings(attr.value)) {
-            if (/(^|\s)rounded-pill(\s|$)/.test(value)) context.report({ node, messageId: "pill" });
+          for (const { value } of classStrings(attr.value)) {
+            if (/(^|\s)rounded-pill(\s|$)/.test(value)) context.report({ node: el, messageId: "pill" });
           }
         }
       },
