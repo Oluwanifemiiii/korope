@@ -33,7 +33,12 @@ export function OtpInput({
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="relative flex gap-8" onClick={() => ref.current?.focus()}>
+      <div
+        role="group"
+        aria-label={`${label}, ${digits.length} of ${length} digits entered`}
+        className="relative grid grid-cols-6 gap-8"
+        onClick={() => ref.current?.focus()}
+      >
         <input
           ref={ref}
           id={id}
@@ -63,7 +68,7 @@ export function OtpInput({
               key={i}
               aria-hidden="true"
               className={cn(
-                "flex h-[var(--size-button-l)] w-[var(--size-touch-min)] items-center justify-center rounded-m bg-surface text-h3 font-semibold num ring-inset",
+                "flex h-[var(--size-button-l)] w-full items-center justify-center rounded-m bg-surface text-h3 font-semibold num ring-inset",
                 error
                   ? "text-[var(--error-text)] ring-2 ring-[var(--error-500)]"
                   : active

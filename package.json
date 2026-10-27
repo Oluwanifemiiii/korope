@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "test:sql": "node supabase/tests/run.mjs",
     "format": "prettier --write .",
-    "check": "npm run typecheck && npm run lint && npm test"
+    "check": "npm run typecheck && npm run lint && npm test",
+    "icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
     "@sentry/nextjs": "^11.9.0",
@@ -36,6 +37,7 @@
     "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "esbuild": "^0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
     "pg": "^8.23.1",

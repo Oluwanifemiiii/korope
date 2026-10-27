@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Onest } from "next/font/google";
 import "./globals.css";
 import { THEME_BOOT_SCRIPT } from "@/lib/theme";
+import { OfflineBanner } from "@/components/pwa/OfflineBanner";
+import { PwaProvider } from "@/components/pwa/PwaProvider";
+import { ToastProvider } from "@/components/ui/Toast";
 
 // Variable Onest; latin-ext carries the naira sign (U+20A6).
 const onest = Onest({
@@ -37,7 +40,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* Sets data-theme before first paint so dark mode never flashes light. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <PwaProvider>
+          <ToastProvider>
+            <OfflineBanner />
+            {children}
+          </ToastProvider>
+        </PwaProvider>
+      </body>
     </html>
   );
 }

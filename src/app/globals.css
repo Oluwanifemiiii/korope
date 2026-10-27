@@ -131,3 +131,19 @@ html {
     animation: none;
   }
 }
+
+/* Lowercase wordmark next to the Route Pair mark (B02). */
+@utility wordmark {
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.035em;
+}
+
+/* Eyebrow label above headings (t-eyebrow in the design). */
+@utility eyebrow {
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
