@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Semantic colour</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1320px; padding: var(--space-64); display: flex; flex-direction: column; gap: var(--space-32); background: var(--neutral-100)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Colour · semantic</p>
+      <h2 class="t-h2">Light first, then an intentional dark</h2>
+    </div>
+    <p class="t-caption t-secondary" style="max-width: 540px">Components only ever reference these roles. Dark mode is rich charcoal (#131619) with deep slate cards (#1C2227); brand and accent step up to their 400 tones so they glow rather than sink.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-24); flex: 1 1 auto">
+    <sc-for list="{{themes}}" as="th" hint-placeholder-count="2">
+      <section data-theme="{{th.id}}" class="k" style="border-radius: var(--radius-xl); background: var(--bg-canvas); padding: var(--space-32); display: flex; flex-direction: column; gap: var(--space-24); color: var(--text-primary)">
+        <div style="display: flex; justify-content: space-between; align-items: center"><p class="t-title">{{th.name}}</p><span class="badge badge-brand">{{th.tag}}</span></div>
+        <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+          <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+            <p class="doc-label">{{g.name}}</p>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-8)">
+              <sc-for list="{{g.items}}" as="t" hint-placeholder-count="4">
+                <div style="display: flex; align-items: center; gap: var(--space-8); padding: var(--space-8); border-radius: var(--radius-m); background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--border-default)">
+                  <span style="width: 32px; height: 32px; border-radius: var(--radius-s); flex: none; background: var(--{{t.v}}); box-shadow: inset 0 0 0 1px var(--border-default)"></span>
+                  <span class="t-label" style="min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{t.label}}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+        <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+          <p class="doc-label">Functional tones in use: background, border, icon, text</p>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8)">
+            <div class="banner banner-success"><span class="ic ic-20 ic-ok" aria-hidden="true" style="color: var(--success-icon)"></span><span><strong>Seat paid.</strong> ₦1,500 left your wallet.</span></div>
+            <div class="banner banner-warning"><span class="ic ic-20 ic-timer" aria-hidden="true" style="color: var(--warning-icon)"></span><span><strong>Hold ends in 0:45.</strong> Pay to keep seat 3B.</span></div>
+            <div class="banner banner-error"><span class="ic ic-20 ic-alert-circle" aria-hidden="true" style="color: var(--error-icon)"></span><span><strong>Top-up didn't go through.</strong> Nothing was charged.</span></div>
+            <div class="banner banner-info"><span class="ic ic-20 ic-info" aria-hidden="true" style="color: var(--info-icon)"></span><span><strong>Admiralty Way stop moved</strong> 40 m, beside Zenith Bank.</span></div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-8); margin-top: auto">
+          <p class="doc-label">Contrast checks (WCAG 2.2)</p>
+          <div style="display: flex; flex-direction: column; border-radius: var(--radius-m); background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--border-default); padding: 0 var(--space-16)">
+            <sc-for list="{{th.pairs}}" as="p" hint-placeholder-count="6">
+              <div style="display: flex; align-items: center; gap: var(--space-12); min-height: 40px; border-bottom: 1px solid var(--border-subtle)">
+                <span class="t-caption grow">{{p.name}}</span>
+                <span class="t-caption num t-semibold">{{p.ratio}} : 1</span>
+                <span class="badge badge-success" style="min-width: 64px; justify-content: center">{{p.grade}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1320}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const groups = [
+      { name: 'Surfaces', items: [{ label: 'bg-canvas', v: 'bg-canvas' }, { label: 'bg-surface', v: 'bg-surface' }, { label: 'bg-surface-raised', v: 'bg-surface-raised' }, { label: 'bg-sunken', v: 'bg-sunken' }] },
+      { name: 'Text', items: [{ label: 'text-primary', v: 'text-primary' }, { label: 'text-secondary', v: 'text-secondary' }, { label: 'text-disabled', v: 'text-disabled' }, { label: 'text-brand', v: 'text-brand' }] },
+      { name: 'Actions and borders', items: [{ label: 'action-primary', v: 'action-primary' }, { label: 'action-destructive', v: 'action-destructive' }, { label: 'border-default', v: 'border-default' }, { label: 'border-focus', v: 'border-focus' }] },
+      { name: 'Map and seat', items: [{ label: 'route-line', v: 'route-line' }, { label: 'bus-marker', v: 'bus-marker' }, { label: 'seat-held-bg', v: 'seat-held-bg' }, { label: 'bg-highlight', v: 'bg-highlight' }] }
+    ];
+    const themes = [
+      { id: 'light', name: 'Light', tag: 'Default', pairs: [
+        { name: 'text-primary on bg-surface', ratio: '17.2', grade: 'AAA' },
+        { name: 'text-secondary on bg-canvas', ratio: '5.6', grade: 'AA' },
+        { name: 'White on action-primary (Primary/600)', ratio: '6.8', grade: 'AA' },
+        { name: 'Neutral/900 on Secondary/400', ratio: '10.8', grade: 'AAA' },
+        { name: 'error-text on error-bg', ratio: '10.2', grade: 'AAA' },
+        { name: 'warning-text on warning-bg', ratio: '7.6', grade: 'AAA' }
+      ] },
+      { id: 'dark', name: 'Dark', tag: 'Night commute', pairs: [
+        { name: 'text-primary on bg-surface', ratio: '14.5', grade: 'AAA' },
+        { name: 'text-secondary on bg-surface', ratio: '7.4', grade: 'AAA' },
+        { name: 'Neutral/900 on action-primary (Primary/400)', ratio: '7.4', grade: 'AAA' },
+        { name: 'Secondary/400 on bg-surface', ratio: '10.1', grade: 'AAA' },
+        { name: 'Error/400 on bg-surface', ratio: '6.5', grade: 'AA' },
+        { name: 'route-line (Accent/400) on bg-surface', ratio: '6.6', grade: 'AA' }
+      ] }
+    ];
+    return { groups, themes };
+  }
+}
+</script>
+</body>
+</html>

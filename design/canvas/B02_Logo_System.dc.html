@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Logo system</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1180px; padding: var(--space-64); display: flex; flex-direction: column; gap: var(--space-32)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Logo · refined</p>
+      <h2 class="t-h2">Route Pair</h2>
+    </div>
+    <p class="t-caption t-secondary" style="max-width: 460px">Hollow circle: where you board. Rounded step: the route. Golden dot: where you get off. Strokes are 4 units on a 48 grid; the 16 px cut thickens to 6.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: var(--space-24)">
+    <div class="card-flat" style="padding: var(--space-24); display: flex; flex-direction: column; gap: var(--space-16)">
+      <p class="doc-label">Construction</p>
+      <div style="position: relative; height: 340px; border-radius: var(--radius-m); background: var(--bg-canvas); display: flex; align-items: center; justify-content: center">
+        <svg role="img" aria-label="Mark on a 48 unit grid" viewBox="0 0 48 48" style="width: 320px; height: 320px">
+          <g style="stroke: var(--accent-200)" stroke-width="0.15">
+            <path d="M0 4h48M0 8h48M0 12h48M0 16h48M0 20h48M0 24h48M0 28h48M0 32h48M0 36h48M0 40h48M0 44h48M4 0v48M8 0v48M12 0v48M16 0v48M20 0v48M24 0v48M28 0v48M32 0v48M36 0v48M40 0v48M44 0v48"></path>
+          </g>
+          <rect x="4" y="4" width="40" height="40" fill="none" style="stroke: var(--accent-400)" stroke-width="0.25" stroke-dasharray="1 1"></rect>
+          <circle cx="13" cy="32" r="6" fill="none" style="stroke: var(--primary-600)" stroke-width="4"></circle>
+          <path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--primary-600)" stroke-width="4" stroke-linecap="round"></path>
+          <circle cx="35" cy="16" r="7" style="fill: var(--secondary-400)"></circle>
+          <circle cx="13" cy="32" r="0.6" style="fill: var(--accent-600)"></circle><circle cx="35" cy="16" r="0.6" style="fill: var(--accent-600)"></circle>
+        </svg>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-8)"><span class="anno">Grid 48</span><span class="anno">Stroke 4</span><span class="anno">Corner r 6</span><span class="anno">Stop r 6 / 7</span><span class="anno">Live area 40</span></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: var(--space-16)">
+      <div style="border-radius: var(--radius-l); background: var(--neutral-0); box-shadow: inset 0 0 0 1px var(--border-default); display: flex; flex-direction: column; justify-content: space-between; padding: var(--space-24)">
+        <p class="doc-label">On light</p>
+        <div style="display: flex; align-items: center; gap: var(--space-12)"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 48px; height: 48px"><circle cx="13" cy="32" r="6" fill="none" style="stroke: var(--primary-600)" stroke-width="4"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--primary-600)" stroke-width="4" stroke-linecap="round"></path><circle cx="35" cy="16" r="7" style="fill: var(--secondary-400)"></circle></svg><span style="font-size: 40px; line-height: 40px; font-weight: 700; letter-spacing: -0.035em; color: var(--neutral-900)">korope</span></div>
+      </div>
+      <div style="border-radius: var(--radius-l); background: var(--charcoal-900); display: flex; flex-direction: column; justify-content: space-between; padding: var(--space-24)">
+        <p class="doc-label" style="color: #A9B2AE">On charcoal</p>
+        <div style="display: flex; align-items: center; gap: var(--space-12)"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 48px; height: 48px"><circle cx="13" cy="32" r="6" fill="none" style="stroke: var(--primary-400)" stroke-width="4"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--primary-400)" stroke-width="4" stroke-linecap="round"></path><circle cx="35" cy="16" r="7" style="fill: var(--secondary-400)"></circle></svg><span style="font-size: 40px; line-height: 40px; font-weight: 700; letter-spacing: -0.035em; color: #F1F4F2">korope</span></div>
+      </div>
+      <div style="border-radius: var(--radius-l); background: var(--primary-600); display: flex; flex-direction: column; justify-content: space-between; padding: var(--space-24)">
+        <p class="doc-label" style="color: var(--primary-100)">On emerald</p>
+        <div style="display: flex; align-items: center; gap: var(--space-12)"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 48px; height: 48px"><circle cx="13" cy="32" r="6" fill="none" stroke="#FFFFFF" stroke-width="4"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"></path><circle cx="35" cy="16" r="7" style="fill: var(--secondary-400)"></circle></svg><span style="font-size: 40px; line-height: 40px; font-weight: 700; letter-spacing: -0.035em; color: var(--neutral-0)">korope</span></div>
+      </div>
+      <div style="border-radius: var(--radius-l); background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--border-default); display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-24)">
+        <p class="doc-label">Favicon cuts, actual size</p>
+        <div style="display: flex; align-items: flex-end; gap: var(--space-24)">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 16px; height: 16px"><circle cx="13" cy="32" r="7" fill="none" style="stroke: var(--primary-600)" stroke-width="6"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--primary-600)" stroke-width="6" stroke-linecap="round"></path><circle cx="35" cy="16" r="9" style="fill: var(--secondary-500)"></circle></svg><span class="t-label t-secondary">16</span></div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 24px; height: 24px"><circle cx="13" cy="32" r="6.5" fill="none" style="stroke: var(--primary-600)" stroke-width="5"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--primary-600)" stroke-width="5" stroke-linecap="round"></path><circle cx="35" cy="16" r="8" style="fill: var(--secondary-500)"></circle></svg><span class="t-label t-secondary">24</span></div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 32px; height: 32px"><circle cx="13" cy="32" r="6" fill="none" style="stroke: var(--primary-600)" stroke-width="4.5"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--primary-600)" stroke-width="4.5" stroke-linecap="round"></path><circle cx="35" cy="16" r="7.5" style="fill: var(--secondary-500)"></circle></svg><span class="t-label t-secondary">32</span></div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 48px; height: 48px"><circle cx="13" cy="32" r="6" fill="none" style="stroke: var(--primary-600)" stroke-width="4"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--primary-600)" stroke-width="4" stroke-linecap="round"></path><circle cx="35" cy="16" r="7" style="fill: var(--secondary-400)"></circle></svg><span class="t-label t-secondary">48</span></div>
+        </div>
+        <p class="t-caption t-secondary">Golden dot uses Secondary/500 at 32 px and below so it holds on white tabs.</p>
+      </div>
+      <div style="border-radius: var(--radius-l); background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--border-default); display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-24)">
+        <p class="doc-label">App icon</p>
+        <div style="display: flex; gap: var(--space-16); align-items: center">
+          <div style="width: 96px; height: 96px; border-radius: 24px; background: var(--primary-600); display: flex; align-items: center; justify-content: center; box-shadow: var(--elevation-2)"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 64px; height: 64px"><circle cx="13" cy="32" r="6" fill="none" stroke="#FFFFFF" stroke-width="4"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"></path><circle cx="35" cy="16" r="7" style="fill: var(--secondary-400)"></circle></svg></div>
+          <div style="width: 96px; height: 96px; border-radius: 50%; background: var(--primary-600); display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 52px; height: 52px"><circle cx="13" cy="32" r="6" fill="none" stroke="#FFFFFF" stroke-width="4"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"></path><circle cx="35" cy="16" r="7" style="fill: var(--secondary-400)"></circle></svg></div>
+        </div>
+        <p class="t-caption t-secondary">Square 512 for the PWA manifest; maskable safe zone keeps the mark inside the inner 80%.</p>
+      </div>
+      <div style="border-radius: var(--radius-l); background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--border-default); display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-24)">
+        <p class="doc-label">Clearspace and minimums</p>
+        <div style="display: flex; align-items: center; justify-content: center; height: 120px; border-radius: var(--radius-m); background: repeating-linear-gradient(45deg, var(--accent-50) 0 6px, var(--bg-surface) 6px 12px)">
+          <div style="padding: 20px; background: var(--bg-surface); box-shadow: inset 0 0 0 1px var(--accent-300); border-radius: var(--radius-xs); display: flex; align-items: center; gap: var(--space-8)"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 32px; height: 32px"><circle cx="13" cy="32" r="6" fill="none" style="stroke: var(--primary-600)" stroke-width="4.5"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--primary-600)" stroke-width="4.5" stroke-linecap="round"></path><circle cx="35" cy="16" r="7.5" style="fill: var(--secondary-500)"></circle></svg><span style="font-size: 26px; font-weight: 700; letter-spacing: -0.035em">korope</span></div>
+        </div>
+        <p class="t-caption t-secondary">Clearspace = stop diameter. Lockup minimum 80 px wide; mark alone 16 px.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-flat" style="padding: var(--space-32); display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: var(--space-40); align-items: center">
+    <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+      <p class="doc-label">Single colour on the vehicle</p>
+      <svg role="img" aria-label="Minibus side view with white body, emerald lower band, and the mark in emerald" viewBox="0 0 760 240" style="width: 100%; height: auto">
+        <path d="M40 60a28 28 0 0 1 28-28h560c22 0 38 10 48 30l40 76c4 8 6 16 6 24v26a14 14 0 0 1-14 14H54a14 14 0 0 1-14-14z" style="fill: var(--neutral-0); stroke: var(--neutral-300)" stroke-width="2"></path>
+        <path d="M40 150h682v38a14 14 0 0 1-14 14H54a14 14 0 0 1-14-14z" style="fill: var(--primary-600)"></path>
+        <path d="M40 146h680" style="stroke: var(--secondary-400)" stroke-width="4"></path>
+        <g style="fill: var(--neutral-800)" opacity="0.85"><rect x="70" y="50" width="96" height="56" rx="10"></rect><rect x="180" y="50" width="96" height="56" rx="10"></rect><rect x="290" y="50" width="96" height="56" rx="10"></rect><rect x="400" y="50" width="96" height="56" rx="10"></rect><path d="M612 50h20c12 0 20 6 26 18l20 38h-66z"></path></g>
+        <rect x="512" y="50" width="84" height="140" rx="10" fill="none" style="stroke: var(--neutral-300)" stroke-width="2"></rect>
+        <g transform="translate(78 160) scale(0.75)"><circle cx="13" cy="32" r="6" fill="none" stroke="#FFFFFF" stroke-width="4"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"></path><circle cx="35" cy="16" r="7" fill="#FFFFFF"></circle></g>
+        <text x="124" y="188" font-family="Onest, sans-serif" font-size="26" font-weight="700" letter-spacing="-0.8" fill="#FFFFFF">korope</text>
+        <text x="300" y="186" font-family="Onest, sans-serif" font-size="18" font-weight="600" fill="#FFFFFF">KR 014</text>
+        <circle cx="160" cy="204" r="30" style="fill: var(--neutral-800)"></circle><circle cx="160" cy="204" r="12" style="fill: var(--neutral-300)"></circle>
+        <circle cx="610" cy="204" r="30" style="fill: var(--neutral-800)"></circle><circle cx="610" cy="204" r="12" style="fill: var(--neutral-300)"></circle>
+      </svg>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+      <p class="t-subtitle">Livery notes</p>
+      <ul style="display: flex; flex-direction: column; gap: var(--space-8)">
+        <li class="t-caption t-secondary" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-check t-brand" aria-hidden="true" style="margin-top: 2px"></span>White body, emerald skirt, one golden pinstripe. A nod to the korope, not its yellow and black.</li>
+        <li class="t-caption t-secondary" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-check t-brand" aria-hidden="true" style="margin-top: 2px"></span>Mark and bus number reversed out in one colour, readable from the kerb.</li>
+        <li class="t-caption t-secondary" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-check t-brand" aria-hidden="true" style="margin-top: 2px"></span>Bus number matches the app so passengers can match the bus to the pass.</li>
+        <li class="t-caption t-secondary" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-x" aria-hidden="true" style="margin-top: 2px; color: var(--error-icon)"></span>Never rotate the mark, outline the wordmark, or set it on photos without a solid panel.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bottom sheet and navigation</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1240px; padding: var(--space-48) var(--space-64); display: flex; flex-direction: column; gap: var(--space-24); background: var(--neutral-100)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Component · BottomSheet · Navigation/Bottom</p>
+      <h2 class="t-h2">The sheet is an extension of the map</h2>
+    </div>
+    <div style="display: flex; gap: var(--space-8)"><span class="anno">Snap · Duration/Moderate · Ease/Sheet</span><span class="anno">Radius/XL top · Elevation-3</span><span class="anno">Handle 40 x 4, hit area 48</span></div>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(3, 390px); justify-content: space-between">
+    <sc-for list="{{states}}" as="st" hint-placeholder-count="3">
+      <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+        <div style="display: flex; justify-content: space-between; align-items: center"><p class="t-subtitle t-semibold">{{st.name}}</p><span class="anno">{{st.spec}}</span></div>
+        <div class="screen" style="width: 390px; height: 720px; border-radius: var(--radius-xl); box-shadow: var(--elevation-2)">
+          <div class="map" style="top: -620px"><img src="./map-light.svg" alt=""></div>
+          <div style="position: absolute; left: 0; right: 0; top: {{st.dim}}px; bottom: 0; background: var(--bg-scrim); opacity: {{st.scrim}}"></div>
+          <div class="sheet" style="position: absolute; left: 0; right: 0; bottom: 0; height: {{st.h}}px">
+            <div class="sheet-head {{st.glass}}" style="align-items: stretch; border-bottom: {{st.border}}">
+              <span class="sheet-handle" style="align-self: center"></span>
+              <div style="display: flex; align-items: center; justify-content: space-between; min-height: 32px">
+                <p class="t-title">{{st.title}}</p>
+                <sc-if value="{{st.full}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn-icon" aria-label="Collapse" style="box-shadow: none; background: var(--bg-sunken); width: 40px; height: 40px"><span class="ic ic-20 ic-chev-d" aria-hidden="true"></span></button></sc-if>
+              </div>
+            </div>
+            <div class="sheet-body" style="padding-top: var(--space-8)">
+              <div class="card-flat" style="padding: var(--space-16); display: flex; align-items: center; gap: var(--space-12)">
+                <span class="icon-tile brand"><span class="ic ic-20 ic-bus" aria-hidden="true"></span></span>
+                <div class="grow"><p class="t-body t-semibold">Chevron to CMS</p><p class="t-caption t-secondary num">Next 7:15 · 6 seats left</p></div>
+                <p class="t-subtitle num t-semibold">₦1,500</p>
+              </div>
+              <sc-if value="{{st.half}}" hint-placeholder-val="{{true}}">
+                <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-12)">
+                  <div class="card-flat" style="padding: var(--space-16); display: flex; flex-direction: column; gap: var(--space-8)"><span class="icon-tile accent"><span class="ic ic-20 ic-briefcase" aria-hidden="true"></span></span><p class="t-body t-semibold">Work</p><p class="t-caption t-secondary num">Marina · 48 min</p></div>
+                  <div class="card-flat" style="padding: var(--space-16); display: flex; flex-direction: column; gap: var(--space-8)"><span class="icon-tile highlight"><span class="ic ic-20 ic-home" aria-hidden="true"></span></span><p class="t-body t-semibold">Home</p><p class="t-caption t-secondary num">Chevron Drive · 6 min</p></div>
+                </div>
+              </sc-if>
+              <sc-if value="{{st.full}}" hint-placeholder-val="{{false}}">
+                <div style="display: flex; flex-direction: column">
+                  <p class="doc-label" style="margin-top: var(--space-8)">Later today from Chevron</p>
+                  <div class="list-row" style="border-bottom: 1px solid var(--border-subtle)"><span class="t-subtitle num" style="width: 56px">7:30</span><span class="t-caption grow">Lekki Phase 1 to Marina Express</span><span class="badge badge-brand">11 left</span></div>
+                  <div class="list-row" style="border-bottom: 1px solid var(--border-subtle)"><span class="t-subtitle num" style="width: 56px">7:45</span><span class="t-caption grow">Chevron to CMS</span><span class="badge badge-warning">3 left</span></div>
+                  <div class="list-row"><span class="t-subtitle num" style="width: 56px">8:00</span><span class="t-caption grow">Chevron to CMS</span><span class="badge badge-brand">14 left</span></div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(3, 390px); justify-content: space-between; align-items: start">
+    <sc-for list="{{navs}}" as="n" hint-placeholder-count="2">
+      <div data-theme="{{n.theme}}" style="display: flex; flex-direction: column; gap: var(--space-12)">
+        <p class="t-subtitle t-semibold" style="color: var(--neutral-900)">{{n.name}}</p>
+        <nav class="k nav glass" aria-label="Main" style="border-radius: var(--radius-l); box-shadow: var(--elevation-1)">
+          <a class="nav-item is-active" href="#"><span class="nav-pill"><span class="ic ic-home" aria-hidden="true"></span></span>Home</a>
+          <a class="nav-item" href="#"><span class="nav-pill"><span class="ic ic-ticket" aria-hidden="true"></span></span>Trips</a>
+          <a class="nav-item" href="#"><span class="nav-pill"><span class="ic ic-building" aria-hidden="true"></span></span>Korope+</a>
+          <a class="nav-item" href="#"><span class="nav-pill"><span class="ic ic-wallet" aria-hidden="true"></span></span>Wallet</a>
+          <a class="nav-item" href="#"><span class="nav-pill"><span class="ic ic-user" aria-hidden="true"></span></span>Profile</a>
+        </nav>
+      </div>
+    </sc-for>
+    <div class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-subtitle t-semibold">Behaviour</p>
+      <p class="t-caption t-secondary">Five tabs, never more. Active tab: Primary text plus a Radius/M tinted container; icons stay outline. Nav hides while the sheet is full or a trip is live, and returns on collapse. Swipe down collapses the sheet unless a field has focus.</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const states = [
+      { name: 'Peek', spec: '176 px', h: 176, title: 'Near you', half: false, full: false, glass: '', border: '0', scrim: 0, dim: 0 },
+      { name: 'Half', spec: '50% · 422 px at 844', h: 380, title: 'Where to, Adaeze?', half: true, full: false, glass: '', border: '0', scrim: 0, dim: 0 },
+      { name: 'Full', spec: 'Top inset 56 px', h: 664, title: 'Plan a trip', half: true, full: true, glass: 'glass', border: '1px solid var(--border-subtle)', scrim: 1, dim: 0 }
+    ];
+    const navs = [{ theme: 'light', name: 'Bottom navigation · light' }, { theme: 'dark', name: 'Bottom navigation · dark' }];
+    return { states, navs };
+  }
+}
+</script>
+</body>
+</html>

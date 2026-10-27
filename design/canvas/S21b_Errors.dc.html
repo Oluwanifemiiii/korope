@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error messages</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-24) var(--space-16)">
+  <div style="display: flex; flex-direction: column; gap: var(--space-4); margin-bottom: var(--space-4)">
+    <p class="t-eyebrow">System messages</p>
+    <h1 class="t-title">Say what happened, whether money moved, what's next</h1>
+  </div>
+  <sc-for list="{{msgs}}" as="m" hint-placeholder-count="6">
+    <article class="banner {{m.cls}}" style="flex-direction: column; gap: var(--space-8); padding: var(--space-12) var(--space-16)">
+      <div style="display: flex; gap: var(--space-12); align-items: flex-start">
+        <span class="ic ic-20 ic-{{m.icon}}" aria-hidden="true" style="color: {{m.iconColor}}; margin-top: 1px"></span>
+        <div class="grow"><p class="t-caption t-semibold">{{m.title}}</p><p class="t-caption">{{m.body}}</p></div>
+      </div>
+      <sc-if value="{{m.cta}}" hint-placeholder-val="{{true}}"><div style="display: flex; gap: var(--space-8); padding-left: var(--space-32)"><button type="button" class="btn btn-tertiary btn-m" style="height: 40px; padding: 0 var(--space-8); color: inherit; text-decoration: underline">{{m.cta}}</button></div></sc-if>
+    </article>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const e = 'var(--error-icon)', w = 'var(--warning-icon)', i = 'var(--info-icon)', s = 'var(--success-icon)';
+    const msgs = [
+      { cls: 'banner-error', icon: 'alert-circle', iconColor: e, title: "Your top-up didn't go through", body: 'Nothing has been charged. Try again, or pick another way to pay on Paystack.', cta: 'Try again' },
+      { cls: 'banner-warning', icon: 'seat', iconColor: w, title: 'Seat 3B was taken a moment ago', body: "Your money hasn't moved. We're holding 3A, the next window seat, for 5 minutes.", cta: 'Keep 3A' },
+      { cls: 'banner-info', icon: 'search', iconColor: i, title: "We couldn't find “Chevorn”", body: 'Try a nearby landmark or bus stop, like Chevron Roundabout or Lekki Conservation Centre.', cta: '' },
+      { cls: 'banner-warning', icon: 'timer', iconColor: w, title: 'Your hold on seat 3B ended', body: 'We released it and nothing was charged. 4 seats are still free on the 7:15.', cta: 'Choose a seat' },
+      { cls: 'banner-info', icon: 'clock', iconColor: i, title: 'KR 014 is running 8 min late', body: 'Slow traffic at Jakande. Your seat is safe. New time at Chevron: 7:21.', cta: '' },
+      { cls: 'banner-success', icon: 'undo', iconColor: s, title: 'The 7:45 to CMS is cancelled', body: "Sorry about this. ₦1,500 is already back in your wallet. The 8:00 has 9 seats free.", cta: 'Book the 8:00' }
+    ];
+    return { theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844, msgs };
+  }
+}
+</script>
+</body>
+</html>

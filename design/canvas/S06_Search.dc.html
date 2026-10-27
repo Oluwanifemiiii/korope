@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Search</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px">
+  <div class="map" style="top: -820px"><img src="{{mapSrc}}" alt=""></div>
+  <div class="map-blur"></div>
+  <div style="position: absolute; inset: 0; display: flex; flex-direction: column; padding: var(--space-16) var(--space-16) 0; gap: var(--space-16)">
+    <div class="search" style="background: var(--bg-surface); box-shadow: inset 0 0 0 2px var(--border-focus), var(--elevation-3); padding-left: var(--space-4)">
+      <a class="btn btn-icon" href="S05a_Home.dc.html" aria-label="Back to map" style="box-shadow: none; background: transparent"><span class="ic ic-back" aria-hidden="true"></span></a>
+      <label for="q" class="sr" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Where are you going?</label>
+      <input id="q" value="Chevron" style="flex: 1 1 auto; min-width: 0; border: 0; outline: 0; background: transparent; font-size: var(--type-body-size); color: var(--text-primary); height: 100%">
+      <button type="button" class="btn btn-icon" aria-label="Clear search" style="box-shadow: none; background: var(--bg-sunken); width: 32px; height: 32px; margin-right: var(--space-8)"><span class="ic ic-16 ic-x" aria-hidden="true"></span></button>
+    </div>
+    <div class="card" style="flex: 1 1 auto; min-height: 0; overflow: hidden; border-radius: var(--radius-xl) var(--radius-xl) 0 0; padding: var(--space-8) var(--space-16) 0; box-shadow: var(--elevation-3)">
+      <p class="t-eyebrow" style="padding: var(--space-8) 0">Places</p>
+      <a href="S07_Departures.dc.html" class="list-row" style="color: var(--text-primary); border-bottom: 1px solid var(--border-subtle)">
+        <span class="icon-tile brand"><span class="ic ic-20 ic-bus" aria-hidden="true"></span></span>
+        <div class="grow"><p class="t-body"><strong>Chevron</strong> Roundabout</p><p class="t-caption t-secondary">Korope stop · Lekki-Epe Expressway</p></div>
+        <span class="t-label t-secondary num" style="text-align: right">3 min<br>walk</span>
+      </a>
+      <a href="#" class="list-row" style="color: var(--text-primary); border-bottom: 1px solid var(--border-subtle)">
+        <span class="icon-tile"><span class="ic ic-20 ic-route" aria-hidden="true"></span></span>
+        <div class="grow"><p class="t-body"><strong>Chevron</strong> Drive</p><p class="t-caption t-secondary">Street · Lekki</p></div>
+        <span class="t-label t-secondary num">1.2 km</span>
+      </a>
+      <a href="#" class="list-row" style="color: var(--text-primary); border-bottom: 1px solid var(--border-subtle)">
+        <span class="icon-tile"><span class="ic ic-20 ic-building" aria-hidden="true"></span></span>
+        <div class="grow"><p class="t-body"><strong>Chevron</strong> HQ</p><p class="t-caption t-secondary">Office · 2 Chevron Drive, Lekki</p></div>
+        <span class="t-label t-secondary num">1.6 km</span>
+      </a>
+      <a href="#" class="list-row" style="color: var(--text-primary)">
+        <span class="icon-tile"><span class="ic ic-20 ic-pin" aria-hidden="true"></span></span>
+        <div class="grow"><p class="t-body">Lekki Conservation Centre</p><p class="t-caption t-secondary">Landmark · near <strong>Chevron</strong></p></div>
+        <span class="t-label t-secondary num">2.0 km</span>
+      </a>
+      <p class="t-eyebrow" style="padding: var(--space-16) 0 var(--space-8)">Saved</p>
+      <div style="display: flex; gap: var(--space-8); flex-wrap: wrap">
+        <a href="S07_Departures.dc.html" class="chip"><span class="ic ic-16 ic-briefcase" aria-hidden="true"></span>Work · Marina</a>
+        <a href="#" class="chip"><span class="ic ic-16 ic-home" aria-hidden="true"></span>Home</a>
+        <a href="#" class="chip"><span class="ic ic-16 ic-heart" aria-hidden="true"></span>Mum's place</a>
+      </div>
+      <p class="t-eyebrow" style="padding: var(--space-16) 0 var(--space-8)">Recent</p>
+      <a href="#" class="list-row" style="color: var(--text-primary); border-bottom: 1px solid var(--border-subtle)">
+        <span class="icon-tile"><span class="ic ic-20 ic-clock" aria-hidden="true"></span></span>
+        <div class="grow"><p class="t-body">Admiralty Way</p><p class="t-caption t-secondary">Lekki Phase 1 · last Friday</p></div>
+      </a>
+      <a href="#" class="list-row" style="color: var(--text-primary)">
+        <span class="icon-tile"><span class="ic ic-20 ic-clock" aria-hidden="true"></span></span>
+        <div class="grow"><p class="t-body">Circle Mall</p><p class="t-caption t-secondary">Jakande · Saturday</p></div>
+      </a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const theme = this.props.theme ?? 'light';
+    return { theme, w: small ? 360 : 390, h: small ? 740 : 844, mapSrc: theme === 'dark' ? './map-night.svg' : './map-light.svg' };
+  }
+}
+</script>
+</body>
+</html>

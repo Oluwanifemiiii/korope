@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wallet</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column">
+  <div style="padding: var(--space-24) var(--space-16) var(--space-12)"><h1 class="t-h2">Wallet</h1></div>
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 0 var(--space-16); display: flex; flex-direction: column; gap: var(--space-20)">
+    <section class="card-hero" style="position: relative; overflow: hidden; color: var(--neutral-0); background: linear-gradient(140deg, var(--primary-600), var(--primary-800)); display: flex; flex-direction: column; gap: var(--space-12)">
+      <svg aria-hidden="true" viewBox="0 0 300 160" preserveAspectRatio="none" style="position: absolute; right: 0; top: 0; width: 60%; height: 100%; opacity: 0.22"><path d="M0 140h80a24 24 0 0 0 24-24V70a24 24 0 0 1 24-24h172" fill="none" stroke="#B3ECCA" stroke-width="2"></path><circle cx="104" cy="94" r="5" fill="#B3ECCA"></circle></svg>
+      <p class="t-caption" style="color: var(--primary-100); position: relative">Available balance</p>
+      <p class="t-display num" style="position: relative">{{balance}}</p>
+      <p class="t-caption" style="color: var(--primary-100); position: relative">{{sub}}</p>
+      <a class="btn btn-highlight btn-m" href="S18a_Add_Amount.dc.html" style="align-self: flex-start; position: relative; margin-top: var(--space-4)"><span class="ic ic-20 ic-plus" aria-hidden="true"></span>Add money</a>
+    </section>
+
+    <sc-if value="{{full}}" hint-placeholder-val="{{true}}">
+      <section style="display: flex; flex-direction: column">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4)"><p class="t-eyebrow">Recent activity</p><a href="#" class="t-caption t-semibold" style="min-height: 40px; display: flex; align-items: center">See all</a></div>
+        <sc-for list="{{tx}}" as="t" hint-placeholder-count="5">
+          <div class="list-row" style="border-bottom: 1px solid var(--border-subtle); padding: var(--space-8) 0">
+            <span class="icon-tile {{t.tile}}"><span class="ic ic-20 ic-{{t.icon}}" aria-hidden="true"></span></span>
+            <div class="grow"><p class="t-caption t-semibold">{{t.title}}</p><p class="t-label t-secondary num">{{t.when}}</p></div>
+            <p class="t-caption t-semibold num" style="color: {{t.color}}">{{t.amt}}</p>
+          </div>
+        </sc-for>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+      <section style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-12); padding: var(--space-8) var(--space-8) 0">
+        <svg role="img" aria-label="City skyline with a route ending at a golden stop" viewBox="0 0 240 110" style="width: 200px; height: auto">
+          <g style="fill: var(--primary-50)"><rect x="14" y="52" width="22" height="44" rx="3"></rect><rect x="62" y="64" width="30" height="32" rx="3"></rect><rect x="122" y="48" width="26" height="48" rx="3"></rect><rect x="176" y="60" width="28" height="36" rx="3"></rect></g>
+          <g style="fill: var(--bg-sunken)"><rect x="38" y="34" width="20" height="62" rx="3"></rect><rect x="96" y="26" width="22" height="70" rx="3"></rect><rect x="152" y="40" width="20" height="56" rx="3"></rect><rect x="208" y="50" width="20" height="46" rx="3"></rect></g>
+          <path d="M6 96h228" style="stroke: var(--border-strong)" stroke-width="2" stroke-linecap="round"></path>
+          <path d="M40 86h60a14 14 0 0 0 14-14v-6a14 14 0 0 1 14-14h70" fill="none" style="stroke: var(--route-line)" stroke-width="3" stroke-linecap="round"></path>
+          <circle cx="40" cy="86" r="6" style="fill: var(--bg-surface); stroke: var(--action-primary)" stroke-width="3"></circle>
+          <circle cx="198" cy="52" r="7" style="fill: var(--secondary-400)"></circle>
+        </svg>
+        <h2 class="t-title">Top up once, ride all week</h2>
+        <ul style="display: flex; flex-direction: column; gap: var(--space-8); text-align: left; width: 100%">
+          <li class="t-caption" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-check t-brand" aria-hidden="true" style="margin-top: 2px"></span>Reserve a seat in one tap, no card details each time</li>
+          <li class="t-caption" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-check t-brand" aria-hidden="true" style="margin-top: 2px"></span>Refunds for cancelled trips come straight back here</li>
+          <li class="t-caption" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-check t-brand" aria-hidden="true" style="margin-top: 2px"></span>Every top-up and fare has a receipt</li>
+        </ul>
+        <div style="display: flex; gap: var(--space-8); flex-wrap: wrap; justify-content: center; margin-top: var(--space-4)">
+          <span class="badge badge-neutral"><span class="ic ic-16 ic-card" aria-hidden="true"></span>Card</span>
+          <span class="badge badge-neutral"><span class="ic ic-16 ic-bank" aria-hidden="true"></span>Bank transfer</span>
+          <span class="badge badge-neutral"><span class="ic ic-16 ic-hash" aria-hidden="true"></span>USSD</span>
+        </div>
+        <p class="t-label t-secondary">Payments are processed by Paystack</p>
+      </section>
+    </sc-if>
+  </div>
+  <nav class="nav glass" aria-label="Main">
+    <a class="nav-item" href="S05a_Home.dc.html"><span class="nav-pill"><span class="ic ic-home" aria-hidden="true"></span></span>Home</a>
+    <a class="nav-item" href="S16a_Trips.dc.html"><span class="nav-pill"><span class="ic ic-ticket" aria-hidden="true"></span></span>Trips</a>
+    <a class="nav-item" href="S20_KoropePlus.dc.html"><span class="nav-pill"><span class="ic ic-building" aria-hidden="true"></span></span>Korope+</a>
+    <a class="nav-item is-active" href="S17a_Wallet.dc.html" aria-current="page"><span class="nav-pill"><span class="ic ic-wallet" aria-hidden="true"></span></span>Wallet</a>
+    <a class="nav-item" href="S19_Profile.dc.html"><span class="nav-pill"><span class="ic ic-user" aria-hidden="true"></span></span>Profile</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"variant":{"editor":"enum","options":["full","empty"],"default":"full"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const empty = (this.props.variant ?? 'full') === 'empty';
+    const out = 'var(--text-primary)', inn = 'var(--success-text)';
+    const tx = [
+      { icon: 'bus', tile: '', title: 'Chevron to CMS · seat 3B', when: 'Today · 7:03', amt: '−₦1,500', color: out },
+      { icon: 'down-left', tile: 'brand', title: 'Top-up · bank transfer', when: 'Mon 26 Oct · 21:14', amt: '+₦5,000', color: inn },
+      { icon: 'bus', tile: '', title: 'CMS to Chevron · seat 1B', when: 'Mon 26 Oct · 17:31', amt: '−₦1,500', color: out },
+      { icon: 'undo', tile: 'accent', title: 'Refund · Chevron to Marina', when: 'Fri 23 Oct · 7:52', amt: '+₦1,400', color: inn },
+      { icon: 'bus', tile: '', title: 'Chevron to Marina · seat 4B', when: 'Fri 23 Oct · 7:20', amt: '−₦1,400', color: out }
+    ];
+    return {
+      theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844, empty, full: !empty, tx,
+      balance: empty ? '₦0' : '₦4,250', sub: empty ? 'Add money to reserve your first seat' : 'Enough for 2 trips to CMS'
+    };
+  }
+}
+</script>
+</body>
+</html>

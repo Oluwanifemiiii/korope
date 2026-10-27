@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Safety, notifications, feedback</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1240px; padding: var(--space-48) var(--space-64); display: flex; flex-direction: column; gap: var(--space-24); background: var(--neutral-100)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Components · Panel/Emergency · Card/Notification · Toast · Skeleton · EmptyState</p>
+      <h2 class="t-h2">Reachable, never loud</h2>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: 380px minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-32); flex: 1 1 auto">
+
+    <div style="display: flex; flex-direction: column; gap: var(--space-16)">
+      <p class="doc-label">Panel/Emergency · collapsed and open</p>
+      <div style="display: flex; align-items: center; gap: var(--space-12)">
+        <button type="button" class="btn btn-icon glass" aria-label="Safety tools" style="color: var(--error-icon); box-shadow: var(--elevation-2)"><span class="ic ic-shield" aria-hidden="true"></span></button>
+        <span class="t-caption t-secondary">Floating shield during trips. Elevation-2, glass, 48 x 48.</span>
+      </div>
+      <section class="card-hero" style="background: var(--bg-surface); box-shadow: var(--elevation-4); display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-24)">
+        <div style="display: flex; justify-content: space-between; align-items: center"><p class="t-title">Safety</p><button type="button" class="btn btn-icon" aria-label="Close" style="box-shadow: none; background: var(--bg-sunken); width: 40px; height: 40px"><span class="ic ic-20 ic-x" aria-hidden="true"></span></button></div>
+        <button type="button" class="btn btn-destructive btn-block" style="height: 64px; font-size: 18px; position: relative; overflow: hidden"><span class="ic ic-sos" aria-hidden="true"></span>Hold for SOS<span style="position: absolute; left: 0; bottom: 0; height: 4px; width: 35%; background: rgba(255, 255, 255, 0.7)"></span></button>
+        <p class="t-caption t-secondary">Hold 2 seconds. We alert Korope safety, your emergency contacts and share your live location. You can cancel for 5 seconds after.</p>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8)">
+          <button type="button" class="btn btn-secondary btn-m" style="min-width: 0; padding: 0 var(--space-8); justify-content: flex-start"><span class="ic ic-20 ic-headset" aria-hidden="true"></span>Call support</button>
+          <button type="button" class="btn btn-secondary btn-m" style="min-width: 0; padding: 0 var(--space-8); justify-content: flex-start"><span class="ic ic-20 ic-share" aria-hidden="true"></span>Share location</button>
+          <button type="button" class="btn btn-secondary btn-m" style="min-width: 0; padding: 0 var(--space-8); justify-content: flex-start"><span class="ic ic-20 ic-medical" aria-hidden="true"></span>Medical help</button>
+          <button type="button" class="btn btn-secondary btn-m" style="min-width: 0; padding: 0 var(--space-8); justify-content: flex-start"><span class="ic ic-20 ic-shield-alert" aria-hidden="true"></span>Police</button>
+        </div>
+        <a href="#" class="t-caption t-semibold" style="display: flex; align-items: center; gap: var(--space-4); min-height: 40px"><span class="ic ic-16 ic-flag" aria-hidden="true"></span>Report something on this trip</a>
+      </section>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: var(--space-16)">
+      <p class="doc-label">Card/Notification · actionable</p>
+      <article class="card" style="display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-16)">
+        <div style="display: flex; gap: var(--space-12); align-items: flex-start">
+          <span class="icon-tile accent"><span class="ic ic-20 ic-bus" aria-hidden="true"></span></span>
+          <div class="grow"><p class="t-body t-semibold">Bus is 2 stops away</p><p class="t-caption t-secondary">KR 014 reaches Chevron in about 6 min. Leave now to arrive with time to spare.</p></div>
+          <span class="t-label t-secondary">now</span>
+        </div>
+        <div style="display: flex; gap: var(--space-8)"><button type="button" class="btn btn-primary btn-m" style="min-width: 0">Walking directions</button><button type="button" class="btn btn-tertiary btn-m">View bus</button></div>
+      </article>
+      <article class="card" style="display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-16); box-shadow: inset 0 0 0 2px var(--secondary-400), var(--elevation-2)">
+        <div style="display: flex; gap: var(--space-12); align-items: flex-start">
+          <span class="icon-tile highlight"><span class="ic ic-20 ic-qr" aria-hidden="true"></span></span>
+          <div class="grow"><p class="t-body t-semibold">KR 014 is at Chevron</p><p class="t-caption t-secondary">Tunde is holding seat 3B. Show your pass at the door.</p></div>
+          <span class="t-label t-secondary">7:14</span>
+        </div>
+        <div style="display: flex; gap: var(--space-8)"><button type="button" class="btn btn-highlight btn-m" style="min-width: 0">Show boarding pass</button><button type="button" class="btn btn-tertiary btn-m">Call Tunde</button></div>
+      </article>
+
+      <p class="doc-label" style="margin-top: var(--space-8)">Toast · 4 s, bottom, above the CTA</p>
+      <div class="toast"><span class="ic ic-20 ic-ok" aria-hidden="true" style="color: var(--success-300)"></span><span class="grow">₦5,000 added to your wallet</span></div>
+      <div class="toast"><span class="ic ic-20 ic-heart" aria-hidden="true" style="color: var(--secondary-300)"></span><span class="grow">Chevron Drive saved as Home</span><button type="button" class="btn btn-tertiary btn-m" style="color: var(--secondary-300); height: 40px">Undo</button></div>
+      <div class="toast" data-theme="dark"><span class="ic ic-20 ic-wifi-off" aria-hidden="true"></span><span class="grow">You're offline. Your pass still works.</span></div>
+
+      <p class="doc-label" style="margin-top: var(--space-8)">Skeleton · departure cards, wallet</p>
+      <div class="card" style="display: flex; flex-direction: column; gap: var(--space-12)">
+        <div style="display: flex; justify-content: space-between"><span class="sk" style="width: 96px; height: 24px"></span><span class="sk" style="width: 64px; height: 24px"></span></div>
+        <span class="sk" style="width: 70%; height: 14px"></span>
+        <div style="display: flex; gap: var(--space-12)"><span class="sk" style="width: 88px; height: 14px"></span><span class="sk" style="width: 56px; height: 14px"></span><span class="sk" style="width: 56px; height: 14px"></span></div>
+      </div>
+      <div class="sk" style="height: 120px; border-radius: var(--radius-xl)"></div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: var(--space-16)">
+      <p class="doc-label">EmptyState · city line illustrations</p>
+      <sc-for list="{{empties}}" as="e" hint-placeholder-count="3">
+        <article class="card" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-12); padding: var(--space-24)">
+          <svg role="img" aria-label="{{e.alt}}" viewBox="0 0 240 110" style="width: 220px; height: auto">
+            <g style="fill: var(--primary-50)"><rect x="14" y="52" width="22" height="44" rx="3"></rect><rect x="62" y="64" width="30" height="32" rx="3"></rect><rect x="122" y="48" width="26" height="48" rx="3"></rect><rect x="176" y="60" width="28" height="36" rx="3"></rect></g>
+            <g style="fill: var(--neutral-100)"><rect x="38" y="34" width="20" height="62" rx="3"></rect><rect x="96" y="26" width="22" height="70" rx="3"></rect><rect x="152" y="40" width="20" height="56" rx="3"></rect><rect x="208" y="50" width="20" height="46" rx="3"></rect></g>
+            <path d="M6 96h228" style="stroke: var(--border-strong)" stroke-width="2" stroke-linecap="round"></path>
+            <path d="{{e.route}}" fill="none" style="stroke: var(--route-line)" stroke-width="3" stroke-linecap="round" stroke-dasharray="{{e.dash}}"></path>
+            <circle cx="{{e.ax}}" cy="{{e.ay}}" r="6" style="fill: var(--bg-surface); stroke: var(--action-primary)" stroke-width="3"></circle>
+            <circle cx="{{e.bx}}" cy="{{e.by}}" r="7" style="fill: {{e.bfill}}"></circle>
+          </svg>
+          <p class="t-subtitle t-semibold">{{e.h}}</p>
+          <p class="t-caption t-secondary" style="max-width: 300px">{{e.p}}</p>
+          <button type="button" class="btn btn-primary btn-m">{{e.cta}}</button>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const empties = [
+      { alt: 'City skyline with a dashed route waiting to be drawn', route: 'M40 86h60a14 14 0 0 0 14-14v-6a14 14 0 0 1 14-14h70', dash: '6 8', ax: 40, ay: 86, bx: 198, by: 52, bfill: 'var(--secondary-400)', h: 'No trips yet', p: 'Book a seat on a scheduled bus from Lekki to the Island. Your trips and receipts will live here.', cta: 'Plan a trip' },
+      { alt: 'City skyline with a route ending at a golden stop', route: 'M40 86h60a14 14 0 0 0 14-14v-6a14 14 0 0 1 14-14h70', dash: '0', ax: 40, ay: 86, bx: 198, by: 52, bfill: 'var(--secondary-400)', h: 'Your wallet is empty', p: 'Add money once and pay for seats in one tap. Card, bank transfer or USSD through Paystack.', cta: 'Add money' },
+      { alt: 'City skyline with a broken route', route: 'M40 86h44M116 66v-0a14 14 0 0 1 14-14h68', dash: '0', ax: 40, ay: 86, bx: 198, by: 52, bfill: 'var(--neutral-300)', h: 'No departures right now', p: 'The last bus on this route left at 21:00. First departure tomorrow is 5:45 from Chevron.', cta: 'See tomorrow' }
+    ];
+    return { empties };
+  }
+}
+</script>
+</body>
+</html>

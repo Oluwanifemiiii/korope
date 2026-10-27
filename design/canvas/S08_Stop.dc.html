@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boarding stop</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px">
+  <div class="map" style="top: -1020px; transform: scale(1.4); transform-origin: 700px 1150px">
+    <img src="{{mapSrc}}" alt="Close-up map of Chevron Roundabout with your walking route">
+    <svg class="ov" viewBox="-400 0 1190 1400" aria-hidden="true">
+      <path d="M324 1176 L316 1166 L306 1158 L300 1150" fill="none" style="stroke: var(--user-location)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="1 4"></path>
+    </svg>
+  </div>
+  <span class="mk" style="left: calc(50% + 105px); top: 130px; width: 22px; height: 22px; border-radius: 50%; background: var(--bg-surface); box-shadow: inset 0 0 0 6px var(--action-primary), var(--elevation-2)"></span>
+  <span class="mk-label" style="left: calc(50% + 110px); top: 104px">Pickup zone</span>
+  <span class="mk mk-me" style="left: calc(50% + 139px); top: 166px"></span>
+  <div style="position: absolute; left: var(--space-16); top: var(--space-16)"><a class="btn btn-icon glass" href="S07_Departures.dc.html" aria-label="Back to departures"><span class="ic ic-back" aria-hidden="true"></span></a></div>
+
+  <div class="sheet" style="position: absolute; left: 0; right: 0; bottom: 0; top: 248px">
+    <div class="sheet-head" style="padding-bottom: var(--space-4)"><span class="sheet-handle" aria-hidden="true"></span></div>
+    <div style="padding: 0 var(--space-16); display: flex; flex-direction: column; gap: var(--space-16); flex: 1 1 auto; min-height: 0">
+      <div style="height: 132px; border-radius: var(--radius-l); background: repeating-linear-gradient(135deg, var(--bg-sunken) 0 10px, var(--bg-canvas) 10px 20px); display: flex; align-items: flex-end; padding: var(--space-12)" role="img" aria-label="Photo of the Chevron Roundabout pickup zone">
+        <span class="badge badge-neutral" style="background: var(--bg-surface)"><span class="ic ic-16 ic-pin" aria-hidden="true"></span>Stop photo</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-4)">
+        <p class="t-eyebrow">Your boarding stop</p>
+        <h1 class="t-h3">Chevron Roundabout pickup</h1>
+        <p class="t-body t-secondary">Beside Access Bank, facing the expressway. Look for the green Korope post.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8)">
+        <div class="card-flat" style="padding: var(--space-12); display: flex; flex-direction: column; gap: var(--space-4)"><span class="ic ic-20 ic-walk t-brand" aria-hidden="true"></span><span class="t-caption t-semibold num">2 min walk</span><span class="t-label t-secondary num">160 m</span></div>
+        <div class="card-flat" style="padding: var(--space-12); display: flex; flex-direction: column; gap: var(--space-4)"><span class="ic ic-20 ic-light t-brand" aria-hidden="true"></span><span class="t-caption t-semibold">Well-lit</span><span class="t-label t-secondary">Street lights</span></div>
+        <div class="card-flat" style="padding: var(--space-12); display: flex; flex-direction: column; gap: var(--space-4)"><span class="ic ic-20 ic-shelter t-brand" aria-hidden="true"></span><span class="t-caption t-semibold">Sheltered</span><span class="t-label t-secondary">Covered bench</span></div>
+      </div>
+      <a href="#" class="t-body t-semibold" style="display: flex; align-items: center; gap: var(--space-8); min-height: 48px"><span class="ic ic-20 ic-nav" aria-hidden="true"></span>Walking directions<span class="ic ic-16 ic-chev-r" aria-hidden="true" style="margin-left: auto"></span></a>
+    </div>
+    <div style="padding: var(--space-12) var(--space-16) var(--space-16); border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-caption t-secondary num" style="text-align: center">7:15 to CMS · bus reaches this stop around 7:13</p>
+      <a class="btn btn-primary btn-block" href="S09_Seats.dc.html">Choose your seat</a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const theme = this.props.theme ?? 'light';
+    return { theme, w: small ? 360 : 390, h: small ? 740 : 844, mapSrc: theme === 'dark' ? './map-night.svg' : './map-light.svg' };
+  }
+}
+</script>
+</body>
+</html>

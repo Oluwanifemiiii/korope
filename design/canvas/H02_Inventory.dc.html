@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Component inventory</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1900px; padding: var(--space-48) var(--space-64); display: flex; flex-direction: column; gap: var(--space-24)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Handoff · Next.js + Tailwind</p>
+      <h2 class="t-h2">Component inventory</h2>
+    </div>
+    <div style="display: flex; gap: var(--space-8); flex-wrap: wrap; justify-content: flex-end; max-width: 720px">
+      <span class="anno">korope-tokens.css</span><span class="anno">korope-tokens.json</span><span class="anno">tailwind.korope.js</span><span class="anno">map-style-light.json</span><span class="anno">map-style-night.json</span><span class="anno">component-inventory.md</span>
+    </div>
+  </div>
+  <section class="card-flat" style="padding: 0 var(--space-24)">
+    <div style="display: grid; grid-template-columns: 220px minmax(0, 1.3fr) minmax(0, 1.5fr) 200px; gap: var(--space-16); padding: var(--space-12) 0; border-bottom: 1px solid var(--border-strong)">
+      <span class="t-label t-secondary">Component</span><span class="t-label t-secondary">Variants and states</span><span class="t-label t-secondary">Props</span><span class="t-label t-secondary">Used on</span>
+    </div>
+    <sc-for list="{{rows}}" as="r" hint-placeholder-count="24">
+      <div style="display: grid; grid-template-columns: 220px minmax(0, 1.3fr) minmax(0, 1.5fr) 200px; gap: var(--space-16); padding: var(--space-12) 0; border-bottom: 1px solid var(--border-subtle); align-items: start">
+        <span class="t-caption t-semibold">{{r.n}}</span>
+        <span class="t-caption t-secondary">{{r.v}}</span>
+        <span class="t-label" style="font-variant-ligatures: none; color: var(--accent-700)">{{r.p}}</span>
+        <span class="t-label t-secondary">{{r.u}}</span>
+      </div>
+    </sc-for>
+  </section>
+  <p class="t-caption t-secondary">Every component ships light and dark through [data-theme], reads only semantic tokens, keeps a 48 x 48 minimum hit area and has default, pressed, disabled, loading and error states unless noted. Names match the bible pattern Category/Name/State.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const rows = [
+      { n: 'Button', v: 'primary, secondary, tertiary, destructive, highlight · L 56, M 48 · default, pressed, focused, loading, disabled, success, error', p: 'variant, size, block, icon, loading, state, onPress', u: 'All screens' },
+      { n: 'IconButton', v: 'surface, glass · default, pressed, disabled', p: 'icon, label (aria), glass, tone', u: 'Home, live trip, sheets' },
+      { n: 'Input', v: 'text, phone (+234 prefix), amount · default, focused, filled, error, disabled', p: 'label, value, helper, error, prefix, inputMode', u: '03a, 18a, 20' },
+      { n: 'OtpInput', v: '6 cells · empty, active, filled, error', p: 'length, value, error, onComplete, autoFill', u: '03b' },
+      { n: 'SearchFloating', v: 'idle glass, focused, typing with clear', p: 'placeholder, value, onFocus, onVoice, onClear', u: '05, 06' },
+      { n: 'Chip', v: 'default, selected, disabled · with icon', p: 'label, icon, selected, onToggle', u: '06, 10b, 15b, 18a' },
+      { n: 'Badge', v: 'brand, highlight, success, warning, error, info, neutral', p: 'tone, icon, label', u: 'Cards, lists' },
+      { n: 'BottomSheet', v: 'peek, half, full · glass header on full', p: 'snapPoints, initialSnap, header, onSnap, dismissible', u: '05, 07, 08, 12, 14' },
+      { n: 'NavigationBottom', v: '5 tabs · active, inactive', p: 'active, badges', u: 'Tab roots' },
+      { n: 'CardDeparture', v: 'recommended, default, express, almost full, full, delayed, cancelled', p: 'departAt, arriveAt, fare, seatsLeft, stops, etaToStop, reason, routeName', u: '07, Home half' },
+      { n: 'SeatMap', v: 'layouts 14, 16, 18 seats · seat: available, held, reserved, unavailable, selected', p: 'layout, seats[], selectedId, holdEndsAt, onSelect', u: '09' },
+      { n: 'HoldTimer', v: 'running, under 60 s (warning), expired', p: 'endsAt, seatId', u: '09, 10' },
+      { n: 'CardFare', v: 'standard, with discount, with change notice', p: 'lines[], total, notice', u: '10' },
+      { n: 'CardWallet', v: 'default, empty, funded (shimmer + count up) · light, dark', p: 'balance, subline, onAddMoney, animateFrom', u: '17, 18c, C4' },
+      { n: 'CardActiveTrip', v: 'on time, delayed, approaching stop', p: 'destination, etaMin, progress, nextStop, seat, bus', u: 'Trips, live trip' },
+      { n: 'CardBoardingPass', v: 'ready, validated, expired · offline saved', p: 'qrPayload, seat, busNo, plate, departAt, boardAt, savedAt', u: '13, 12b' },
+      { n: 'TimelineRoute', v: 'done, current (pulse), upcoming, board, alight, terminus', p: 'stops[], currentIndex, boardIndex, alightIndex', u: '10, 14, C5' },
+      { n: 'CardStop', v: 'with photo, placeholder photo', p: 'name, landmark, walkMin, wellLit, sheltered, photo, onDirections', u: '08' },
+      { n: 'CardDriver', v: 'compact, expanded, arriving (avatar pulse)', p: 'name, photo, rating, years, plate, busNo, vehicle, languages, onCall, onChat, onShare', u: '12, C5' },
+      { n: 'PanelEmergency', v: 'collapsed shield, open, SOS holding, SOS sent', p: 'onSOS (hold 2 s), onCallSupport, onShareLocation, onMedical, onPolice, onReport', u: 'Live trip, waiting' },
+      { n: 'CardNotification', v: 'info, arriving (highlight ring)', p: 'icon, title, body, primaryAction, secondaryAction, time', u: '12, C6' },
+      { n: 'Toast', v: 'success, neutral with undo, offline', p: 'message, icon, action, duration (4 s)', u: 'Global' },
+      { n: 'Banner', v: 'info, success, warning, error, offline', p: 'tone, title, body, action', u: '03b, 09, 21' },
+      { n: 'Skeleton', v: 'line, block, departure card, wallet', p: 'shape, width, height', u: 'Loading states' },
+      { n: 'EmptyState', v: 'no trips, empty wallet, no departures, 404', p: 'illustration, title, body, action, suggestions', u: '16b, 17b, 21c' },
+      { n: 'MapStage', v: 'idle, searching (blur), route, booking, active, arriving, completed', p: 'camera, routes[], stops[], buses[], me, theme', u: 'Map screens' }
+    ];
+    return { rows };
+  }
+}
+</script>
+</body>
+</html>

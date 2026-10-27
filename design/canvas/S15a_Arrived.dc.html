@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Arrived</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px">
+  <div class="map" style="top: -50px; left: calc(50% + 100px); transform: scale(0.6); transform-origin: 480px 250px"><img src="{{mapSrc}}" alt="Map of CMS on Lagos Island with your completed route"></div>
+  <svg aria-hidden="true" viewBox="0 0 390 460" style="position: absolute; left: 50%; margin-left: -195px; top: 0; width: 390px; height: 460px">
+    <polyline points="230,560 210,430 195,350 187.2,308 183,248 180,200" fill="none" style="stroke: var(--route-line)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"></polyline>
+    <polyline points="230,560 210,430 195,350 187.2,308 183,248 180,200" fill="none" style="stroke: var(--route-line)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></polyline>
+  </svg>
+  <span class="mk" style="left: calc(50% - 15px); top: 200px; width: 28px; height: 28px; border-radius: 50%; background: var(--action-primary); box-shadow: 0 0 0 6px var(--bg-brand-subtle), 0 0 0 9px var(--bg-surface), var(--elevation-2); display: flex; align-items: center; justify-content: center; color: var(--text-on-brand)"><span class="ic ic-16 ic-flag" aria-hidden="true"></span></span>
+  <span class="mk-label" style="left: calc(50% - 4px); top: 168px">CMS</span>
+
+  <sc-if value="{{done}}" hint-placeholder-val="{{true}}">
+    <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 0 var(--space-16) var(--space-16); display: flex; flex-direction: column; gap: var(--space-12)">
+      <section class="card-hero rise" style="background: var(--bg-surface); display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-24) var(--space-20)">
+        <div style="display: flex; flex-direction: column; gap: var(--space-4)">
+          <p class="t-eyebrow" style="color: var(--text-brand)">Trip complete</p>
+          <h1 class="t-h2">You've arrived at CMS</h1>
+          <p class="t-body t-secondary num">7:56 · 41 min from Chevron · Seat 3B</p>
+        </div>
+        <div style="display: flex; gap: var(--space-8)">
+          <a href="#" class="btn btn-secondary btn-m" style="min-width: 0; flex: 1 1 0"><span class="ic ic-20 ic-file" aria-hidden="true"></span>Receipt</a>
+          <a href="S15b_Rating.dc.html" class="btn btn-secondary btn-m" style="min-width: 0; flex: 1 1 0"><span class="ic ic-20 ic-star" aria-hidden="true"></span>Rate trip</a>
+        </div>
+        <a href="S07_Departures.dc.html" class="card-flat" style="display: flex; align-items: center; gap: var(--space-12); padding: var(--space-12) var(--space-16); color: var(--text-primary); background: var(--bg-sunken); border: 0">
+          <span class="icon-tile brand"><span class="ic ic-20 ic-home" aria-hidden="true"></span></span>
+          <div class="grow"><p class="t-caption t-semibold">Heading home later?</p><p class="t-label t-secondary num">CMS to Chevron · 17:30, 17:45, 18:00</p></div>
+          <span class="ic ic-20 ic-chev-r t-secondary" aria-hidden="true"></span>
+        </a>
+      </section>
+      <a class="btn btn-primary btn-block" href="S05a_Home.dc.html">Done</a>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{rating}}" hint-placeholder-val="{{false}}">
+    <div style="position: absolute; inset: 0; background: var(--bg-scrim)"></div>
+    <div class="sheet" style="position: absolute; left: 0; right: 0; bottom: 0">
+      <div class="sheet-head"><span class="sheet-handle" aria-hidden="true"></span></div>
+      <div style="padding: 0 var(--space-20) var(--space-20); display: flex; flex-direction: column; gap: var(--space-20)">
+        <div style="display: flex; flex-direction: column; gap: var(--space-4)">
+          <h1 class="t-h3">How was your commute today?</h1>
+          <p class="t-caption t-secondary">Chevron to CMS with Tunde · optional, takes a few seconds</p>
+        </div>
+        <div role="radiogroup" aria-label="Rating, 4 of 5" style="display: flex; justify-content: space-between">
+          <sc-for list="{{stars}}" as="s" hint-placeholder-count="5">
+            <button type="button" role="radio" aria-checked="{{s.checked}}" aria-label="{{s.label}}" class="btn btn-icon" style="width: 56px; height: 56px; border-radius: var(--radius-m); box-shadow: none; background: {{s.bg}}; color: {{s.fg}}"><span class="ic ic-32 ic-star" aria-hidden="true"></span></button>
+          </sc-for>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+          <p class="t-caption t-semibold">What stood out?</p>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-8)">
+            <button type="button" class="chip is-selected"><span class="ic ic-16 ic-check" aria-hidden="true"></span>On time</button>
+            <button type="button" class="chip is-selected"><span class="ic ic-16 ic-check" aria-hidden="true"></span>Friendly driver</button>
+            <button type="button" class="chip">Clean bus</button>
+            <button type="button" class="chip">Comfortable</button>
+            <button type="button" class="chip">Smooth ride</button>
+            <button type="button" class="chip">Cool air</button>
+            <button type="button" class="chip">Crowded</button>
+            <button type="button" class="chip">Delayed</button>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+          <button type="button" class="btn btn-primary btn-block">Send feedback</button>
+          <a class="btn btn-tertiary btn-block" href="S05a_Home.dc.html">Not now</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"variant":{"editor":"enum","options":["arrived","rating"],"default":"arrived"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const theme = this.props.theme ?? 'light';
+    const rating = (this.props.variant ?? 'arrived') === 'rating';
+    const stars = [1, 2, 3, 4, 5].map((n) => ({
+      label: n + (n === 1 ? ' star' : ' stars'), checked: n === 4 ? 'true' : 'false',
+      bg: n <= 4 ? 'var(--bg-highlight-subtle)' : 'var(--bg-sunken)', fg: n <= 4 ? 'var(--secondary-600)' : 'var(--text-disabled)'
+    }));
+    return { theme, w: small ? 360 : 390, h: small ? 740 : 844, mapSrc: theme === 'dark' ? './map-night.svg' : './map-light.svg', rating, done: !rating, stars };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+/* Korope design tokens v1.0
+   Names follow the Korope Design Bible: Primary/500 -> --primary-500, Space/16 -> --space-16,
+   Radius/L -> --radius-l, Elevation-3 -> --elevation-3, Type/Body -> --type-body-*.
+   Light is the default. Dark applies with [data-theme="dark"] on any element (or html). */
+
+:root {
+  /* ---------- Primitive colour: Primary (deep emerald) ---------- */
+  --primary-50: #EAFCF1;
+  --primary-100: #D6F6E2;
+  --primary-200: #B3ECCA;
+  --primary-300: #85DAA9;
+  --primary-400: #52BD85;
+  --primary-500: #078754;
+  --primary-600: #046940;
+  --primary-700: #015332;
+  --primary-800: #023E24;
+  --primary-900: #012A17;
+
+  /* ---------- Secondary (warm golden yellow) ---------- */
+  --secondary-50: #FFF9F0;
+  --secondary-100: #FFF2DB;
+  --secondary-200: #FEE4B6;
+  --secondary-300: #FFD486;
+  --secondary-400: #FFC347;
+  --secondary-500: #F5B40E;
+  --secondary-600: #CA9408;
+  --secondary-700: #9D7205;
+  --secondary-800: #765400;
+  --secondary-900: #573D02;
+
+  /* ---------- Accent (sky blue: maps, routes, live tracking) ---------- */
+  --accent-50: #F1F8FE;
+  --accent-100: #DDF0FF;
+  --accent-200: #BDE2FE;
+  --accent-300: #8ACCFE;
+  --accent-400: #4CAEF0;
+  --accent-500: #198ED2;
+  --accent-600: #0372AD;
+  --accent-700: #045B8A;
+  --accent-800: #024469;
+  --accent-900: #012E4A;
+
+  /* ---------- Neutral (green-tinted grey) ---------- */
+  --neutral-0: #FFFFFF;
+  --neutral-50: #F6F9F7;
+  --neutral-100: #EFF3F0;
+  --neutral-200: #E2E5E3;
+  --neutral-300: #CDD3CF;
+  --neutral-400: #A7ACA9;
+  --neutral-500: #7D827E;
+  --neutral-600: #606561;
+  --neutral-700: #474C48;
+  --neutral-800: #303431;
+  --neutral-900: #181C19;
+
+  /* ---------- Dark surfaces (charcoal + deep slate) ---------- */
+  --charcoal-950: #0E1012;
+  --charcoal-900: #131619;
+  --slate-850: #1C2227;
+  --slate-800: #252D33;
+  --slate-700: #313A41;
+  --slate-600: #46515A;
+
+  /* ---------- Functional: Success (fresh green) ---------- */
+  --success-50: #EBFDEA;
+  --success-100: #D7F7D7;
+  --success-200: #B6EDB6;
+  --success-300: #89DB8C;
+  --success-400: #5ABE61;
+  --success-500: #2F9F3D;
+  --success-600: #0E8225;
+  --success-700: #026819;
+  --success-800: #004E10;
+  --success-900: #013609;
+
+  /* ---------- Warning (amber) ---------- */
+  --warning-50: #FEF9F4;
+  --warning-100: #FEF1E3;
+  --warning-200: #FFE2C5;
+  --warning-300: #FFD2A2;
+  --warning-400: #FFB764;
+  --warning-500: #F69E23;
+  --warning-600: #C77C03;
+  --warning-700: #9B5F02;
+  --warning-800: #744703;
+  --warning-900: #573401;
+
+  /* ---------- Error (soft coral red) ---------- */
+  --error-50: #FFF4F2;
+  --error-100: #FFE7E3;
+  --error-200: #FFCFC9;
+  --error-300: #FEABA1;
+  --error-400: #FE7F73;
+  --error-500: #DE5C53;
+  --error-600: #B53D36;
+  --error-700: #932B27;
+  --error-800: #721D1A;
+  --error-900: #520E0D;
+
+  /* ---------- Info ---------- */
+  --info-50: #F2F7FE;
+  --info-100: #E2EEFF;
+  --info-200: #C7DFFE;
+  --info-300: #9DC7FE;
+  --info-400: #63A7FC;
+  --info-500: #4087DE;
+  --info-600: #286CBC;
+  --info-700: #19559A;
+  --info-800: #0E3F77;
+  --info-900: #032B57;
+
+  /* ---------- Spacing (Space/n) ---------- */
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-96: 96px;
+
+  /* ---------- Radius ---------- */
+  --radius-xs: 4px;
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;   /* chips and badges only */
+  --radius-circle: 50%;   /* avatars, icon buttons, map markers */
+
+  /* ---------- Size ---------- */
+  --size-touch-min: 48px;
+  --size-button-l: 56px;
+  --size-button-m: 48px;
+  --size-icon-s: 16px;
+  --size-icon-m: 20px;
+  --size-icon-l: 24px;
+  --size-icon-xl: 32px;
+  --size-nav: 72px;
+
+  /* ---------- Typography: one family, 400/500/600/700 ---------- */
+  --font-family: "Onest", "Instrument Sans", "Roboto", system-ui, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-numeric: tabular-nums;
+
+  --type-display-size: 48px;  --type-display-line: 56px;  --type-display-weight: 700; --type-display-tracking: -0.02em;
+  --type-h1-size: 36px;       --type-h1-line: 44px;       --type-h1-weight: 700;      --type-h1-tracking: -0.02em;
+  --type-h2-size: 30px;       --type-h2-line: 38px;       --type-h2-weight: 700;      --type-h2-tracking: -0.015em;
+  --type-h3-size: 24px;       --type-h3-line: 32px;       --type-h3-weight: 600;      --type-h3-tracking: -0.01em;
+  --type-title-size: 20px;    --type-title-line: 28px;    --type-title-weight: 600;   --type-title-tracking: -0.005em;
+  --type-subtitle-size: 18px; --type-subtitle-line: 26px; --type-subtitle-weight: 500; --type-subtitle-tracking: 0;
+  --type-body-size: 16px;     --type-body-line: 24px;     --type-body-weight: 400;    --type-body-tracking: 0;
+  --type-caption-size: 14px;  --type-caption-line: 20px;  --type-caption-weight: 400; --type-caption-tracking: 0;
+  --type-label-size: 12px;    --type-label-line: 16px;    --type-label-weight: 500;   --type-label-tracking: 0.02em;
+
+  /* ---------- Elevation (soft, paper over glass) ---------- */
+  --elevation-1: 0 1px 2px rgba(18, 28, 22, 0.06), 0 1px 3px rgba(18, 28, 22, 0.08);
+  --elevation-2: 0 2px 4px rgba(18, 28, 22, 0.04), 0 6px 16px rgba(18, 28, 22, 0.08);
+  --elevation-3: 0 4px 8px rgba(18, 28, 22, 0.04), 0 16px 32px rgba(18, 28, 22, 0.10);
+  --elevation-4: 0 8px 16px rgba(18, 28, 22, 0.06), 0 24px 56px rgba(18, 28, 22, 0.16);
+
+  /* ---------- Glass (only search, nav, map controls, FABs, sheet headers) ---------- */
+  --glass-blur: 16px;
+  --glass-saturate: 140%;
+
+  /* ---------- Motion ---------- */
+  --duration-instant: 100ms;   /* press feedback, colour swaps */
+  --duration-fast: 150ms;      /* button press scale 100 > 97 > 100 */
+  --duration-base: 250ms;      /* card expand, chip select, toast */
+  --duration-moderate: 350ms;  /* search expand, sheet snap, screen fade-through */
+  --duration-slow: 600ms;      /* booking confirm sequence total */
+  --duration-ambient: 2400ms;  /* marker breathe, arriving pulse loop */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-settle: cubic-bezier(0.34, 1.2, 0.64, 1);  /* max ~3% overshoot, confirmation card only */
+  --ease-linear: linear;
+
+  /* ---------- Semantic: light ---------- */
+  --bg-canvas: var(--neutral-50);
+  --bg-surface: var(--neutral-0);
+  --bg-surface-raised: var(--neutral-0);
+  --bg-sunken: var(--neutral-100);
+  --bg-glass: rgba(255, 255, 255, 0.78);
+  --bg-scrim: rgba(19, 22, 25, 0.40);
+  --bg-brand: var(--primary-600);
+  --bg-brand-subtle: var(--primary-50);
+  --bg-highlight: var(--secondary-400);
+  --bg-highlight-subtle: var(--secondary-100);
+
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-600);
+  --text-disabled: var(--neutral-400);
+  --text-inverse: var(--neutral-0);
+  --text-brand: var(--primary-600);
+  --text-on-brand: var(--neutral-0);
+  --text-on-highlight: var(--neutral-900);
+  --text-link: var(--primary-600);
+
+  --border-subtle: var(--neutral-100);
+  --border-default: var(--neutral-200);
+  --border-strong: var(--neutral-300);
+  --border-focus: var(--accent-500);
+  --focus-ring: 0 0 0 3px var(--accent-200);
+
+  --action-primary: var(--primary-600);
+  --action-primary-pressed: var(--primary-700);
+  --action-primary-text: var(--neutral-0);
+  --action-secondary-border: var(--primary-600);
+  --action-secondary-text: var(--primary-600);
+  --action-secondary-pressed: var(--primary-50);
+  --action-tertiary-text: var(--primary-600);
+  --action-destructive: var(--error-600);
+  --action-destructive-pressed: var(--error-700);
+  --action-disabled-bg: var(--neutral-100);
+  --action-disabled-text: var(--neutral-400);
+
+  --success-bg: var(--success-50);  --success-border: var(--success-200);  --success-icon: var(--success-600);  --success-text: var(--success-800);
+  --warning-bg: var(--warning-50);  --warning-border: var(--warning-200);  --warning-icon: var(--warning-600);  --warning-text: var(--warning-800);
+  --error-bg: var(--error-50);      --error-border: var(--error-200);      --error-icon: var(--error-600);      --error-text: var(--error-800);
+  --info-bg: var(--info-50);        --info-border: var(--info-200);        --info-icon: var(--info-600);        --info-text: var(--info-800);
+
+  /* Seats */
+  --seat-available-bg: var(--neutral-0);      --seat-available-border: var(--primary-500); --seat-available-text: var(--primary-700);
+  --seat-selected-bg: var(--primary-600);     --seat-selected-text: var(--neutral-0);
+  --seat-held-bg: var(--secondary-100);       --seat-held-border: var(--secondary-600);    --seat-held-text: var(--secondary-800);
+  --seat-reserved-bg: var(--neutral-200);     --seat-reserved-text: var(--neutral-600);
+  --seat-unavailable-bg: var(--neutral-100);  --seat-unavailable-border: var(--neutral-300); --seat-unavailable-text: var(--neutral-500);
+
+  /* Map overlays */
+  --route-line: var(--accent-500);
+  --route-casing: var(--neutral-0);
+  --route-inactive: var(--neutral-400);
+  --bus-marker: var(--primary-600);
+  --bus-marker-ring: var(--secondary-400);
+  --user-location: var(--accent-500);
+  --user-location-halo: rgba(25, 142, 210, 0.18);
+  --stop-marker: var(--neutral-0);
+  --stop-marker-border: var(--neutral-800);
+}
+
+[data-theme="dark"] {
+  --bg-canvas: var(--charcoal-900);
+  --bg-surface: var(--slate-850);
+  --bg-surface-raised: var(--slate-800);
+  --bg-sunken: var(--charcoal-950);
+  --bg-glass: rgba(28, 34, 39, 0.78);
+  --bg-scrim: rgba(0, 0, 0, 0.55);
+  --bg-brand: var(--primary-400);
+  --bg-brand-subtle: rgba(82, 189, 133, 0.14);
+  --bg-highlight: var(--secondary-400);
+  --bg-highlight-subtle: rgba(255, 195, 71, 0.14);
+
+  --text-primary: #F1F4F2;
+  --text-secondary: #A9B2AE;
+  --text-disabled: #67716C;
+  --text-inverse: var(--neutral-900);
+  --text-brand: var(--primary-400);
+  --text-on-brand: var(--neutral-900);
+  --text-on-highlight: var(--neutral-900);
+  --text-link: var(--primary-300);
+
+  --border-subtle: var(--slate-800);
+  --border-default: var(--slate-700);
+  --border-strong: var(--slate-600);
+  --border-focus: var(--accent-400);
+  --focus-ring: 0 0 0 3px rgba(76, 174, 240, 0.35);
+
+  --action-primary: var(--primary-400);
+  --action-primary-pressed: var(--primary-300);
+  --action-primary-text: var(--neutral-900);
+  --action-secondary-border: var(--primary-400);
+  --action-secondary-text: var(--primary-300);
+  --action-secondary-pressed: rgba(82, 189, 133, 0.14);
+  --action-tertiary-text: var(--primary-300);
+  --action-destructive: var(--error-400);
+  --action-destructive-pressed: var(--error-300);
+  --action-disabled-bg: var(--slate-800);
+  --action-disabled-text: #67716C;
+
+  --success-bg: rgba(90, 190, 97, 0.12);  --success-border: rgba(90, 190, 97, 0.32);  --success-icon: var(--success-400);  --success-text: var(--success-300);
+  --warning-bg: rgba(255, 183, 100, 0.12); --warning-border: rgba(255, 183, 100, 0.32); --warning-icon: var(--warning-400); --warning-text: var(--warning-300);
+  --error-bg: rgba(254, 127, 115, 0.12);  --error-border: rgba(254, 127, 115, 0.32);  --error-icon: var(--error-400);  --error-text: var(--error-300);
+  --info-bg: rgba(99, 167, 252, 0.12);    --info-border: rgba(99, 167, 252, 0.32);    --info-icon: var(--info-400);    --info-text: var(--info-300);
+
+  --seat-available-bg: var(--slate-850);     --seat-available-border: var(--primary-400); --seat-available-text: var(--primary-300);
+  --seat-selected-bg: var(--primary-400);    --seat-selected-text: var(--neutral-900);
+  --seat-held-bg: rgba(255, 195, 71, 0.14);  --seat-held-border: var(--secondary-400);    --seat-held-text: var(--secondary-300);
+  --seat-reserved-bg: var(--slate-700);      --seat-reserved-text: #A9B2AE;
+  --seat-unavailable-bg: var(--charcoal-950); --seat-unavailable-border: var(--slate-700); --seat-unavailable-text: #67716C;
+
+  --route-line: var(--accent-400);
+  --route-casing: var(--charcoal-900);
+  --route-inactive: var(--slate-600);
+  --bus-marker: var(--primary-400);
+  --bus-marker-ring: var(--secondary-400);
+  --user-location: var(--accent-400);
+  --user-location-halo: rgba(76, 174, 240, 0.22);
+  --stop-marker: var(--slate-850);
+  --stop-marker-border: #F1F4F2;
+
+  --elevation-1: 0 1px 2px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --elevation-2: 0 2px 6px rgba(0, 0, 0, 0.30), 0 8px 20px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --elevation-3: 0 4px 10px rgba(0, 0, 0, 0.32), 0 18px 36px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --elevation-4: 0 8px 18px rgba(0, 0, 0, 0.36), 0 28px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-moderate: 0ms;
+    --duration-slow: 0ms;
+  }
+}

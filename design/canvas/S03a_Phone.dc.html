@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phone sign-in</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column; padding: var(--space-16) var(--space-24) var(--space-24)">
+  <div style="display: flex; align-items: center; height: 48px">
+    <a class="btn btn-icon" href="S02c_Onboarding.dc.html" aria-label="Back" style="box-shadow: none; background: transparent; margin-left: -12px"><span class="ic ic-back" aria-hidden="true"></span></a>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: var(--space-12); margin-top: var(--space-24)">
+    <svg role="img" aria-label="Korope" viewBox="0 0 48 48" style="width: 48px; height: 48px"><circle cx="13" cy="32" r="6" fill="none" style="stroke: var(--action-primary)" stroke-width="4"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--action-primary)" stroke-width="4" stroke-linecap="round"></path><circle cx="35" cy="16" r="7" style="fill: var(--secondary-400)"></circle></svg>
+    <h1 class="t-h2">What's your phone number?</h1>
+    <p class="t-body t-secondary">We'll text you a 6-digit code. Your driver can also reach you on this number if you're running late.</p>
+  </div>
+  <div class="field" style="margin-top: var(--space-32)">
+    <label class="field-label" for="phone">Phone number</label>
+    <div class="field-control is-focused">
+      <span style="display: flex; align-items: center; gap: var(--space-4); padding-right: var(--space-12); border-right: 1px solid var(--border-default); height: 28px"><span class="t-label t-secondary">NG</span><span class="t-body t-semibold num">+234</span></span>
+      <input id="phone" class="num" inputmode="tel" autocomplete="tel-national" value="803 412 7765" aria-describedby="phone-help">
+    </div>
+    <p class="field-help" id="phone-help">Start with 7, 8 or 9. You can leave out the first 0.</p>
+  </div>
+  <div style="margin-top: auto; display: flex; flex-direction: column; gap: var(--space-12)">
+    <a class="btn btn-primary btn-block" href="S03b_OTP.dc.html">Send code</a>
+    <div style="display: flex; align-items: center; gap: var(--space-12)"><span class="divider" style="flex: 1 1 auto; width: auto"></span><span class="t-caption t-secondary">or</span><span class="divider" style="flex: 1 1 auto; width: auto"></span></div>
+    <button type="button" class="btn btn-secondary btn-block" style="color: var(--text-primary); box-shadow: inset 0 0 0 1.5px var(--border-strong)">
+      <svg aria-hidden="true" viewBox="0 0 24 24" style="width: 20px; height: 20px"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.5-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.7-2.4 3.6v3h3.9c2.2-2.1 3.5-5.2 3.5-8.8z"></path><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1C3.3 21.3 7.3 24 12 24z"></path><path fill="#FBBC05" d="M5.3 14.3c-.3-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3V6.6h-4C.5 8.2 0 10.1 0 12s.5 3.8 1.3 5.4l4-3.1z"></path><path fill="#EA4335" d="M12 4.8c1.8 0 3.4.6 4.6 1.8l3.4-3.4C18 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.3 6.6l4 3.1c.9-2.8 3.6-4.9 6.7-4.9z"></path></svg>
+      Continue with Google
+    </button>
+    <p class="t-label t-secondary" style="text-align: center; margin-top: var(--space-4)">By continuing you agree to Korope's <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    return { theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844 };
+  }
+}
+</script>
+</body>
+</html>

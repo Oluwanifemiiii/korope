@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Waiting for the bus</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px">
+  <div class="map" style="top: -950px; transform: scale(0.7); transform-origin: 700px 1150px"><img src="{{mapSrc}}" alt="Map of bus KR 014 approaching Chevron Roundabout"></div>
+  <svg aria-hidden="true" viewBox="0 0 390 420" style="position: absolute; left: 50%; margin-left: -195px; top: 0; width: 390px; height: 420px">
+    <polyline points="340,360 336.4,333 318.2,266.5 300,200 277.6,123 249.6,25 240,-10" fill="none" style="stroke: var(--route-casing)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <polyline points="340,360 336.4,333 318.2,266.5 300,200 277.6,123 249.6,25 240,-10" fill="none" style="stroke: var(--route-line)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></polyline>
+  </svg>
+  <span class="mk mk-stop" style="left: calc(50% + 141px); top: 333px"></span>
+  <span class="mk mk-stop" style="left: calc(50% + 123px); top: 266px"></span>
+  <span class="mk" style="left: calc(50% + 105px); top: 200px; width: 22px; height: 22px; border-radius: 50%; background: var(--bg-surface); box-shadow: inset 0 0 0 6px var(--action-primary), var(--elevation-2)"></span>
+  <span class="mk-label" style="left: calc(50% + 40px); top: 172px">Chevron</span>
+  <span class="mk mk-me" style="left: calc(50% + 122px); top: 222px"></span>
+  <span class="mk" style="left: {{busX}}; top: {{busY}}px; width: 32px; height: 32px"><sc-if value="{{arriving}}" hint-placeholder-val="{{false}}"><span class="pulse-ring"></span></sc-if><span class="mk-bus is-mine breathe" style="position: relative"><span class="ic ic-16 ic-bus" aria-hidden="true"></span></span></span>
+
+  <div style="position: absolute; left: var(--space-16); right: var(--space-16); top: var(--space-16)">
+    <sc-if value="{{waiting}}" hint-placeholder-val="{{true}}">
+      <article class="card glass" style="display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-16); box-shadow: var(--elevation-3)">
+        <div style="display: flex; gap: var(--space-12); align-items: flex-start">
+          <span class="icon-tile accent"><span class="ic ic-20 ic-bus" aria-hidden="true"></span></span>
+          <div class="grow"><p class="t-body t-semibold">Bus is 2 stops away</p><p class="t-caption t-secondary">Leave now to reach Chevron by 7:12. It's a 2 minute walk.</p></div>
+        </div>
+        <div style="display: flex; gap: var(--space-8)"><button type="button" class="btn btn-primary btn-m" style="min-width: 0"><span class="ic ic-20 ic-nav" aria-hidden="true"></span>Walking directions</button><button type="button" class="btn btn-tertiary btn-m">Dismiss</button></div>
+      </article>
+    </sc-if>
+    <sc-if value="{{arriving}}" hint-placeholder-val="{{false}}">
+      <article class="card glass" style="display: flex; gap: var(--space-12); align-items: center; padding: var(--space-16); box-shadow: inset 0 0 0 2px var(--secondary-400), var(--elevation-3)">
+        <span class="icon-tile highlight"><span class="ic ic-20 ic-bus" aria-hidden="true"></span></span>
+        <div class="grow"><p class="t-body t-semibold">KR 014 is at Chevron</p><p class="t-caption t-secondary">Board now. Tunde is holding seat 3B.</p></div>
+      </article>
+    </sc-if>
+  </div>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column">
+    <div style="display: flex; justify-content: flex-end; padding: 0 var(--space-16) var(--space-12)"><button type="button" class="btn btn-icon glass" aria-label="Safety tools" style="color: var(--error-icon)"><span class="ic ic-shield" aria-hidden="true"></span></button></div>
+    <div class="sheet">
+      <div class="sheet-head" style="padding-bottom: var(--space-4)"><span class="sheet-handle" aria-hidden="true"></span></div>
+      <div style="padding: 0 var(--space-16) var(--space-16); display: flex; flex-direction: column; gap: var(--space-16)">
+        <sc-if value="{{waiting}}" hint-placeholder-val="{{true}}">
+          <div style="display: flex; align-items: flex-end; justify-content: space-between">
+            <div><p class="t-caption t-secondary">Bus arrives at Chevron in about</p><p class="t-h1 num">6 min</p></div>
+            <span class="badge badge-success" style="margin-bottom: var(--space-8)"><span class="ic ic-16 ic-check" aria-hidden="true"></span>On schedule</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{arriving}}" hint-placeholder-val="{{false}}">
+          <a href="S13_Pass.dc.html" class="card" style="display: flex; align-items: center; gap: var(--space-16); padding: var(--space-16); color: var(--text-primary); box-shadow: inset 0 0 0 2px var(--secondary-400), var(--elevation-2); animation: k-fade var(--duration-base) var(--ease-enter) both">
+            <span style="width: 88px; height: 88px; border-radius: var(--radius-m); background: #FFFFFF; box-shadow: inset 0 0 0 1px var(--border-default); display: flex; align-items: center; justify-content: center; color: #181C19; flex: none"><span class="ic ic-32 ic-qr" aria-hidden="true" style="width: 56px; height: 56px"></span></span>
+            <div class="grow"><p class="t-label t-secondary">Boarding pass</p><p class="t-title num">Seat 3B</p><p class="t-caption t-secondary num">KR 014 · EKY 482 XA</p></div>
+            <span class="ic ic-chev-r t-secondary" aria-hidden="true"></span>
+          </a>
+        </sc-if>
+        <div style="display: flex; align-items: center; gap: var(--space-12)">
+          <div style="position: relative; width: 52px; height: 52px; flex: none">
+            <sc-if value="{{arriving}}" hint-placeholder-val="{{false}}"><span class="pulse-ring" style="background: var(--action-primary)"></span></sc-if>
+            <div class="avatar" style="position: relative; width: 52px; height: 52px; font-size: 17px; box-shadow: 0 0 0 3px var(--bg-surface)" role="img" aria-label="Photo of Tunde Adeyemi">TA</div>
+          </div>
+          <div class="grow">
+            <p class="t-body t-semibold" style="display: flex; align-items: center; gap: var(--space-4)">Tunde Adeyemi<span class="ic ic-16 ic-verified t-brand" aria-label="Verified"></span></p>
+            <p class="t-caption t-secondary num" style="display: flex; align-items: center; gap: var(--space-4)"><span class="ic ic-16 ic-star" aria-hidden="true" style="color: var(--secondary-600)"></span>4.8 · White Hiace</p>
+          </div>
+          <div style="text-align: right"><p class="t-body t-bold num" style="letter-spacing: 0.04em">EKY 482 XA</p><p class="t-label t-secondary num">KR 014</p></div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8)">
+          <button type="button" class="btn btn-secondary btn-m" style="min-width: 0; padding: 0"><span class="ic ic-20 ic-phone" aria-hidden="true"></span>Call</button>
+          <button type="button" class="btn btn-secondary btn-m" style="min-width: 0; padding: 0"><span class="ic ic-20 ic-share" aria-hidden="true"></span>Share</button>
+          <button type="button" class="btn btn-secondary btn-m" style="min-width: 0; padding: 0; color: var(--text-secondary); box-shadow: inset 0 0 0 1.5px var(--border-strong)">Cancel</button>
+        </div>
+        <sc-if value="{{waiting}}" hint-placeholder-val="{{true}}">
+          <a class="btn btn-primary btn-block" href="S13_Pass.dc.html"><span class="ic ic-20 ic-qr" aria-hidden="true"></span>Boarding pass</a>
+        </sc-if>
+        <sc-if value="{{arriving}}" hint-placeholder-val="{{false}}">
+          <a class="btn btn-highlight btn-block" href="S13_Pass.dc.html"><span class="ic ic-20 ic-qr" aria-hidden="true"></span>Show boarding pass</a>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"variant":{"editor":"enum","options":["waiting","arriving"],"default":"waiting"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const theme = this.props.theme ?? 'light';
+    const arriving = (this.props.variant ?? 'waiting') === 'arriving';
+    return {
+      theme, w: small ? 360 : 390, h: small ? 740 : 844, mapSrc: theme === 'dark' ? './map-night.svg' : './map-light.svg',
+      arriving, waiting: !arriving, busX: arriving ? 'calc(50% + 110px)' : 'calc(50% + 136px)', busY: arriving ? 212 : 312
+    };
+  }
+}
+</script>
+</body>
+</html>

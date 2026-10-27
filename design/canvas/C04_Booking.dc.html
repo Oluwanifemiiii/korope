@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Booking components</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1240px; padding: var(--space-48) var(--space-64); display: flex; flex-direction: column; gap: var(--space-24); background: var(--neutral-100)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Components · Card/Departure · SeatMap · Card/Fare · Card/Wallet</p>
+      <h2 class="t-h2">Choosing, seating, paying</h2>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: 390px 400px minmax(0, 1fr); gap: var(--space-32); flex: 1 1 auto">
+
+    <div style="display: flex; flex-direction: column; gap: var(--space-16)">
+      <p class="doc-label">Card/Departure · Recommended, Default, AlmostFull</p>
+      <sc-for list="{{deps}}" as="d" hint-placeholder-count="3">
+        <article class="card" style="display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-16) var(--space-20); box-shadow: {{d.ring}}">
+          <sc-if value="{{d.rec}}" hint-placeholder-val="{{false}}">
+            <div style="display: flex; gap: var(--space-8); align-items: center"><span class="badge badge-highlight">Recommended</span><span class="t-label t-secondary">Leaves soonest with seats to spare</span></div>
+          </sc-if>
+          <div style="display: flex; align-items: baseline; gap: var(--space-12)">
+            <span class="t-h3 num">{{d.dep}}</span>
+            <span class="ic ic-16 ic-arrow-r t-secondary" aria-hidden="true"></span>
+            <span class="t-subtitle num t-secondary">{{d.arr}}</span>
+            <span class="t-title num" style="margin-left: auto">{{d.fare}}</span>
+          </div>
+          <p class="t-caption">{{d.route}}</p>
+          <div style="display: flex; gap: var(--space-16); flex-wrap: wrap">
+            <span class="t-caption t-secondary num" style="display: flex; gap: var(--space-4); align-items: center"><span class="ic ic-16 ic-bus" aria-hidden="true"></span>{{d.eta}}</span>
+            <span class="t-caption t-secondary num" style="display: flex; gap: var(--space-4); align-items: center"><span class="ic ic-16 ic-clock" aria-hidden="true"></span>{{d.journey}}</span>
+            <span class="t-caption t-secondary num" style="display: flex; gap: var(--space-4); align-items: center"><span class="ic ic-16 ic-pin" aria-hidden="true"></span>{{d.stops}}</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between"><span class="{{d.seatCls}}">{{d.seats}}</span><span class="t-caption t-brand t-semibold" style="display: flex; align-items: center; gap: var(--space-4)">Choose seat<span class="ic ic-16 ic-chev-r" aria-hidden="true"></span></span></div>
+        </article>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: var(--space-16)">
+      <p class="doc-label">SeatMap · 14-seat minibus</p>
+      <section class="card" style="display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-24)">
+        <div style="align-self: center; width: 260px; border-radius: 40px 40px var(--radius-l) var(--radius-l); box-shadow: inset 0 0 0 2px var(--border-default); padding: var(--space-20) var(--space-20) var(--space-24); display: flex; flex-direction: column; gap: var(--space-12); background: var(--bg-canvas)">
+          <div style="display: grid; grid-template-columns: repeat(4, 48px); justify-content: space-between; align-items: center">
+            <span style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary)" aria-label="Driver"><span class="ic ic-wheel" aria-hidden="true"></span></span>
+            <span></span>
+            <sc-for list="{{front}}" as="s" hint-placeholder-count="2"><button type="button" class="seat {{s.cls}}" style="width: 48px; height: 48px" aria-label="{{s.aria}}"><sc-if value="{{s.icon}}" hint-placeholder-val="{{false}}"><span class="ic ic-16 ic-{{s.icon}}" aria-hidden="true"></span></sc-if><span>{{s.id}}</span></button></sc-for>
+          </div>
+          <div style="height: 1px; background: var(--border-default); margin: 0 calc(var(--space-8) * -1)"></div>
+          <sc-for list="{{rows}}" as="r" hint-placeholder-count="4">
+            <div style="display: grid; grid-template-columns: repeat(4, 48px); justify-content: space-between">
+              <sc-for list="{{r}}" as="s" hint-placeholder-count="4">
+                <sc-if value="{{s.aisle}}" hint-placeholder-val="{{false}}"><span></span></sc-if>
+                <sc-if value="{{s.seat}}" hint-placeholder-val="{{true}}"><button type="button" class="seat {{s.cls}}" style="width: 48px; height: 48px" aria-label="{{s.aria}}"><sc-if value="{{s.icon}}" hint-placeholder-val="{{false}}"><span class="ic ic-16 ic-{{s.icon}}" aria-hidden="true"></span></sc-if><span>{{s.id}}</span></button></sc-if>
+              </sc-for>
+            </div>
+          </sc-for>
+          <div style="display: flex; justify-content: flex-end"><span class="t-label t-secondary" style="display: flex; align-items: center; gap: var(--space-4)"><span class="ic ic-16 ic-door" aria-hidden="true"></span>Door</span></div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-12)">
+          <div style="display: flex; align-items: center; gap: var(--space-8)"><span class="seat seat-available" style="width: 28px; height: 28px"></span><span class="t-caption">Available</span></div>
+          <div style="display: flex; align-items: center; gap: var(--space-8)"><span class="seat seat-selected" style="width: 28px; height: 28px"><span class="ic ic-16 ic-check" aria-hidden="true"></span></span><span class="t-caption">Your seat</span></div>
+          <div style="display: flex; align-items: center; gap: var(--space-8)"><span class="seat seat-held" style="width: 28px; height: 28px"><span class="ic ic-16 ic-timer" aria-hidden="true"></span></span><span class="t-caption">Being reserved</span></div>
+          <div style="display: flex; align-items: center; gap: var(--space-8)"><span class="seat seat-reserved" style="width: 28px; height: 28px"><span class="ic ic-16 ic-user" aria-hidden="true"></span></span><span class="t-caption">Reserved</span></div>
+          <div style="display: flex; align-items: center; gap: var(--space-8)"><span class="seat seat-unavailable" style="width: 28px; height: 28px"><span class="ic ic-16 ic-x" aria-hidden="true"></span></span><span class="t-caption">Unavailable</span></div>
+        </div>
+        <p class="t-caption t-secondary">Each state differs in fill, outline style and glyph, so it survives greyscale and colour blindness. Tapping a taken seat nudges it 4 px left and right once (Duration/Base) and announces why.</p>
+      </section>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: var(--space-16)">
+      <p class="doc-label">Card/Fare</p>
+      <section class="card" style="display: flex; flex-direction: column; gap: var(--space-12)">
+        <div style="display: flex; justify-content: space-between"><span class="t-body">Seat fare, Chevron to CMS</span><span class="t-body num">₦1,400</span></div>
+        <div style="display: flex; justify-content: space-between"><span class="t-body">Service fee</span><span class="t-body num">₦100</span></div>
+        <div style="display: flex; justify-content: space-between; color: var(--success-text)"><span class="t-body">Korope Rewards</span><span class="t-body num">−₦0 · none applied</span></div>
+        <div class="divider"></div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline"><span class="t-subtitle t-semibold">Total</span><span class="t-h3 num">₦1,500</span></div>
+        <p class="t-caption t-secondary">Fixed when you reserve. If the fare changes before you pay, we tell you why first.</p>
+      </section>
+
+      <p class="doc-label" style="margin-top: var(--space-8)">Card/Wallet · light and dark</p>
+      <sc-for list="{{wallets}}" as="w" hint-placeholder-count="2">
+        <section data-theme="{{w.t}}" class="card-hero" style="position: relative; overflow: hidden; color: var(--neutral-0); background: {{w.bg}}; display: flex; flex-direction: column; gap: var(--space-16)">
+          <svg aria-hidden="true" viewBox="0 0 300 160" preserveAspectRatio="none" style="position: absolute; right: 0; top: 0; width: 60%; height: 100%; opacity: 0.22"><path d="M0 140h80a24 24 0 0 0 24-24V70a24 24 0 0 1 24-24h172" fill="none" stroke="#B3ECCA" stroke-width="2"></path><circle cx="104" cy="94" r="5" fill="#B3ECCA"></circle></svg>
+          <div style="display: flex; justify-content: space-between; align-items: center; position: relative"><span class="t-caption" style="color: var(--primary-100)">Wallet balance</span><span class="t-label" style="color: var(--primary-100)">Last top-up ₦5,000 · Mon</span></div>
+          <p class="t-display num" style="position: relative">₦4,250</p>
+          <div style="display: flex; gap: var(--space-12); position: relative">
+            <button type="button" class="btn btn-highlight btn-m"><span class="ic ic-20 ic-plus" aria-hidden="true"></span>Add money</button>
+            <span class="t-caption" style="color: var(--primary-100); align-self: center">Enough for 2 trips to CMS</span>
+          </div>
+        </section>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  seat(id, st) {
+    const map = {
+      a: { cls: 'seat-available', aria: 'available' },
+      s: { cls: 'seat-selected', aria: 'your seat', icon: 'check' },
+      h: { cls: 'seat-held', aria: 'being reserved by someone else', icon: 'timer' },
+      r: { cls: 'seat-reserved', aria: 'reserved', icon: 'user' },
+      u: { cls: 'seat-unavailable', aria: 'unavailable', icon: 'x' }
+    };
+    const m = map[st];
+    return { seat: true, id, cls: m.cls, icon: m.icon, aria: 'Seat ' + id + ', ' + m.aria };
+  }
+  renderVals() {
+    const A = { aisle: true };
+    const front = [this.seat('1A', 'r'), this.seat('1B', 'a')];
+    const rows = [
+      [this.seat('2A', 'r'), this.seat('2B', 'h'), A, this.seat('2C', 'a')],
+      [this.seat('3A', 'a'), this.seat('3B', 's'), A, this.seat('3C', 'r')],
+      [this.seat('4A', 'u'), this.seat('4B', 'a'), A, this.seat('4C', 'r')],
+      [this.seat('5A', 'a'), this.seat('5B', 'r'), A, this.seat('5C', 'a')]
+    ];
+    const deps = [
+      { rec: true, ring: 'inset 0 0 0 2px var(--primary-600), var(--elevation-2)', dep: '7:15', arr: '7:57', fare: '₦1,500', route: 'Chevron to CMS · via Lekki Phase 1, Ahmadu Bello Way', eta: 'At Chevron in 9 min', journey: '42 min', stops: '6 stops', seats: '6 seats left', seatCls: 'badge badge-brand' },
+      { rec: false, ring: 'var(--elevation-2)', dep: '7:30', arr: '8:08', fare: '₦1,800', route: 'Lekki Phase 1 to CMS Express · via Falomo', eta: 'At Chevron in 24 min', journey: '38 min', stops: '3 stops', seats: '11 seats left', seatCls: 'badge badge-brand' },
+      { rec: false, ring: 'var(--elevation-2)', dep: '7:45', arr: '8:37', fare: '₦1,400', route: 'Chevron to Marina · all stops', eta: 'At Chevron in 39 min', journey: '52 min', stops: '8 stops', seats: '2 seats left', seatCls: 'badge badge-warning' }
+    ];
+    return { front, rows, deps, wallets: [{ t: 'light', bg: 'linear-gradient(140deg, var(--primary-600), var(--primary-800))' }, { t: 'dark', bg: 'linear-gradient(140deg, var(--primary-800), var(--slate-850))' }] };
+  }
+}
+</script>
+</body>
+</html>

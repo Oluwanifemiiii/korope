@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Verify phone</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column; padding: var(--space-16) var(--space-24) var(--space-24)">
+  <div style="display: flex; align-items: center; height: 48px">
+    <a class="btn btn-icon" href="S03a_Phone.dc.html" aria-label="Back" style="box-shadow: none; background: transparent; margin-left: -12px"><span class="ic ic-back" aria-hidden="true"></span></a>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: var(--space-12); margin-top: var(--space-24)">
+    <h1 class="t-h2">Enter the 6-digit code</h1>
+    <p class="t-body t-secondary">Sent by SMS to <span class="t-semibold num" style="color: var(--text-primary)">+234 803 412 7765</span></p>
+    <a href="S03a_Phone.dc.html" class="t-body t-semibold" style="align-self: flex-start; min-height: 32px; display: flex; align-items: center">Change number</a>
+  </div>
+  <div role="group" aria-label="Verification code, 3 of 6 digits entered" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--space-8); margin-top: var(--space-32)">
+    <span class="otp-cell is-filled" style="width: auto">4</span><span class="otp-cell is-filled" style="width: auto">8</span><span class="otp-cell is-filled" style="width: auto">1</span><span class="otp-cell is-active" style="width: auto"><span class="caret"></span></span><span class="otp-cell" style="width: auto"></span><span class="otp-cell" style="width: auto"></span>
+  </div>
+  <div style="display: flex; align-items: center; gap: var(--space-8); margin-top: var(--space-20)">
+    <span class="ic ic-16 ic-clock t-secondary" aria-hidden="true"></span>
+    <p class="t-caption t-secondary">Resend code in <span class="num t-semibold" style="color: var(--text-primary)">0:42</span></p>
+  </div>
+  <div class="banner banner-info" style="margin-top: var(--space-24)">
+    <span class="ic ic-20 ic-info" aria-hidden="true" style="color: var(--info-icon)"></span>
+    <span>On most Android phones the code fills in by itself when the SMS arrives.</span>
+  </div>
+  <div style="margin-top: auto; display: flex; flex-direction: column; gap: var(--space-8)">
+    <button type="button" class="btn btn-primary btn-block is-disabled" disabled="">Verify</button>
+    <button type="button" class="btn btn-tertiary btn-block is-disabled" disabled="">Resend by SMS</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    return { theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844 };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Typography</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Instrument+Sans:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1400px; padding: var(--space-64); display: flex; flex-direction: column; gap: var(--space-32)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Typography</p>
+      <h2 class="t-h2">One family, four weights</h2>
+    </div>
+    <p class="t-caption t-secondary" style="max-width: 560px">Three Google-hosted candidates so engineering can self-host with next/font (General Sans and Satoshi live on Fontshare and can't be bundled the same way). Each sample below renders live: check the ₦ glyph and the tabular columns line up.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-24)">
+    <sc-for list="{{cands}}" as="c" hint-placeholder-count="3">
+      <section class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-24); box-shadow: {{c.ring}}; font-family: {{c.stack}}">
+        <div style="display: flex; justify-content: space-between; align-items: center"><p class="t-title">{{c.name}}</p><span class="{{c.badgeClass}}">{{c.badge}}</span></div>
+        <p style="font-size: 72px; line-height: 72px; font-weight: 600; letter-spacing: -0.03em">Aa ₦</p>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-12)">
+          <div style="display: flex; flex-direction: column; gap: 2px; padding: var(--space-12); border-radius: var(--radius-m); background: var(--bg-canvas)">
+            <span class="t-label t-secondary">Proportional</span>
+            <span style="font-size: 20px; line-height: 28px; font-weight: 600; text-align: right; font-variant-numeric: proportional-nums">₦1,500</span>
+            <span style="font-size: 20px; line-height: 28px; font-weight: 600; text-align: right; font-variant-numeric: proportional-nums">₦11,250</span>
+            <span style="font-size: 20px; line-height: 28px; font-weight: 600; text-align: right; font-variant-numeric: proportional-nums">4:11</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 2px; padding: var(--space-12); border-radius: var(--radius-m); background: var(--bg-brand-subtle)">
+            <span class="t-label t-brand">Tabular (tnum)</span>
+            <span style="font-size: 20px; line-height: 28px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums">₦1,500</span>
+            <span style="font-size: 20px; line-height: 28px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums">₦11,250</span>
+            <span style="font-size: 20px; line-height: 28px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums">4:11</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-4)">
+          <span class="t-label t-secondary">12 px · 500</span>
+          <p style="font-size: 12px; line-height: 16px; font-weight: 500">Board at Chevron Roundabout, beside Access Bank. Seat 3B · KR 014 · EKY 482 XA · 7:15</p>
+          <span class="t-label t-secondary" style="margin-top: var(--space-8)">16 px · 400</span>
+          <p style="font-size: 16px; line-height: 24px">Your bus is 2 stops away. Leave now to reach Chevron by 7:12.</p>
+        </div>
+        <p class="t-caption t-secondary" style="margin-top: auto; font-family: var(--font-family)">{{c.note}}</p>
+      </section>
+    </sc-for>
+  </div>
+
+  <section class="card-flat" style="padding: var(--space-32); display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-40)">
+    <div style="display: flex; flex-direction: column">
+      <p class="doc-label" style="margin-bottom: var(--space-8)">Type scale · Onest</p>
+      <sc-for list="{{scale}}" as="s" hint-placeholder-count="9">
+        <div style="display: grid; grid-template-columns: 140px 170px minmax(0, 1fr); align-items: baseline; gap: var(--space-16); padding: var(--space-8) 0; border-bottom: 1px solid var(--border-subtle)">
+          <span class="t-caption t-semibold">{{s.token}}</span>
+          <span class="t-label t-secondary num">{{s.spec}}</span>
+          <span class="{{s.cls}}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{s.sample}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: var(--space-16)">
+      <p class="doc-label">Rules</p>
+      <ul style="display: flex; flex-direction: column; gap: var(--space-12)">
+        <li class="t-caption" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-check t-brand" aria-hidden="true" style="margin-top: 2px"></span>Weights 400, 500, 600, 700 only. Load exactly these four.</li>
+        <li class="t-caption" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-check t-brand" aria-hidden="true" style="margin-top: 2px"></span>Every fare, time, ETA, countdown and seat number uses tabular-nums so digits never jump.</li>
+        <li class="t-caption" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-check t-brand" aria-hidden="true" style="margin-top: 2px"></span>Nothing below 12 px. Labels at 12 px are 500 or heavier.</li>
+        <li class="t-caption" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-check t-brand" aria-hidden="true" style="margin-top: 2px"></span>Naira is written ₦1,500: no space, comma thousands, no kobo unless non-zero.</li>
+        <li class="t-caption" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-check t-brand" aria-hidden="true" style="margin-top: 2px"></span>Sizes in rem from these px values so Android font scaling works.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const chosen = 'inset 0 0 0 2px var(--primary-600)';
+    const plain = 'inset 0 0 0 1px var(--border-default)';
+    const cands = [
+      { name: 'Onest', stack: '"Onest", sans-serif', ring: chosen, badge: 'Chosen', badgeClass: 'badge badge-brand', note: 'Large x-height and open apertures hold up at 12 px in sun glare. Softly rounded terminals match the shape language without looking playful.' },
+      { name: 'Hanken Grotesk', stack: '"Hanken Grotesk", sans-serif', ring: plain, badge: 'Runner-up', badgeClass: 'badge badge-neutral', note: 'Very even and legible, but its neutrality edges toward the default grotesk look we want to avoid.' },
+      { name: 'Instrument Sans', stack: '"Instrument Sans", sans-serif', ring: plain, badge: 'Fallback', badgeClass: 'badge badge-neutral', note: 'Crisp and characterful at display sizes; slightly narrower body copy is less comfortable outdoors at 12 to 14 px.' }
+    ];
+    const scale = [
+      { token: 'Type/Display', spec: '48 / 56 · 700', cls: 't-display', sample: '₦18,450' },
+      { token: 'Type/H1', spec: '36 / 44 · 700', cls: 't-h1', sample: 'You have arrived' },
+      { token: 'Type/H2', spec: '30 / 38 · 700', cls: 't-h2', sample: 'Departs Chevron 7:15' },
+      { token: 'Type/H3', spec: '24 / 32 · 600', cls: 't-h3', sample: 'Seat held for 4:58' },
+      { token: 'Type/Title', spec: '20 / 28 · 600', cls: 't-title', sample: 'Chevron to CMS' },
+      { token: 'Type/Subtitle', spec: '18 / 26 · 500', cls: 't-subtitle', sample: 'Bus is 2 stops away' },
+      { token: 'Type/Body', spec: '16 / 24 · 400', cls: 't-body', sample: 'Walk 2 minutes to the pickup zone beside Access Bank.' },
+      { token: 'Type/Caption', spec: '14 / 20 · 400', cls: 't-caption', sample: '6 seats left · 7 stops · 42 min' },
+      { token: 'Type/Label', spec: '12 / 16 · 500', cls: 't-label', sample: 'RECOMMENDED · KR 014 · EKY 482 XA' }
+    ];
+    return { cands, scale };
+  }
+}
+</script>
+</body>
+</html>

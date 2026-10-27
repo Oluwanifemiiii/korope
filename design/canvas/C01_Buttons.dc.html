@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Buttons</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1240px; padding: var(--space-64); display: flex; flex-direction: column; gap: var(--space-24); background: var(--neutral-100)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Component · Button</p>
+      <h2 class="t-h2">Four weights, seven states</h2>
+    </div>
+    <div style="display: flex; gap: var(--space-8); flex-wrap: wrap; justify-content: flex-end; max-width: 640px"><span class="anno">Height 56 · M 48</span><span class="anno">Radius/M</span><span class="anno">Padding Space/24</span><span class="anno">Label 16 / 600</span><span class="anno">Press scale 0.97 · Duration/Fast · Ease/Standard</span></div>
+  </div>
+  <sc-for list="{{themes}}" as="th" hint-placeholder-count="2">
+    <section data-theme="{{th.id}}" class="k" style="border-radius: var(--radius-xl); background: var(--bg-surface); padding: var(--space-24) var(--space-32); display: flex; flex-direction: column; gap: var(--space-12)">
+      <div style="display: grid; grid-template-columns: 120px repeat(7, minmax(0, 1fr)); gap: var(--space-12); align-items: center">
+        <span class="t-label t-secondary">{{th.name}}</span>
+        <sc-for list="{{states}}" as="s" hint-placeholder-count="7"><span class="t-label t-secondary">{{s}}</span></sc-for>
+      </div>
+      <sc-for list="{{th.rows}}" as="r" hint-placeholder-count="4">
+        <div style="display: grid; grid-template-columns: 120px repeat(7, minmax(0, 1fr)); gap: var(--space-12); align-items: center">
+          <span class="t-caption t-semibold">{{r.name}}</span>
+          <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="7">
+            <button type="button" class="{{c.cls}}" style="min-width: 0; width: 100%; padding: 0 var(--space-12)">
+              <sc-if value="{{c.spin}}" hint-placeholder-val="{{false}}"><span class="ring-spinner" aria-hidden="true"></span></sc-if>
+              <sc-if value="{{c.ok}}" hint-placeholder-val="{{false}}"><span class="ic ic-20 ic-check" aria-hidden="true"></span></sc-if>
+              <sc-if value="{{c.err}}" hint-placeholder-val="{{false}}"><span class="ic ic-20 ic-refresh" aria-hidden="true"></span></sc-if>
+              <span>{{c.label}}</span>
+            </button>
+          </sc-for>
+        </div>
+      </sc-for>
+    </section>
+  </sc-for>
+  <section class="card-flat" style="display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-32); padding: var(--space-24) var(--space-32)">
+    <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+      <p class="doc-label">Full width, bottom third</p>
+      <button type="button" class="btn btn-primary btn-block">Reserve my seat · ₦1,500</button>
+      <button type="button" class="btn btn-secondary btn-block">Edit journey</button>
+      <p class="t-caption t-secondary">One primary per screen, pinned in thumb reach with Space/16 above the safe area. Secondary sits under it, never beside it on 360 px phones.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+      <p class="doc-label">Sizes</p>
+      <div style="display: flex; gap: var(--space-12); align-items: center"><button type="button" class="btn btn-primary">Continue</button><span class="t-label t-secondary">L · 56</span></div>
+      <div style="display: flex; gap: var(--space-12); align-items: center"><button type="button" class="btn btn-primary btn-m">Add ₦600</button><span class="t-label t-secondary">M · 48, inline</span></div>
+      <div style="display: flex; gap: var(--space-12); align-items: center"><button type="button" class="btn btn-highlight btn-m"><span class="ic ic-20 ic-qr" aria-hidden="true"></span>Show pass</button><span class="t-label t-secondary">Highlight, boarding only</span></div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+      <p class="doc-label">Icon buttons · 48 x 48</p>
+      <div style="display: flex; gap: var(--space-12); flex-wrap: wrap; padding: var(--space-12); border-radius: var(--radius-l); background: var(--accent-50)">
+        <button type="button" class="btn btn-icon glass" aria-label="Centre on my location"><span class="ic ic-locate" aria-hidden="true"></span></button>
+        <button type="button" class="btn btn-icon glass" aria-label="Notifications"><span class="ic ic-bell" aria-hidden="true"></span></button>
+        <button type="button" class="btn btn-icon glass" aria-label="Share trip"><span class="ic ic-share" aria-hidden="true"></span></button>
+        <button type="button" class="btn btn-icon" aria-label="Safety" style="color: var(--error-icon)"><span class="ic ic-shield" aria-hidden="true"></span></button>
+        <button type="button" class="btn btn-icon is-pressed" aria-label="Back" style="background: var(--bg-sunken)"><span class="ic ic-back" aria-hidden="true"></span></button>
+      </div>
+      <p class="t-caption t-secondary">Glass only over the map. Each carries an aria-label.</p>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const states = ['Default', 'Pressed', 'Focused', 'Loading', 'Disabled', 'Success', 'Error'];
+    const kinds = [
+      { name: 'Primary', base: 'btn btn-primary', label: 'Reserve seat', loading: 'Reserving', done: 'Reserved' },
+      { name: 'Secondary', base: 'btn btn-secondary', label: 'Add money', loading: 'Opening', done: 'Added' },
+      { name: 'Tertiary', base: 'btn btn-tertiary', label: 'Edit journey', loading: 'Loading', done: 'Saved' },
+      { name: 'Destructive', base: 'btn btn-destructive', label: 'Cancel trip', loading: 'Cancelling', done: 'Cancelled' }
+    ];
+    const mk = (k) => ({
+      name: k.name,
+      cells: [
+        { cls: k.base, label: k.label },
+        { cls: k.base + ' is-pressed', label: k.label },
+        { cls: k.base + ' is-focused', label: k.label },
+        { cls: k.base, label: k.loading, spin: true },
+        { cls: k.base + ' is-disabled', label: k.label },
+        { cls: k.base + ' is-success', label: k.done, ok: true },
+        { cls: k.base + ' is-error', label: 'Try again', err: true }
+      ]
+    });
+    const rows = kinds.map(mk);
+    return { states, themes: [{ id: 'light', name: 'Light', rows }, { id: 'dark', name: 'Dark', rows }] };
+  }
+}
+</script>
+</body>
+</html>

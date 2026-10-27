@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Add money</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column">
+
+  <sc-if value="{{isAmount}}" hint-placeholder-val="{{true}}">
+    <div style="display: flex; align-items: center; gap: var(--space-8); padding: var(--space-16) var(--space-16) var(--space-8)">
+      <a class="btn btn-icon" href="S17a_Wallet.dc.html" aria-label="Back to wallet" style="box-shadow: none; background: transparent"><span class="ic ic-back" aria-hidden="true"></span></a>
+      <h1 class="t-title">Add money</h1>
+    </div>
+    <div style="flex: 1 1 auto; padding: var(--space-16) var(--space-16) 0; display: flex; flex-direction: column; gap: var(--space-24)">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8); padding: var(--space-24) 0">
+        <label class="t-caption t-secondary" for="amt">Amount</label>
+        <div style="display: flex; align-items: baseline; gap: var(--space-4)"><span class="t-h2 t-secondary">₦</span><input id="amt" class="num" inputmode="numeric" value="5,000" style="width: 180px; border: 0; outline: 0; background: transparent; font-size: 48px; line-height: 56px; font-weight: 700; color: var(--text-primary); text-align: left; letter-spacing: -0.02em"></div>
+        <p class="t-caption t-secondary num">Balance ₦4,250 · ₦9,250 after</p>
+      </div>
+      <div role="radiogroup" aria-label="Quick amounts" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-8)">
+        <button type="button" role="radio" aria-checked="false" class="chip num" style="justify-content: center; padding: 0; height: 48px">₦1,500</button>
+        <button type="button" role="radio" aria-checked="false" class="chip num" style="justify-content: center; padding: 0; height: 48px">₦3,000</button>
+        <button type="button" role="radio" aria-checked="true" class="chip is-selected num" style="justify-content: center; padding: 0; height: 48px">₦5,000</button>
+        <button type="button" role="radio" aria-checked="false" class="chip num" style="justify-content: center; padding: 0; height: 48px">₦10,000</button>
+      </div>
+      <div class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-16)">
+        <p class="t-caption t-semibold">Pay with any of these on the next step</p>
+        <div style="display: flex; gap: var(--space-16); flex-wrap: wrap">
+          <span class="t-caption t-secondary" style="display: flex; align-items: center; gap: var(--space-8)"><span class="ic ic-20 ic-card" aria-hidden="true"></span>Card</span>
+          <span class="t-caption t-secondary" style="display: flex; align-items: center; gap: var(--space-8)"><span class="ic ic-20 ic-bank" aria-hidden="true"></span>Bank transfer</span>
+          <span class="t-caption t-secondary" style="display: flex; align-items: center; gap: var(--space-8)"><span class="ic ic-20 ic-hash" aria-hidden="true"></span>USSD</span>
+        </div>
+      </div>
+    </div>
+    <div style="padding: var(--space-16)"><a class="btn btn-primary btn-block" href="S18b_Add_Paystack.dc.html">Continue · ₦5,000</a></div>
+  </sc-if>
+
+  <sc-if value="{{isPaystack}}" hint-placeholder-val="{{false}}">
+    <div style="display: flex; align-items: center; gap: var(--space-8); padding: var(--space-16) var(--space-16) var(--space-8)">
+      <a class="btn btn-icon" href="S18a_Add_Amount.dc.html" aria-label="Back to amount" style="box-shadow: none; background: transparent"><span class="ic ic-back" aria-hidden="true"></span></a>
+    </div>
+    <div style="flex: 1 1 auto; padding: 0 var(--space-24); display: flex; flex-direction: column; justify-content: center; gap: var(--space-24)">
+      <span style="width: 72px; height: 72px; border-radius: var(--radius-l); background: var(--bg-brand-subtle); color: var(--text-brand); display: flex; align-items: center; justify-content: center"><span class="ic ic-32 ic-lock" aria-hidden="true"></span></span>
+      <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+        <h1 class="t-h2">You'll complete payment securely with Paystack</h1>
+        <p class="t-body t-secondary">We'll open Paystack's secure page, where you choose card, bank transfer or USSD. When it's done you come straight back here and your balance updates.</p>
+      </div>
+      <div class="card-flat" style="padding: var(--space-16); display: flex; flex-direction: column; gap: var(--space-8)">
+        <div style="display: flex; justify-content: space-between"><span class="t-caption t-secondary">Adding to Korope wallet</span><span class="t-subtitle t-semibold num">₦5,000</span></div>
+        <div style="display: flex; justify-content: space-between"><span class="t-caption t-secondary">New balance</span><span class="t-caption num">₦9,250</span></div>
+      </div>
+      <p class="t-caption t-secondary" style="display: flex; gap: var(--space-8)"><span class="ic ic-16 ic-shield-check" aria-hidden="true" style="margin-top: 2px"></span>Korope never sees or stores your card or bank details.</p>
+    </div>
+    <div style="padding: var(--space-16); display: flex; flex-direction: column; gap: var(--space-8)">
+      <a class="btn btn-primary btn-block" href="S18c_Add_Success.dc.html">Continue to Paystack<span class="ic ic-20 ic-up-right" aria-hidden="true"></span></a>
+      <a class="btn btn-tertiary btn-block" href="S17a_Wallet.dc.html">Cancel</a>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{isSuccess}}" hint-placeholder-val="{{false}}">
+    <div style="flex: 1 1 auto; padding: var(--space-48) var(--space-16) 0; display: flex; flex-direction: column; gap: var(--space-32)">
+      <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-12)">
+        <span style="width: 56px; height: 56px; border-radius: 50%; background: var(--success-bg); color: var(--success-icon); display: flex; align-items: center; justify-content: center"><span class="ic ic-check" aria-hidden="true"></span></span>
+        <h1 class="t-h2">₦5,000 added</h1>
+        <p class="t-body t-secondary">Bank transfer via Paystack · receipt in Wallet</p>
+      </div>
+      <section class="card-hero" style="position: relative; overflow: hidden; color: var(--neutral-0); background: linear-gradient(140deg, var(--primary-600), var(--primary-800)); display: flex; flex-direction: column; gap: var(--space-8)">
+        <span class="sheen" aria-hidden="true"></span>
+        <p class="t-caption" style="color: var(--primary-100); position: relative">Available balance</p>
+        <p class="t-display num" style="position: relative" aria-live="polite">{{shown}}</p>
+        <p class="t-caption" style="color: var(--primary-100); position: relative">Enough for 6 trips to CMS</p>
+      </section>
+    </div>
+    <div style="padding: var(--space-16); display: flex; flex-direction: column; gap: var(--space-8)">
+      <a class="btn btn-primary btn-block" href="S10a_Confirm.dc.html">Back to your booking</a>
+      <a class="btn btn-tertiary btn-block" href="S17a_Wallet.dc.html">Go to wallet</a>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"step":{"editor":"enum","options":["amount","paystack","success"],"default":"amount"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { v: 9250 }; }
+  componentDidMount() {
+    if ((this.props.step ?? 'amount') !== 'success') return;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    const from = 4250, to = 9250, steps = 30; let i = 0;
+    this.setState({ v: from });
+    this.t = setInterval(() => {
+      i++;
+      const p = 1 - Math.pow(1 - i / steps, 3);
+      this.setState({ v: Math.round(from + (to - from) * p) });
+      if (i >= steps) clearInterval(this.t);
+    }, 30);
+  }
+  componentWillUnmount() { clearInterval(this.t); }
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const step = this.props.step ?? 'amount';
+    return {
+      theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844,
+      isAmount: step === 'amount', isPaystack: step === 'paystack', isSuccess: step === 'success',
+      shown: '₦' + this.state.v.toLocaleString('en-NG')
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Location permission</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column; padding: var(--space-16) var(--space-24) var(--space-24)">
+  <div style="flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: center; padding: var(--space-24) 0">
+    <div style="position: relative; width: 260px; height: 260px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 10px var(--bg-brand-subtle), var(--elevation-2)">
+      <div class="map" style="top: -1020px; left: 25px"><img src="{{mapSrc}}" alt=""></div>
+      <span class="mk mk-stop" style="left: 130px; top: 130px"></span>
+      <span class="mk mk-stop" style="left: 98px; top: 20px"></span>
+      <span class="mk mk-me" style="left: 156px; top: 156px"></span>
+      <span class="mk" style="left: 114px; top: 75px"><span class="mk-bus breathe"><span class="ic ic-16 ic-bus" aria-hidden="true"></span></span></span>
+      <span class="mk" style="left: 156px; top: 225px"><span class="mk-bus"><span class="ic ic-16 ic-bus" aria-hidden="true"></span></span></span>
+    </div>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+    <h1 class="t-h2">Find buses near you</h1>
+    <p class="t-body t-secondary">We use your location to show the nearest Korope stops, the buses heading to them and how long the walk is.</p>
+  </div>
+  <ul style="display: flex; flex-direction: column; gap: var(--space-12); margin-top: var(--space-20)">
+    <li style="display: flex; gap: var(--space-12); align-items: center"><span class="icon-tile brand" style="width: 36px; height: 36px"><span class="ic ic-20 ic-walk" aria-hidden="true"></span></span><span class="t-caption">Walking time to your boarding stop</span></li>
+    <li style="display: flex; gap: var(--space-12); align-items: center"><span class="icon-tile brand" style="width: 36px; height: 36px"><span class="ic ic-20 ic-bell" aria-hidden="true"></span></span><span class="t-caption">A nudge when it's time to leave for your bus</span></li>
+    <li style="display: flex; gap: var(--space-12); align-items: center"><span class="icon-tile brand" style="width: 36px; height: 36px"><span class="ic ic-20 ic-lock" aria-hidden="true"></span></span><span class="t-caption">Only used while you're using Korope</span></li>
+  </ul>
+  <div style="display: flex; flex-direction: column; gap: var(--space-8); margin-top: var(--space-24)">
+    <a class="btn btn-primary btn-block" href="S05a_Home.dc.html"><span class="ic ic-20 ic-locate" aria-hidden="true"></span>Allow location</a>
+    <a class="btn btn-tertiary btn-block" href="S05a_Home.dc.html">Maybe later, I'll search by stop name</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const theme = this.props.theme ?? 'light';
+    return { theme, w: small ? 360 : 390, h: small ? 740 : 844, mapSrc: theme === 'dark' ? './map-night.svg' : './map-light.svg' };
+  }
+}
+</script>
+</body>
+</html>

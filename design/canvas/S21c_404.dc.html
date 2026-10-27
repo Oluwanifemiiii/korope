@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Page not found</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column; padding: var(--space-24)">
+  <svg role="img" aria-label="Korope" viewBox="0 0 48 48" style="width: 36px; height: 36px"><circle cx="13" cy="32" r="6" fill="none" style="stroke: var(--action-primary)" stroke-width="4.5"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--action-primary)" stroke-width="4.5" stroke-linecap="round"></path><circle cx="35" cy="16" r="7.5" style="fill: var(--secondary-500)"></circle></svg>
+  <div style="flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; gap: var(--space-20)">
+    <svg role="img" aria-label="A route line that stops short of its last stop" viewBox="0 0 300 120" style="width: 100%; height: auto">
+      <path d="M10 100H110a20 20 0 0 0 20-20V60" fill="none" style="stroke: var(--route-line)" stroke-width="5" stroke-linecap="round"></path>
+      <path d="M130 40a20 20 0 0 1 20-20H290" fill="none" style="stroke: var(--border-strong)" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 12"></path>
+      <circle cx="10" cy="100" r="8" style="fill: var(--bg-surface); stroke: var(--action-primary)" stroke-width="4"></circle>
+      <circle cx="290" cy="20" r="10" fill="none" style="stroke: var(--border-strong)" stroke-width="3" stroke-dasharray="3 4"></circle>
+    </svg>
+    <p class="t-eyebrow num">Error 404</p>
+    <h1 class="t-h1">This stop isn't on our map</h1>
+    <p class="t-body t-secondary">The link may be old or cut short. Your trips, pass and wallet are all safe.</p>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+    <a class="btn btn-primary btn-block" href="S05a_Home.dc.html">Back to the map</a>
+    <a class="btn btn-tertiary btn-block" href="S06_Search.dc.html">Search for a stop</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    return { theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844 };
+  }
+}
+</script>
+</body>
+</html>

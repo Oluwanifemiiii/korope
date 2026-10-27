@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Live trip</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px">
+  <div class="map" style="top: -570px; transform: scale(0.8); transform-origin: 605px 830px"><img src="{{mapSrc}}" alt="Map following bus KR 014 on Admiralty Way toward Victoria Island"></div>
+  <svg aria-hidden="true" viewBox="0 0 390 560" style="position: absolute; left: 50%; margin-left: -195px; top: 0; width: 390px; height: 560px">
+    <polyline points="281,516 255.4,428 223.4,316 205,260" fill="none" style="stroke: var(--route-inactive)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"></polyline>
+    <polyline points="205,260 181,172 153,76 125,-4" fill="none" style="stroke: var(--route-casing)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <polyline points="205,260 181,172 153,76 125,-4" fill="none" style="stroke: var(--route-line)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></polyline>
+  </svg>
+  <span class="mk mk-stop" style="left: calc(50% - 42px); top: 76px"></span>
+  <span class="mk-label" style="left: calc(50% - 40px); top: 76px">Adeola Odeku</span>
+  <span class="mk" style="left: calc(50% + 10px); top: 260px"><span class="mk-bus is-mine"><span class="ic ic-16 ic-bus" aria-hidden="true"></span></span></span>
+
+  <div style="position: absolute; left: var(--space-16); top: var(--space-16)">
+    <div class="glass e1" style="border-radius: var(--radius-m); padding: var(--space-8) var(--space-12); display: flex; align-items: center; gap: var(--space-8)">
+      <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--route-line)"></span>
+      <span class="t-caption">Next stop <strong>Adeola Odeku</strong> · <span class="num">4 min</span></span>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column">
+    <div style="display: flex; justify-content: space-between; padding: 0 var(--space-16) var(--space-12)">
+      <button type="button" class="btn btn-icon glass" aria-label="Recentre on bus"><span class="ic ic-nav" aria-hidden="true" style="color: var(--accent-600)"></span></button>
+      <button type="button" class="btn btn-icon glass" aria-label="Safety and SOS" style="color: var(--error-icon)"><span class="ic ic-shield" aria-hidden="true"></span></button>
+    </div>
+    <div class="sheet">
+      <div class="sheet-head" style="padding-bottom: var(--space-4)"><span class="sheet-handle" aria-hidden="true"></span></div>
+      <div style="padding: 0 var(--space-20) var(--space-20); display: flex; flex-direction: column; gap: var(--space-16)">
+        <div style="display: flex; align-items: flex-end; justify-content: space-between">
+          <div><p class="t-caption t-secondary">To CMS · arrive <span class="num">7:57</span></p><p class="t-h1 num">23 min</p></div>
+          <p class="t-caption t-secondary num" style="text-align: right; margin-bottom: var(--space-8)">Seat 3B<br>KR 014</p>
+        </div>
+        <div style="position: relative; height: 6px; border-radius: var(--radius-pill); background: var(--bg-sunken)"><div style="position: absolute; left: 0; top: 0; bottom: 0; width: 45%; border-radius: var(--radius-pill); background: var(--route-line)"></div></div>
+        <div class="tl">
+          <div class="tl-item" style="min-height: 40px"><div class="tl-rail"><span class="tl-dot current"></span><span class="tl-line"></span></div><div style="display: flex; justify-content: space-between; flex: 1 1 auto"><p class="t-body t-semibold">Admiralty Way</p><span class="t-caption t-secondary">Now</span></div></div>
+          <div class="tl-item" style="min-height: 40px"><div class="tl-rail"><span class="tl-dot"></span><span class="tl-line"></span></div><div style="display: flex; justify-content: space-between; flex: 1 1 auto"><p class="t-body">Adeola Odeku</p><span class="t-caption t-secondary num">7:43</span></div></div>
+          <div class="tl-item" style="min-height: 40px"><div class="tl-rail"><span class="tl-dot"></span><span class="tl-line"></span></div><div style="display: flex; justify-content: space-between; flex: 1 1 auto"><p class="t-body">Ahmadu Bello Way</p><span class="t-caption t-secondary num">7:47</span></div></div>
+          <div class="tl-item" style="min-height: 0"><div class="tl-rail"><span class="tl-dot alight"></span></div><div style="display: flex; justify-content: space-between; flex: 1 1 auto"><p class="t-body t-bold">CMS · your stop</p><span class="t-caption t-semibold num">7:57</span></div></div>
+        </div>
+        <button type="button" class="btn btn-secondary btn-block btn-m"><span class="ic ic-20 ic-share" aria-hidden="true"></span>Share live trip</button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const theme = this.props.theme ?? 'light';
+    return { theme, w: small ? 360 : 390, h: small ? 740 : 844, mapSrc: theme === 'dark' ? './map-night.svg' : './map-light.svg' };
+  }
+}
+</script>
+</body>
+</html>

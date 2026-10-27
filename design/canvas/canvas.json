@@ -1,0 +1,712 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "B01_Logo_Directions.dc.html": {
+      "h": 900,
+      "page": "brand",
+      "title": "01 Logo: three directions",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "B02_Logo_System.dc.html": {
+      "h": 1180,
+      "page": "brand",
+      "title": "02 Logo: refined Route Pair",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "B03_Color_Scales.dc.html": {
+      "h": 1320,
+      "page": "brand",
+      "title": "03 Colour scales",
+      "w": 1440,
+      "x": 0,
+      "y": 1540
+    },
+    "B04_Color_Semantic.dc.html": {
+      "h": 1320,
+      "page": "brand",
+      "title": "04 Semantic colour, light and dark",
+      "w": 1440,
+      "x": 1520,
+      "y": 1540
+    },
+    "B05_Typography.dc.html": {
+      "h": 1400,
+      "page": "brand",
+      "title": "05 Typography",
+      "w": 1440,
+      "x": 0,
+      "y": 3200
+    },
+    "B06_Tokens.dc.html": {
+      "h": 1400,
+      "page": "brand",
+      "title": "06 Spacing, radius, elevation, motion",
+      "w": 1440,
+      "x": 1520,
+      "y": 3200
+    },
+    "B07_Icons.dc.html": {
+      "h": 960,
+      "page": "brand",
+      "title": "07 Icons",
+      "w": 1440,
+      "x": 0,
+      "y": 4940
+    },
+    "B08_Map_Style.dc.html": {
+      "h": 1240,
+      "page": "brand",
+      "title": "08 Map style",
+      "w": 1440,
+      "x": 1520,
+      "y": 4940
+    },
+    "C01_Buttons.dc.html": {
+      "h": 1240,
+      "page": "components",
+      "title": "C1 Buttons",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "C02_Inputs.dc.html": {
+      "h": 1240,
+      "page": "components",
+      "title": "C2 Inputs, search, chips, badges",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "C03_Sheet_Nav.dc.html": {
+      "h": 1240,
+      "page": "components",
+      "title": "C3 Bottom sheet and navigation",
+      "w": 1440,
+      "x": 0,
+      "y": 1600
+    },
+    "C04_Booking.dc.html": {
+      "h": 1240,
+      "page": "components",
+      "title": "C4 Booking components",
+      "w": 1440,
+      "x": 1520,
+      "y": 1600
+    },
+    "C05_Journey.dc.html": {
+      "h": 1240,
+      "page": "components",
+      "title": "C5 Journey components",
+      "w": 1440,
+      "x": 0,
+      "y": 3200
+    },
+    "C06_Safety_Feedback.dc.html": {
+      "h": 1240,
+      "page": "components",
+      "title": "C6 Safety, notifications, feedback",
+      "w": 1440,
+      "x": 1520,
+      "y": 3200
+    },
+    "D05_Home_Dark.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "05 Home, dark",
+      "w": 390,
+      "x": 0,
+      "y": 3732
+    },
+    "D13_Pass_Dark.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "13 Boarding pass, dark",
+      "w": 390,
+      "x": 470,
+      "y": 3732
+    },
+    "D14_Live_Dark.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "14 Live trip, dark",
+      "w": 390,
+      "x": 940,
+      "y": 3732
+    },
+    "H01_Motion.dc.html": {
+      "h": 1240,
+      "page": "handoff",
+      "title": "Motion annotations",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "H02_Inventory.dc.html": {
+      "h": 1900,
+      "page": "handoff",
+      "title": "Component inventory and handoff",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "h": 900,
+      "page": "brand",
+      "title": "00 Cover",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "S01_Splash.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "01 Splash",
+      "w": 390,
+      "x": 0,
+      "y": 0
+    },
+    "S02a_Onboarding.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "02a Onboarding 1",
+      "w": 390,
+      "x": 470,
+      "y": 0
+    },
+    "S02b_Onboarding.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "02b Onboarding 2",
+      "w": 390,
+      "x": 940,
+      "y": 0
+    },
+    "S02c_Onboarding.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "02c Onboarding 3",
+      "w": 390,
+      "x": 1410,
+      "y": 0
+    },
+    "S03a_Phone.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "03a Phone sign-in",
+      "w": 390,
+      "x": 1880,
+      "y": 0
+    },
+    "S03b_OTP.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "03b OTP",
+      "w": 390,
+      "x": 2350,
+      "y": 0
+    },
+    "S04_Location.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "04 Location primer",
+      "w": 390,
+      "x": 2820,
+      "y": 0
+    },
+    "S05a_Home.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "05a Home, sheet peek",
+      "w": 390,
+      "x": 0,
+      "y": 1244
+    },
+    "S05b_Home_Half.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "05b Home, sheet half",
+      "w": 390,
+      "x": 470,
+      "y": 1244
+    },
+    "S06_Search.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "06 Search",
+      "w": 390,
+      "x": 940,
+      "y": 1244
+    },
+    "S07_Departures.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "07 Departure options",
+      "w": 390,
+      "x": 1410,
+      "y": 1244
+    },
+    "S08_Stop.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "08 Boarding stop",
+      "w": 390,
+      "x": 1880,
+      "y": 1244
+    },
+    "S09_Seats.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "page": "screens",
+      "title": "09 Seat selection",
+      "w": 390,
+      "x": 2350,
+      "y": 1244
+    },
+    "S10a_Confirm.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "10a Confirm and pay",
+      "w": 390,
+      "x": 2820,
+      "y": 1244
+    },
+    "S10b_Confirm_Low.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "10b Insufficient balance",
+      "w": 390,
+      "x": 3290,
+      "y": 1244
+    },
+    "S11_Confirmed.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "11 Booking confirmed",
+      "w": 390,
+      "x": 3760,
+      "y": 1244
+    },
+    "S12a_Waiting.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "12a Waiting, 2 stops away",
+      "w": 390,
+      "x": 0,
+      "y": 2488
+    },
+    "S12b_Arriving.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "12b Bus arriving",
+      "w": 390,
+      "x": 470,
+      "y": 2488
+    },
+    "S13_Pass.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "13 Boarding pass",
+      "w": 390,
+      "x": 940,
+      "y": 2488
+    },
+    "S14_Live.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "14 Live trip",
+      "w": 390,
+      "x": 1410,
+      "y": 2488
+    },
+    "S15a_Arrived.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "15a Arrived",
+      "w": 390,
+      "x": 1880,
+      "y": 2488
+    },
+    "S15b_Rating.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "15b Light rating",
+      "w": 390,
+      "x": 2350,
+      "y": 2488
+    },
+    "S16a_Trips.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "16a Trips",
+      "w": 390,
+      "x": 0,
+      "y": 4976
+    },
+    "S16b_Trips_Empty.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "16b Trips, empty",
+      "w": 390,
+      "x": 470,
+      "y": 4976
+    },
+    "S17a_Wallet.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "17a Wallet",
+      "w": 390,
+      "x": 940,
+      "y": 4976
+    },
+    "S17b_Wallet_Empty.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "17b Wallet, empty",
+      "w": 390,
+      "x": 1410,
+      "y": 4976
+    },
+    "S18a_Add_Amount.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "18a Add money, amount",
+      "w": 390,
+      "x": 1880,
+      "y": 4976
+    },
+    "S18b_Add_Paystack.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "18b Paystack handoff",
+      "w": 390,
+      "x": 2350,
+      "y": 4976
+    },
+    "S18c_Add_Success.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "18c Money added",
+      "w": 390,
+      "x": 2820,
+      "y": 4976
+    },
+    "S19_Profile.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "19 Profile",
+      "w": 390,
+      "x": 3290,
+      "y": 4976
+    },
+    "S20_KoropePlus.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "20 Korope+ coming soon",
+      "w": 390,
+      "x": 3760,
+      "y": 4976
+    },
+    "S21a_Offline.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "21a No connection",
+      "w": 390,
+      "x": 0,
+      "y": 6220
+    },
+    "S21b_Errors.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "21b Error messages",
+      "w": 390,
+      "x": 470,
+      "y": 6220
+    },
+    "S21c_404.dc.html": {
+      "h": 844,
+      "page": "screens",
+      "title": "21c Custom 404",
+      "w": 390,
+      "x": 940,
+      "y": 6220
+    },
+    "X05_Home_360.dc.html": {
+      "h": 740,
+      "page": "screens",
+      "title": "360x740 Home",
+      "w": 360,
+      "x": 1570,
+      "y": 3732
+    },
+    "X09_Seats_360.dc.html": {
+      "h": 740,
+      "page": "screens",
+      "title": "360x740 Seats",
+      "w": 360,
+      "x": 2010,
+      "y": 3732
+    },
+    "X10_Confirm_360.dc.html": {
+      "h": 740,
+      "page": "screens",
+      "title": "360x740 Confirm",
+      "w": 360,
+      "x": 2450,
+      "y": 3732
+    },
+    "X13_Pass_360.dc.html": {
+      "h": 740,
+      "page": "screens",
+      "title": "360x740 Boarding pass",
+      "w": 360,
+      "x": 2890,
+      "y": 3732
+    },
+    "X17_Wallet_360.dc.html": {
+      "h": 740,
+      "page": "screens",
+      "title": "360x740 Wallet",
+      "w": 360,
+      "x": 3330,
+      "y": 3732
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-27T13:10:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "page": "brand",
+    "view": "canvas"
+  },
+  "noteOrder": [
+    "brand_logo",
+    "brand_color",
+    "brand_type",
+    "brand_icons",
+    "comp_1",
+    "comp_2",
+    "comp_3",
+    "scr_a",
+    "scr_b",
+    "scr_c",
+    "scr_d",
+    "scr_e",
+    "scr_f",
+    "hand_1"
+  ],
+  "notes": {
+    "brand_color": {
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "brand",
+      "text": "Colour",
+      "w": 240,
+      "x": 0,
+      "y": 1240
+    },
+    "brand_icons": {
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "brand",
+      "text": "Icons and map",
+      "w": 240,
+      "x": 0,
+      "y": 4640
+    },
+    "brand_logo": {
+      "kind": "title1",
+      "maxW": 4480,
+      "page": "brand",
+      "text": "Brand foundations: logo",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "brand_type": {
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "brand",
+      "text": "Type and tokens",
+      "w": 240,
+      "x": 0,
+      "y": 2900
+    },
+    "comp_1": {
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "components",
+      "text": "Core components",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "comp_2": {
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "components",
+      "text": "Containers and booking",
+      "w": 240,
+      "x": 0,
+      "y": 1300
+    },
+    "comp_3": {
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "components",
+      "text": "Journey, safety and feedback",
+      "w": 240,
+      "x": 0,
+      "y": 2900
+    },
+    "hand_1": {
+      "kind": "title1",
+      "maxW": 2960,
+      "page": "handoff",
+      "text": "Motion and engineering handoff",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "scr_a": {
+      "kind": "title1",
+      "maxW": 3210,
+      "page": "screens",
+      "text": "First run: splash to permissions",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "scr_b": {
+      "kind": "title1",
+      "maxW": 4150,
+      "page": "screens",
+      "text": "Plan and book",
+      "w": 240,
+      "x": 0,
+      "y": 944
+    },
+    "scr_c": {
+      "kind": "title1",
+      "maxW": 2740,
+      "page": "screens",
+      "text": "Board, ride, arrive",
+      "w": 240,
+      "x": 0,
+      "y": 2188
+    },
+    "scr_d": {
+      "kind": "title1",
+      "maxW": 3690,
+      "page": "screens",
+      "text": "Dark mode and 360x740 checks",
+      "w": 240,
+      "x": 0,
+      "y": 3432
+    },
+    "scr_e": {
+      "kind": "title1",
+      "maxW": 4150,
+      "page": "screens",
+      "text": "Trips, wallet, profile, Korope+",
+      "w": 240,
+      "x": 0,
+      "y": 4676
+    },
+    "scr_f": {
+      "kind": "title1",
+      "maxW": 1330,
+      "page": "screens",
+      "text": "System states",
+      "w": 240,
+      "x": 0,
+      "y": 5920
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "B01_Logo_Directions.dc.html",
+    "B02_Logo_System.dc.html",
+    "B03_Color_Scales.dc.html",
+    "B04_Color_Semantic.dc.html",
+    "B05_Typography.dc.html",
+    "B06_Tokens.dc.html",
+    "B07_Icons.dc.html",
+    "B08_Map_Style.dc.html",
+    "C01_Buttons.dc.html",
+    "C02_Inputs.dc.html",
+    "C03_Sheet_Nav.dc.html",
+    "C04_Booking.dc.html",
+    "C05_Journey.dc.html",
+    "C06_Safety_Feedback.dc.html",
+    "S01_Splash.dc.html",
+    "S02a_Onboarding.dc.html",
+    "S02b_Onboarding.dc.html",
+    "S02c_Onboarding.dc.html",
+    "S03a_Phone.dc.html",
+    "S03b_OTP.dc.html",
+    "S04_Location.dc.html",
+    "S05a_Home.dc.html",
+    "S05b_Home_Half.dc.html",
+    "S06_Search.dc.html",
+    "S07_Departures.dc.html",
+    "S08_Stop.dc.html",
+    "S09_Seats.dc.html",
+    "S10a_Confirm.dc.html",
+    "S10b_Confirm_Low.dc.html",
+    "S11_Confirmed.dc.html",
+    "S12a_Waiting.dc.html",
+    "S12b_Arriving.dc.html",
+    "S13_Pass.dc.html",
+    "S14_Live.dc.html",
+    "S15a_Arrived.dc.html",
+    "S15b_Rating.dc.html",
+    "D05_Home_Dark.dc.html",
+    "D13_Pass_Dark.dc.html",
+    "D14_Live_Dark.dc.html",
+    "X05_Home_360.dc.html",
+    "X09_Seats_360.dc.html",
+    "X10_Confirm_360.dc.html",
+    "X13_Pass_360.dc.html",
+    "X17_Wallet_360.dc.html",
+    "S16a_Trips.dc.html",
+    "S16b_Trips_Empty.dc.html",
+    "S17a_Wallet.dc.html",
+    "S17b_Wallet_Empty.dc.html",
+    "S18a_Add_Amount.dc.html",
+    "S18b_Add_Paystack.dc.html",
+    "S18c_Add_Success.dc.html",
+    "S19_Profile.dc.html",
+    "S20_KoropePlus.dc.html",
+    "S21a_Offline.dc.html",
+    "S21b_Errors.dc.html",
+    "S21c_404.dc.html",
+    "H01_Motion.dc.html",
+    "H02_Inventory.dc.html"
+  ],
+  "pages": [
+    {
+      "id": "brand",
+      "name": "Brand foundations"
+    },
+    {
+      "id": "components",
+      "name": "Components"
+    },
+    {
+      "id": "screens",
+      "name": "Passenger screens"
+    },
+    {
+      "id": "handoff",
+      "name": "Motion and handoff"
+    }
+  ],
+  "title": "Korope Design System v1"
+}

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Departure options</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px">
+  <div class="map" style="top: -12px; transform: scale(0.33)"><img src="{{mapSrc}}" alt="Route from Chevron to CMS along the Lekki-Epe Expressway and Victoria Island"></div>
+  <svg aria-hidden="true" viewBox="0 0 390 400" style="position: absolute; left: 50%; margin-left: -195px; top: 0; width: 390px; height: 400px">
+    <polyline points="229.7,367 219.1,330.7 205.9,284.5 198.3,261.4 188.4,225.1 176.8,185.5 165.3,152.5 160.6,129.4 158.7,96.4 157,70" fill="none" style="stroke: var(--route-casing)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <polyline points="229.7,367 219.1,330.7 205.9,284.5 198.3,261.4 188.4,225.1 176.8,185.5 165.3,152.5 160.6,129.4 158.7,96.4 157,70" fill="none" style="stroke: var(--route-line)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+  </svg>
+  <span class="mk" style="left: calc(50% + 24px); top: 331px; width: 10px; height: 10px; border-radius: 50%; background: var(--stop-marker); box-shadow: inset 0 0 0 2.5px var(--stop-marker-border)"></span>
+  <span class="mk" style="left: calc(50% + 11px); top: 284px; width: 10px; height: 10px; border-radius: 50%; background: var(--stop-marker); box-shadow: inset 0 0 0 2.5px var(--stop-marker-border)"></span>
+  <span class="mk" style="left: calc(50% + 3px); top: 261px; width: 10px; height: 10px; border-radius: 50%; background: var(--stop-marker); box-shadow: inset 0 0 0 2.5px var(--stop-marker-border)"></span>
+  <span class="mk" style="left: calc(50% - 18px); top: 185px; width: 10px; height: 10px; border-radius: 50%; background: var(--stop-marker); box-shadow: inset 0 0 0 2.5px var(--stop-marker-border)"></span>
+  <span class="mk" style="left: calc(50% - 30px); top: 152px; width: 10px; height: 10px; border-radius: 50%; background: var(--stop-marker); box-shadow: inset 0 0 0 2.5px var(--stop-marker-border)"></span>
+  <span class="mk" style="left: calc(50% + 35px); top: 367px; width: 20px; height: 20px; border-radius: 50%; background: var(--bg-surface); box-shadow: inset 0 0 0 5px var(--action-primary), var(--elevation-1)"></span>
+  <span class="mk-label" style="left: calc(50% + 39px); top: 360px">Board · Chevron</span>
+  <span class="mk" style="left: calc(50% - 38px); top: 70px; width: 20px; height: 20px; border-radius: 50%; background: var(--action-primary); box-shadow: 0 0 0 4px var(--bg-surface), var(--elevation-1)"></span>
+  <span class="mk-label" style="left: calc(50% - 34px); top: 70px">Get off · CMS</span>
+
+  <div style="position: absolute; left: var(--space-16); top: var(--space-16)"><a class="btn btn-icon glass" href="S06_Search.dc.html" aria-label="Back to search"><span class="ic ic-back" aria-hidden="true"></span></a></div>
+
+  <div class="sheet" style="position: absolute; left: 0; right: 0; bottom: 0; top: 388px">
+    <div class="sheet-head glass" style="align-items: stretch; padding-bottom: var(--space-8)">
+      <span class="sheet-handle" aria-hidden="true" style="align-self: center"></span>
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <div><p class="t-subtitle t-semibold">Chevron to CMS</p><p class="t-label t-secondary">Today · 3 departures in the next hour</p></div>
+        <button type="button" class="chip" style="height: 36px"><span class="ic ic-16 ic-calendar" aria-hidden="true"></span>Now</button>
+      </div>
+    </div>
+    <div style="padding: 0 var(--space-16) var(--space-16); display: flex; flex-direction: column; gap: var(--space-8)">
+      <a href="S08_Stop.dc.html" class="card" style="display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-12) var(--space-16); box-shadow: inset 0 0 0 2px var(--action-primary), var(--elevation-1); color: var(--text-primary)">
+        <div style="display: flex; gap: var(--space-8); align-items: center"><span class="badge badge-highlight">Recommended</span><span class="t-label t-secondary" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Soonest, with seats to spare</span></div>
+        <div style="display: flex; align-items: baseline; gap: var(--space-8)"><span class="t-title num">7:15</span><span class="t-caption t-secondary num">arrive 7:57</span><span class="t-title num" style="margin-left: auto">₦1,500</span></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-8)"><span class="t-label t-secondary num">At your stop in 9 min · 42 min ride · 6 stops</span><span class="badge badge-brand">6 seats</span></div>
+      </a>
+      <a href="S08_Stop.dc.html" class="card" style="display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-12) var(--space-16); box-shadow: var(--elevation-1), inset 0 0 0 1px var(--border-default); color: var(--text-primary)">
+        <div style="display: flex; align-items: baseline; gap: var(--space-8)"><span class="t-title num">7:30</span><span class="t-caption t-secondary num">arrive 8:08</span><span class="badge badge-info" style="align-self: center">Express</span><span class="t-title num" style="margin-left: auto">₦1,800</span></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-8)"><span class="t-label t-secondary num">At your stop in 24 min · 38 min ride · 3 stops</span><span class="badge badge-brand">11 seats</span></div>
+      </a>
+      <a href="S08_Stop.dc.html" class="card" style="display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-12) var(--space-16); box-shadow: var(--elevation-1), inset 0 0 0 1px var(--border-default); color: var(--text-primary)">
+        <div style="display: flex; align-items: baseline; gap: var(--space-8)"><span class="t-title num">7:45</span><span class="t-caption t-secondary num">arrive 8:37</span><span class="t-title num" style="margin-left: auto">₦1,400</span></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-8)"><span class="t-label t-secondary num">At your stop in 39 min · 52 min ride · 8 stops</span><span class="badge badge-warning">2 seats</span></div>
+      </a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const theme = this.props.theme ?? 'light';
+    return { theme, w: small ? 360 : 390, h: small ? 740 : 844, mapSrc: theme === 'dark' ? './map-night.svg' : './map-light.svg' };
+  }
+}
+</script>
+</body>
+</html>

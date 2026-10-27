@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Onboarding 2: seats</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column; padding: var(--space-16) var(--space-24) var(--space-24)">
+  <div style="display: flex; justify-content: space-between; align-items: center; height: 48px">
+    <a class="btn btn-icon" href="S02a_Onboarding.dc.html" aria-label="Back" style="box-shadow: none; background: transparent"><span class="ic ic-back" aria-hidden="true"></span></a>
+    <a class="btn btn-tertiary btn-m" href="#">Skip</a>
+  </div>
+  <div style="flex: 1 1 auto; min-height: 0; margin: var(--space-16) 0 var(--space-24); border-radius: var(--radius-xl); background: var(--bg-highlight-subtle); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: var(--space-16); padding: var(--space-24)">
+    <div style="width: 196px; border-radius: 32px 32px var(--radius-l) var(--radius-l); background: var(--bg-surface); box-shadow: var(--elevation-2); padding: var(--space-16); display: grid; grid-template-columns: repeat(4, 36px); gap: var(--space-8); justify-content: space-between">
+      <span style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary)"><span class="ic ic-20 ic-wheel" aria-hidden="true"></span></span><span></span><span class="seat seat-reserved" style="width: 36px; height: 36px"></span><span class="seat seat-available" style="width: 36px; height: 36px"></span>
+      <span class="seat seat-reserved" style="width: 36px; height: 36px"></span><span class="seat seat-available" style="width: 36px; height: 36px"></span><span></span><span class="seat seat-available" style="width: 36px; height: 36px"></span>
+      <span class="seat seat-available" style="width: 36px; height: 36px"></span><span class="seat seat-selected" style="width: 36px; height: 36px"><span class="ic ic-16 ic-check" aria-hidden="true"></span></span><span></span><span class="seat seat-reserved" style="width: 36px; height: 36px"></span>
+      <span class="seat seat-available" style="width: 36px; height: 36px"></span><span class="seat seat-reserved" style="width: 36px; height: 36px"></span><span></span><span class="seat seat-available" style="width: 36px; height: 36px"></span>
+    </div>
+    <div class="card" style="position: absolute; right: var(--space-16); bottom: var(--space-24); padding: var(--space-12) var(--space-16); display: flex; flex-direction: column; gap: 2px">
+      <span class="t-label t-secondary">Your seat</span>
+      <span class="t-title num">3B · Window</span>
+    </div>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+    <h1 class="t-h2">Your seat is booked before the bus comes</h1>
+    <p class="t-body t-secondary">Pick a seat on the real layout of the bus and pay from your Korope wallet. No queue, no rushing the door, no hunting for change.</p>
+  </div>
+  <div style="display: flex; gap: var(--space-8); margin: var(--space-24) 0" role="img" aria-label="Step 2 of 3">
+    <span style="width: 6px; height: 6px; border-radius: var(--radius-pill); background: var(--border-strong)"></span><span style="width: 24px; height: 6px; border-radius: var(--radius-pill); background: var(--action-primary)"></span><span style="width: 6px; height: 6px; border-radius: var(--radius-pill); background: var(--border-strong)"></span>
+  </div>
+  <a class="btn btn-primary btn-block" href="S02c_Onboarding.dc.html">Next</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    return { theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844 };
+  }
+}
+</script>
+</body>
+</html>

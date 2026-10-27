@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Map style</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1240px; padding: var(--space-64); display: flex; flex-direction: column; gap: var(--space-32)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Map style · Google Maps cloud styling</p>
+      <h2 class="t-h2">Quiet city, loud buses</h2>
+    </div>
+    <p class="t-caption t-secondary" style="max-width: 540px">The base map is muted so routes, stops and buses are the only saturated things on it. Transit, POI and admin layers are off: Korope draws its own stops and lines. Shipped as map-style-light.json and map-style-night.json.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: 390px 390px minmax(0, 1fr); gap: var(--space-24)">
+    <sc-for list="{{maps}}" as="m" hint-placeholder-count="2">
+      <figure data-theme="{{m.theme}}" style="display: flex; flex-direction: column; gap: var(--space-12)">
+        <div class="k" style="position: relative; width: 390px; height: 600px; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--elevation-2)">
+          <div class="map" style="top: -760px">
+            <img src="{{m.src}}" alt="">
+            <svg class="ov" viewBox="-400 0 1190 1400" aria-hidden="true">
+              <polyline points="300,1150 268,1040 228,900 205,830 175,720" fill="none" style="stroke: var(--route-casing)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></polyline>
+              <polyline points="300,1150 268,1040 228,900 205,830 175,720" fill="none" style="stroke: var(--route-line)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            </svg>
+            <span class="mk mk-stop" style="left: 668px; top: 1040px"></span>
+            <span class="mk mk-stop" style="left: 628px; top: 900px"></span>
+            <span class="mk mk-stop" style="left: 605px; top: 830px"></span>
+            <span class="mk mk-me" style="left: 722px; top: 1170px"></span>
+            <span class="mk" style="left: 700px; top: 1150px; width: 18px; height: 18px; border-radius: 50%; background: var(--bg-surface); box-shadow: inset 0 0 0 4px var(--action-primary)"></span>
+            <span class="mk-label" style="left: 700px; top: 1150px">Chevron</span>
+            <span class="mk-label" style="left: 628px; top: 900px">Lekki Phase 1</span>
+            <span class="mk mk-bus is-mine" style="left: 650px; top: 978px"><span class="ic ic-16 ic-bus" aria-hidden="true"></span></span>
+            <span class="mk mk-bus is-dim" style="left: 590px; top: 776px"><span class="ic ic-16 ic-bus" aria-hidden="true"></span></span>
+          </div>
+        </div>
+        <figcaption class="t-caption t-secondary" style="color: var(--neutral-600)">{{m.caption}}</figcaption>
+      </figure>
+    </sc-for>
+    <section class="card-flat" style="padding: var(--space-20); display: flex; flex-direction: column">
+      <div style="display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.5fr) 88px 88px; gap: var(--space-8); padding-bottom: var(--space-8); border-bottom: 1px solid var(--border-default)">
+        <span class="t-label t-secondary">Feature</span><span class="t-label t-secondary">featureType · elementType</span><span class="t-label t-secondary">Light</span><span class="t-label t-secondary">Night</span>
+      </div>
+      <sc-for list="{{spec}}" as="s" hint-placeholder-count="14">
+        <div style="display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.5fr) 88px 88px; gap: var(--space-8); align-items: center; min-height: 40px; border-bottom: 1px solid var(--border-subtle)">
+          <span class="t-caption t-semibold">{{s.f}}</span>
+          <span class="t-label t-secondary">{{s.g}}</span>
+          <span style="display: flex; align-items: center; gap: var(--space-4)"><span style="width: 16px; height: 16px; border-radius: var(--radius-xs); background: {{s.l}}; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); flex: none"></span><span class="t-label num">{{s.l}}</span></span>
+          <span style="display: flex; align-items: center; gap: var(--space-4)"><span style="width: 16px; height: 16px; border-radius: var(--radius-xs); background: {{s.n}}; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); flex: none"></span><span class="t-label num">{{s.n}}</span></span>
+        </div>
+      </sc-for>
+      <p class="t-caption t-secondary" style="margin-top: var(--space-12)">Night switches automatically from 18:30 to 06:00 or with the system theme. Label density: neighbourhood names at zoom 12 to 14, street names from 15, no business POIs.</p>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const maps = [
+      { theme: 'light', src: './map-light.svg', caption: 'Light. Route Accent/500 with white casing, my bus ringed in Secondary/400, other buses dimmed.' },
+      { theme: 'dark', src: './map-night.svg', caption: 'Night. Accents step up to 400 tones; land stays charcoal, never pure black.' }
+    ];
+    const spec = [
+      { f: 'Land', g: 'landscape · geometry.fill', l: '#F2F4F0', n: '#171B1E' },
+      { f: 'Buildings', g: 'landscape.man_made · geometry.fill', l: '#E8EBE6', n: '#1D2226' },
+      { f: 'Road, local', g: 'road.local · geometry.fill', l: '#FFFFFF', n: '#232A2F' },
+      { f: 'Road, arterial', g: 'road.arterial · geometry.fill', l: '#FFFFFF', n: '#2B3338' },
+      { f: 'Arterial casing', g: 'road.arterial · geometry.stroke', l: '#E3E6E1', n: '#1E2429' },
+      { f: 'Highway', g: 'road.highway · geometry.fill', l: '#F8EDCF', n: '#3B3A2E' },
+      { f: 'Highway casing', g: 'road.highway · geometry.stroke', l: '#E6D9B0', n: '#2A2A22' },
+      { f: 'Water', g: 'water · geometry.fill', l: '#D2E9FA', n: '#0E2333' },
+      { f: 'Water labels', g: 'water · labels.text.fill', l: '#5E8FB3', n: '#4F7896' },
+      { f: 'Park', g: 'poi.park · geometry.fill', l: '#DCEFD9', n: '#172820' },
+      { f: 'POI (off but parks)', g: 'poi.business · visibility off', l: '#A7ACA9', n: '#46515A' },
+      { f: 'Labels', g: 'all · labels.text.fill', l: '#6E746F', n: '#7F8A86' },
+      { f: 'Label halo', g: 'all · labels.text.stroke', l: '#F2F4F0', n: '#171B1E' },
+      { f: 'Route overlay', g: 'app layer · Accent/500 | 400', l: '#198ED2', n: '#4CAEF0' }
+    ];
+    return { maps, spec };
+  }
+}
+</script>
+</body>
+</html>

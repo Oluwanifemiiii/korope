@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Icons</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 960px; padding: var(--space-64); display: flex; flex-direction: column; gap: var(--space-32)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Iconography</p>
+      <h2 class="t-h2">Lucide, 2 px rounded stroke, nothing else</h2>
+    </div>
+    <p class="t-caption t-secondary" style="max-width: 520px">One outline family throughout; active states change colour and add a tinted container rather than switching to filled glyphs. Sizes: 16 inline, 20 in lists and chips, 24 default, 32 in empty states. Use lucide-react in code.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: var(--space-24); flex: 1 1 auto">
+    <section class="card-flat" style="padding: var(--space-24); display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: var(--space-8); align-content: start">
+      <sc-for list="{{icons}}" as="i" hint-placeholder-count="54">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8); padding: var(--space-12) var(--space-4); border-radius: var(--radius-m); background: var(--bg-canvas)">
+          <span class="ic ic-{{i.c}}" aria-hidden="true"></span>
+          <span class="t-label t-secondary" style="text-align: center">{{i.n}}</span>
+        </div>
+      </sc-for>
+    </section>
+    <section class="card-flat" style="padding: var(--space-24); display: flex; flex-direction: column; gap: var(--space-12)">
+      <p class="doc-label">Bible placeholders, replaced</p>
+      <sc-for list="{{swaps}}" as="s" hint-placeholder-count="10">
+        <div style="display: flex; align-items: center; gap: var(--space-12); min-height: 44px; border-bottom: 1px solid var(--border-subtle)">
+          <span class="t-caption t-secondary grow">{{s.from}}</span>
+          <span class="ic ic-16 ic-arrow-r t-disabled" aria-hidden="true"></span>
+          <span class="icon-tile brand" style="width: 36px; height: 36px"><span class="ic ic-20 ic-{{s.c}}" aria-hidden="true"></span></span>
+          <span class="t-caption t-semibold" style="width: 120px">{{s.to}}</span>
+        </div>
+      </sc-for>
+      <div style="display: flex; gap: var(--space-8); margin-top: var(--space-8)">
+        <span class="seat seat-available" style="width: 40px; height: 40px">1A</span>
+        <span class="seat seat-held" style="width: 40px; height: 40px"><span class="ic ic-16 ic-timer" aria-hidden="true"></span></span>
+        <span class="seat seat-reserved" style="width: 40px; height: 40px"><span class="ic ic-16 ic-user" aria-hidden="true"></span></span>
+        <span class="seat seat-unavailable" style="width: 40px; height: 40px"><span class="ic ic-16 ic-x" aria-hidden="true"></span></span>
+        <span class="seat seat-selected" style="width: 40px; height: 40px"><span class="ic ic-16 ic-check" aria-hidden="true"></span></span>
+      </div>
+      <p class="t-caption t-secondary">Coloured-circle seat legend becomes five seat states with shape, colour and label. See C4.</p>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const list = [
+      ['search', 'search'], ['pin', 'map-pin'], ['locate', 'locate-fixed'], ['nav', 'navigation'], ['route', 'route'], ['bus', 'bus'], ['flag', 'flag'], ['walk', 'walk'], ['clock', 'clock'],
+      ['timer', 'timer'], ['calendar', 'calendar'], ['ticket', 'ticket'], ['qr', 'qr-code'], ['seat', 'armchair'], ['wheel', 'steering'], ['light', 'lightbulb'], ['shelter', 'shelter'], ['door', 'door-open'],
+      ['home', 'house'], ['briefcase', 'briefcase'], ['school', 'graduation-cap'], ['bag', 'shopping-bag'], ['church', 'church'], ['plane', 'plane'], ['building', 'building-2'], ['heart', 'heart'], ['users', 'users'],
+      ['wallet', 'wallet'], ['card', 'credit-card'], ['bank', 'landmark'], ['hash', 'hash (USSD)'], ['plus', 'plus'], ['up-right', 'arrow-up-right'], ['down-left', 'arrow-down-left'], ['undo', 'rotate-ccw'], ['gift', 'gift'],
+      ['shield', 'shield'], ['shield-check', 'shield-check'], ['shield-alert', 'shield-alert'], ['sos', 'siren'], ['medical', 'cross'], ['headset', 'headset'], ['phone', 'phone'], ['chat', 'message-circle'], ['share', 'share-2'],
+      ['bell', 'bell'], ['ok', 'circle-check'], ['alert-circle', 'circle-alert'], ['alert', 'triangle-alert'], ['info', 'info'], ['wifi-off', 'wifi-off'], ['offline-ok', 'phone-check'], ['star', 'star'], ['verified', 'badge-check']
+    ];
+    const icons = list.map(([c, n]) => ({ c, n }));
+    const swaps = [
+      { from: 'House emoji, Home', c: 'home', to: 'house' },
+      { from: 'Office block emoji, Office', c: 'briefcase', to: 'briefcase' },
+      { from: 'Mortarboard emoji, University', c: 'school', to: 'graduation-cap' },
+      { from: 'Trolley emoji, Shoprite', c: 'bag', to: 'shopping-bag' },
+      { from: 'Plane emoji, Airport', c: 'plane', to: 'plane' },
+      { from: 'Church emoji', c: 'church', to: 'church' },
+      { from: 'Sun and cloud emoji, weather', c: 'sun', to: 'sun + 29°' },
+      { from: 'Bus emoji, bus card', c: 'bus', to: 'bus' },
+      { from: 'Shield emoji, well-lit', c: 'light', to: 'lightbulb' },
+      { from: 'Walking emoji, walk time', c: 'walk', to: 'walk' }
+    ];
+    return { icons, swaps };
+  }
+}
+</script>
+</body>
+</html>

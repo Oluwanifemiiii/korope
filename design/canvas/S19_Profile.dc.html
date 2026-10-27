@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Profile</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column">
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: var(--space-24) var(--space-16) var(--space-16); display: flex; flex-direction: column; gap: var(--space-16)">
+    <section class="card" style="display: flex; align-items: center; gap: var(--space-16); padding: var(--space-20)">
+      <div class="avatar" style="width: 64px; height: 64px; font-size: 22px" role="img" aria-label="Adaeze Okafor">AO</div>
+      <div class="grow"><h1 class="t-title">Adaeze Okafor</h1><p class="t-caption t-secondary num">+234 803 412 7765</p><p class="t-label t-brand">Riding with Korope since Oct 2026</p></div>
+      <a href="#" class="btn btn-icon" aria-label="Edit profile" style="box-shadow: none; background: var(--bg-sunken)"><span class="ic ic-20 ic-settings" aria-hidden="true"></span></a>
+    </section>
+    <sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+      <section class="card-flat" style="padding: 0 var(--space-16)">
+        <sc-for list="{{g.rows}}" as="r" hint-placeholder-count="3">
+          <a href="#" class="list-row" style="min-height: 52px; padding: var(--space-4) 0; color: {{r.color}}; border-bottom: {{r.border}}">
+            <span class="ic ic-20 ic-{{r.icon}}" aria-hidden="true" style="color: {{r.iconColor}}"></span>
+            <span class="t-caption t-semibold grow">{{r.label}}</span>
+            <span class="t-label t-secondary">{{r.meta}}</span>
+            <span class="ic ic-16 ic-chev-r t-disabled" aria-hidden="true"></span>
+          </a>
+        </sc-for>
+      </section>
+    </sc-for>
+    <button type="button" class="btn btn-tertiary" style="align-self: center; color: var(--error-text)"><span class="ic ic-20 ic-logout" aria-hidden="true"></span>Sign out</button>
+  </div>
+  <nav class="nav glass" aria-label="Main">
+    <a class="nav-item" href="S05a_Home.dc.html"><span class="nav-pill"><span class="ic ic-home" aria-hidden="true"></span></span>Home</a>
+    <a class="nav-item" href="S16a_Trips.dc.html"><span class="nav-pill"><span class="ic ic-ticket" aria-hidden="true"></span></span>Trips</a>
+    <a class="nav-item" href="S20_KoropePlus.dc.html"><span class="nav-pill"><span class="ic ic-building" aria-hidden="true"></span></span>Korope+</a>
+    <a class="nav-item" href="S17a_Wallet.dc.html"><span class="nav-pill"><span class="ic ic-wallet" aria-hidden="true"></span></span>Wallet</a>
+    <a class="nav-item is-active" href="S19_Profile.dc.html" aria-current="page"><span class="nav-pill"><span class="ic ic-user" aria-hidden="true"></span></span>Profile</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const mk = (rows) => rows.map((r, i) => ({ ...r, color: 'var(--text-primary)', iconColor: r.iconColor || 'var(--text-brand)', border: i < rows.length - 1 ? '1px solid var(--border-subtle)' : '0' }));
+    const groups = [
+      { rows: mk([
+        { icon: 'pin', label: 'Saved places', meta: 'Home, Work, 1 more' },
+        { icon: 'users', label: 'Emergency contacts', meta: 'Chidi Okafor' },
+        { icon: 'bell', label: 'Notifications', meta: 'Trips, wallet' }
+      ]) },
+      { rows: mk([
+        { icon: 'shield-check', label: 'Safety centre', meta: '' },
+        { icon: 'help', label: 'Help and support', meta: '' },
+        { icon: 'moon', label: 'Appearance', meta: 'Match phone' }
+      ]) },
+      { rows: mk([
+        { icon: 'file', label: 'Terms of service', meta: '', iconColor: 'var(--text-secondary)' },
+        { icon: 'lock', label: 'Privacy policy', meta: '', iconColor: 'var(--text-secondary)' }
+      ]) }
+    ];
+    return { theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844, groups };
+  }
+}
+</script>
+</body>
+</html>

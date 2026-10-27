@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Logo directions</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 900px; padding: var(--space-64); display: flex; flex-direction: column; gap: var(--space-40)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Logo · step 1</p>
+      <h2 class="t-h2">Three directions from movement, routes and stops</h2>
+    </div>
+    <p class="t-caption t-secondary" style="max-width: 420px">Each is tested at 16 px, as an app icon and as a single colour mark. B is refined on the next board.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-24); flex: 1 1 auto">
+
+    <section class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-24); padding: var(--space-32)">
+      <div style="display: flex; justify-content: space-between; align-items: center"><p class="t-title">A · Junction K</p><span class="badge badge-neutral">Explored</span></div>
+      <p class="t-caption t-secondary">A K drawn as a route junction: one trunk line, two branches, each ending at a stop.</p>
+      <div style="height: 240px; border-radius: var(--radius-l); background: var(--bg-canvas); display: flex; align-items: center; justify-content: center">
+        <svg role="img" aria-label="Direction A mark" viewBox="0 0 48 48" style="width: 160px; height: 160px"><path d="M15 9v30M15 27 31 12M21 22l12 15" fill="none" style="stroke: var(--primary-600)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="34" cy="10" r="4.5" style="fill: var(--secondary-400)"></circle><circle cx="35" cy="38" r="4" fill="none" style="stroke: var(--primary-600)" stroke-width="3.5"></circle></svg>
+      </div>
+      <div style="display: flex; align-items: center; gap: var(--space-24)">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><div style="display: flex; gap: var(--space-12); align-items: center; height: 40px"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 16px; height: 16px"><path d="M15 9v30M15 27 31 12M21 22l12 15" fill="none" style="stroke: var(--primary-600)" stroke-width="6" stroke-linecap="round"></path></svg><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 32px; height: 32px"><path d="M15 9v30M15 27 31 12M21 22l12 15" fill="none" style="stroke: var(--primary-600)" stroke-width="5" stroke-linecap="round"></path><circle cx="34" cy="10" r="4.5" style="fill: var(--secondary-500)"></circle></svg></div><p class="t-label t-secondary">16 · 32 px</p></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><div style="width: 72px; height: 72px; border-radius: 18px; background: var(--primary-600); display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 48px; height: 48px"><path d="M15 9v30M15 27 31 12M21 22l12 15" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"></path><circle cx="34" cy="10" r="4.5" style="fill: var(--secondary-400)"></circle></svg></div><p class="t-label t-secondary">App icon</p></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><div style="width: 120px; height: 72px; border-radius: var(--radius-m); background: var(--neutral-0); box-shadow: inset 0 0 0 1px var(--border-default); display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 44px; height: 44px"><path d="M15 9v30M15 27 31 12M21 22l12 15" fill="none" style="stroke: var(--neutral-900)" stroke-width="4.5" stroke-linecap="round"></path><circle cx="34" cy="10" r="4.5" style="fill: var(--neutral-900)"></circle><circle cx="35" cy="38" r="4" fill="none" style="stroke: var(--neutral-900)" stroke-width="3.5"></circle></svg></div><p class="t-label t-secondary">One colour</p></div>
+      </div>
+      <p class="t-caption t-secondary" style="margin-top: auto">Strong letter, but branches tangle under 24 px and it leans on the initial rather than on the service.</p>
+    </section>
+
+    <section class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-24); padding: var(--space-32); box-shadow: inset 0 0 0 2px var(--primary-600)">
+      <div style="display: flex; justify-content: space-between; align-items: center"><p class="t-title">B · Route Pair</p><span class="badge badge-brand"><span class="ic ic-16 ic-check" aria-hidden="true"></span>Refined next</span></div>
+      <p class="t-caption t-secondary">Your boarding stop, one confident step of route, your destination. The whole product in one glyph.</p>
+      <div style="height: 240px; border-radius: var(--radius-l); background: var(--bg-canvas); display: flex; align-items: center; justify-content: center">
+        <svg role="img" aria-label="Direction B mark" viewBox="0 0 48 48" style="width: 160px; height: 160px"><circle cx="13" cy="32" r="6" fill="none" style="stroke: var(--primary-600)" stroke-width="4"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--primary-600)" stroke-width="4" stroke-linecap="round"></path><circle cx="35" cy="16" r="7" style="fill: var(--secondary-400)"></circle></svg>
+      </div>
+      <div style="display: flex; align-items: center; gap: var(--space-24)">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><div style="display: flex; gap: var(--space-12); align-items: center; height: 40px"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 16px; height: 16px"><circle cx="13" cy="32" r="7" fill="none" style="stroke: var(--primary-600)" stroke-width="6"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--primary-600)" stroke-width="6" stroke-linecap="round"></path><circle cx="35" cy="16" r="9" style="fill: var(--secondary-500)"></circle></svg><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 32px; height: 32px"><circle cx="13" cy="32" r="6" fill="none" style="stroke: var(--primary-600)" stroke-width="5"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--primary-600)" stroke-width="5" stroke-linecap="round"></path><circle cx="35" cy="16" r="8" style="fill: var(--secondary-500)"></circle></svg></div><p class="t-label t-secondary">16 · 32 px</p></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><div style="width: 72px; height: 72px; border-radius: 18px; background: var(--primary-600); display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 48px; height: 48px"><circle cx="13" cy="32" r="6" fill="none" stroke="#FFFFFF" stroke-width="4"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"></path><circle cx="35" cy="16" r="7" style="fill: var(--secondary-400)"></circle></svg></div><p class="t-label t-secondary">App icon</p></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><div style="width: 120px; height: 72px; border-radius: var(--radius-m); background: var(--neutral-0); box-shadow: inset 0 0 0 1px var(--border-default); display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 44px; height: 44px"><circle cx="13" cy="32" r="6" fill="none" style="stroke: var(--neutral-900)" stroke-width="4"></circle><path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" style="stroke: var(--neutral-900)" stroke-width="4" stroke-linecap="round"></path><circle cx="35" cy="16" r="7" style="fill: var(--neutral-900)"></circle></svg></div><p class="t-label t-secondary">One colour</p></div>
+      </div>
+      <p class="t-caption t-secondary" style="margin-top: auto">Holds at 16 px as two dots and a line. Hollow start and solid end double as UI language for boarding and alighting stops.</p>
+    </section>
+
+    <section class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-24); padding: var(--space-32)">
+      <div style="display: flex; justify-content: space-between; align-items: center"><p class="t-title">C · Your Seat</p><span class="badge badge-neutral">Explored</span></div>
+      <p class="t-caption t-secondary">Four seats from the seat map. One is golden: the seat that is already yours.</p>
+      <div style="height: 240px; border-radius: var(--radius-l); background: var(--bg-canvas); display: flex; align-items: center; justify-content: center">
+        <svg role="img" aria-label="Direction C mark" viewBox="0 0 48 48" style="width: 160px; height: 160px"><rect x="8" y="8" width="14" height="14" rx="4" fill="none" style="stroke: var(--primary-600)" stroke-width="3.5"></rect><rect x="26" y="8" width="14" height="14" rx="4" style="fill: var(--secondary-400)"></rect><rect x="8" y="26" width="14" height="14" rx="4" fill="none" style="stroke: var(--primary-600)" stroke-width="3.5"></rect><rect x="26" y="26" width="14" height="14" rx="4" style="fill: var(--primary-600)"></rect></svg>
+      </div>
+      <div style="display: flex; align-items: center; gap: var(--space-24)">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><div style="display: flex; gap: var(--space-12); align-items: center; height: 40px"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 16px; height: 16px"><rect x="8" y="8" width="14" height="14" rx="4" style="fill: var(--primary-600)"></rect><rect x="26" y="8" width="14" height="14" rx="4" style="fill: var(--secondary-500)"></rect><rect x="8" y="26" width="14" height="14" rx="4" style="fill: var(--primary-600)"></rect><rect x="26" y="26" width="14" height="14" rx="4" style="fill: var(--primary-600)"></rect></svg><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 32px; height: 32px"><rect x="8" y="8" width="14" height="14" rx="4" fill="none" style="stroke: var(--primary-600)" stroke-width="4"></rect><rect x="26" y="8" width="14" height="14" rx="4" style="fill: var(--secondary-500)"></rect><rect x="8" y="26" width="14" height="14" rx="4" fill="none" style="stroke: var(--primary-600)" stroke-width="4"></rect><rect x="26" y="26" width="14" height="14" rx="4" style="fill: var(--primary-600)"></rect></svg></div><p class="t-label t-secondary">16 · 32 px</p></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><div style="width: 72px; height: 72px; border-radius: 18px; background: var(--primary-600); display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 48px; height: 48px"><rect x="8" y="8" width="14" height="14" rx="4" fill="none" stroke="#FFFFFF" stroke-width="3.5"></rect><rect x="26" y="8" width="14" height="14" rx="4" style="fill: var(--secondary-400)"></rect><rect x="8" y="26" width="14" height="14" rx="4" fill="none" stroke="#FFFFFF" stroke-width="3.5"></rect><rect x="26" y="26" width="14" height="14" rx="4" fill="#FFFFFF"></rect></svg></div><p class="t-label t-secondary">App icon</p></div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-8)"><div style="width: 120px; height: 72px; border-radius: var(--radius-m); background: var(--neutral-0); box-shadow: inset 0 0 0 1px var(--border-default); display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" viewBox="0 0 48 48" style="width: 44px; height: 44px"><rect x="8" y="8" width="14" height="14" rx="4" fill="none" style="stroke: var(--neutral-900)" stroke-width="3.5"></rect><rect x="26" y="8" width="14" height="14" rx="4" style="fill: var(--neutral-900)"></rect><rect x="8" y="26" width="14" height="14" rx="4" fill="none" style="stroke: var(--neutral-900)" stroke-width="3.5"></rect><rect x="26" y="26" width="14" height="14" rx="4" fill="none" style="stroke: var(--neutral-900)" stroke-width="3.5"></rect></svg></div><p class="t-label t-secondary">One colour</p></div>
+      </div>
+      <p class="t-caption t-secondary" style="margin-top: auto">Clear at small sizes, but a 2 x 2 grid reads as a generic app launcher and loses its meaning in one colour.</p>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

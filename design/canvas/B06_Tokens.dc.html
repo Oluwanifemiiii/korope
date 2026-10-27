@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tokens</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1400px; padding: var(--space-64); display: flex; flex-direction: column; gap: var(--space-32)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Tokens</p>
+      <h2 class="t-h2">Spacing, radius, elevation, motion</h2>
+    </div>
+    <p class="t-caption t-secondary" style="max-width: 520px">Names match the bible one to one. CSS: Space/16 is --space-16, Radius/L is --radius-l, Elevation-3 is --elevation-3. Mobile grid: 4 columns, 24 margin, 16 gutter at 390; 16 margin at 360.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-24)">
+    <section class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-24)">
+      <p class="doc-label">Spacing</p>
+      <sc-for list="{{space}}" as="s" hint-placeholder-count="12">
+        <div style="display: grid; grid-template-columns: 96px 40px minmax(0, 1fr); align-items: center; gap: var(--space-12)">
+          <span class="t-caption t-semibold">Space/{{s.n}}</span>
+          <span class="t-label t-secondary num">{{s.n}}px</span>
+          <span style="height: 12px; border-radius: var(--radius-xs); background: var(--accent-400); width: var(--space-{{s.n}})"></span>
+        </div>
+      </sc-for>
+    </section>
+
+    <section class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-24)">
+      <p class="doc-label">Radius</p>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-16)">
+        <sc-for list="{{radius}}" as="r" hint-placeholder-count="7">
+          <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+            <div style="height: 72px; background: var(--primary-50); box-shadow: inset 0 0 0 2px var(--primary-500); border-radius: var(--radius-{{r.k}})"></div>
+            <span class="t-caption t-semibold">Radius/{{r.name}} · {{r.v}}</span>
+            <span class="t-label t-secondary">{{r.use}}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div class="banner banner-info" style="margin-top: auto"><span class="ic ic-20 ic-info" aria-hidden="true" style="color: var(--info-icon)"></span><span>Buttons use Radius/M (56 and 48 px tall), hero cards Radius/XL. Radius/Pill is reserved for chips and badges, so no button ever reads as a pill.</span></div>
+    </section>
+  </div>
+
+  <section class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-24); background: var(--bg-canvas)">
+    <p class="doc-label">Elevation</p>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-24); padding: var(--space-16) var(--space-8)">
+      <sc-for list="{{elev}}" as="e" hint-placeholder-count="4">
+        <div style="height: 120px; border-radius: var(--radius-l); background: var(--bg-surface); box-shadow: var(--elevation-{{e.n}}); padding: var(--space-16); display: flex; flex-direction: column; justify-content: space-between">
+          <span class="t-subtitle">Elevation-{{e.n}}</span>
+          <span class="t-caption t-secondary">{{e.use}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section class="card-flat" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: var(--space-32); padding: var(--space-24)">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="doc-label">Duration</p>
+      <sc-for list="{{dur}}" as="d" hint-placeholder-count="6">
+        <div style="display: grid; grid-template-columns: 150px 64px minmax(0, 1fr); gap: var(--space-12); align-items: center; min-height: 40px; border-bottom: 1px solid var(--border-subtle)">
+          <span class="t-caption t-semibold">{{d.name}}</span>
+          <span class="t-caption num t-secondary">{{d.ms}}</span>
+          <span class="t-caption t-secondary">{{d.use}}</span>
+        </div>
+      </sc-for>
+      <p class="t-caption t-secondary" style="margin-top: var(--space-8)">Reduced motion: durations collapse to 0, loops stop, state changes become instant cross-fades of 100 ms or less.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="doc-label">Easing</p>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-12)">
+        <sc-for list="{{ease}}" as="e" hint-placeholder-count="5">
+          <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+            <svg aria-hidden="true" viewBox="-10 -30 120 140" style="width: 100%; height: auto; border-radius: var(--radius-m); background: var(--bg-canvas)">
+              <path d="M0 100H100M0 0V100" fill="none" style="stroke: var(--border-strong)" stroke-width="1"></path>
+              <path d="M0 0H100" fill="none" style="stroke: var(--border-default)" stroke-width="1" stroke-dasharray="3 3"></path>
+              <path d="{{e.d}}" fill="none" style="stroke: var(--primary-600)" stroke-width="3" stroke-linecap="round"></path>
+            </svg>
+            <span class="t-label t-semibold">{{e.name}}</span>
+            <span class="t-label t-secondary num">{{e.v}}</span>
+            <span class="t-label t-secondary">{{e.use}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const space = [2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 96].map((n) => ({ n }));
+    const radius = [
+      { k: 'xs', name: 'XS', v: '4', use: 'Annotation tags, QR quiet frame' },
+      { k: 's', name: 'S', v: '8', use: 'Seats, map labels, small tiles' },
+      { k: 'm', name: 'M', v: '12', use: 'Buttons, inputs, icon tiles, toasts' },
+      { k: 'l', name: 'L', v: '20', use: 'Cards, floating search' },
+      { k: 'xl', name: 'XL', v: '28', use: 'Sheets, wallet and boarding pass' },
+      { k: 'pill', name: 'Pill', v: '999', use: 'Chips and badges only' },
+      { k: 'circle', name: 'Circle', v: '50%', use: 'Avatars, icon buttons, markers' }
+    ];
+    const elev = [
+      { n: 1, use: 'Search, map controls, nav, small buttons' },
+      { n: 2, use: 'Cards, wallet, notifications' },
+      { n: 3, use: 'Bottom sheets, expanded cards, dialogs' },
+      { n: 4, use: 'SOS, payment confirmation, critical alerts' }
+    ];
+    const dur = [
+      { name: 'Duration/Instant', ms: '100ms', use: 'Colour swaps, pressed tint' },
+      { name: 'Duration/Fast', ms: '150ms', use: 'Button press 100 > 97 > 100%' },
+      { name: 'Duration/Base', ms: '250ms', use: 'Card expand, chip select, toast in' },
+      { name: 'Duration/Moderate', ms: '350ms', use: 'Search expand, sheet snap, fade-through' },
+      { name: 'Duration/Slow', ms: '600ms', use: 'Booking confirm sequence, total' },
+      { name: 'Duration/Ambient', ms: '2400ms', use: 'Marker breathe, arriving pulse loop' }
+    ];
+    const ease = [
+      { name: 'Ease/Standard', v: '0.2, 0, 0, 1', use: 'Most transitions', d: 'M0 100C20 100 0 0 100 0' },
+      { name: 'Ease/Enter', v: '0.05, 0.7, 0.1, 1', use: 'Things arriving', d: 'M0 100C5 30 10 0 100 0' },
+      { name: 'Ease/Exit', v: '0.3, 0, 0.8, 0.15', use: 'Things leaving', d: 'M0 100C30 100 80 85 100 0' },
+      { name: 'Ease/Sheet', v: '0.32, 0.72, 0, 1', use: 'Sheet snap, drag release', d: 'M0 100C32 28 0 0 100 0' },
+      { name: 'Ease/Settle', v: '0.34, 1.2, 0.64, 1', use: 'Confirmation card only', d: 'M0 100C34 -20 64 0 100 0' }
+    ];
+    return { space, radius, elev, dur, ease };
+  }
+}
+</script>
+</body>
+</html>

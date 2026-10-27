@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-400 0 1190 1400" width="1190" height="1400">
+<rect x="-400" width="1190" height="1400" fill="#171B1E"/>
+<g fill="#1D2226">
+<rect x="150" y="1180" width="34" height="22" rx="4"/><rect x="196" y="1230" width="30" height="20" rx="4"/><rect x="120" y="1000" width="40" height="24" rx="4"/><rect x="236" y="930" width="28" height="22" rx="4"/><rect x="250" y="1090" width="30" height="20" rx="4"/><rect x="60" y="760" width="38" height="22" rx="4"/><rect x="150" y="660" width="30" height="24" rx="4"/><rect x="40" y="560" width="34" height="22" rx="4"/><rect x="150" y="470" width="44" height="26" rx="4"/><rect x="120" y="300" width="36" height="24" rx="4"/><rect x="20" y="200" width="30" height="24" rx="4"/><rect x="130" y="130" width="40" height="26" rx="4"/>
+</g>
+<path d="M182 1380L522 1380M185 1373L513 1284M171 1323L499 1233M157 1273L485 1183M144 1223L472 1133M130 1175L457 1080M116 1125L442 1030M101 1075L428 981M87 1025L414 931M73 975L399 881M59 931L382 825M41 874L369 784M27 823L355 734M13 773L341 684M0 726L326 631M-15 676L312 581M-28 635L293 523M-45 586L276 474M-66 511L268 449M-78 441L262 417M-81 389L258 365M-85 336L254 315M-88 284L251 263M-92 263L238 181M-104 213L225 131M-116 146L221 95M-123 76L217 61" stroke="#232A2F" stroke-width="4" fill="none" stroke-linecap="round"/>
+<g fill="#172820">
+<rect x="314" y="1150" width="40" height="78" rx="12"/><rect x="150" y="548" width="44" height="30" rx="10"/><rect x="104" y="190" width="46" height="34" rx="10"/>
+</g>
+<path d="M290 1380L289 1345L275 1295L262 1244L248 1194L234 1145L220 1095L205 1045L191 995L176 945L162 898L145 845L131 795L118 745L103 696L89 646L74 600L57 550L40 491" stroke="#2B3338" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M325 1065L311 1015L296 965L282 915L266 863L251 816L237 766L224 716L209 665L194 615L178 563" stroke="#2B3338" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M790 0L790 1150L390 1230L370 1120L345 990L320 870L300 760L285 650L272 560L262 480L200 455L130 440L60 432L-400 426L-400 392L60 398L130 404L200 410L250 400L240 330L225 240L215 150L205 60L210 0Z" fill="#0E2333"/>
+<path d="M-400 690L0 720L60 820L110 930L160 1060L210 1200L250 1330L265 1400L-400 1400Z" fill="#0E2333"/>
+<path d="M-400 0L34 0L24 56L0 86L-400 120Z" fill="#0E2333"/>
+<polyline points="352,1400 352,1340 326,1245 300,1150 268,1040 228,900 205,830 175,720 140,600 105,500 92,430 85,330 80,250 60,170 48,90 44,0" stroke="#3B3A2E" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<g font-family="Onest, Roboto, Arial, sans-serif" font-size="11" font-weight="500" letter-spacing="1.4" fill="#7F8A86" stroke="#171B1E" stroke-width="3" paint-order="stroke">
+<text x="268" y="1338">AJAH</text><text x="196" y="976">LEKKI</text><text x="132" y="548">VICTORIA ISLAND</text><text x="110" y="302">LAGOS ISLAND</text>
+</g>
+<g font-family="Onest, Roboto, Arial, sans-serif" font-size="11" font-style="italic" fill="#4F7896">
+<text x="300" y="700">Lagos Lagoon</text><text x="18" y="1240">Atlantic Ocean</text><text x="20" y="420">Five Cowrie Creek</text>
+</g>
+</svg>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Korope design system cover</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 900px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: var(--bg-surface)">
+  <div style="background: var(--primary-700); color: var(--neutral-0); padding: var(--space-64); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden">
+    <svg aria-hidden="true" viewBox="0 0 720 900" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.18">
+      <path d="M-20 760 H220 a60 60 0 0 0 60-60 V520 a60 60 0 0 1 60-60 H520 a60 60 0 0 0 60-60 V160 a60 60 0 0 1 60-60 H760" fill="none" stroke="#85DAA9" stroke-width="3" stroke-linecap="round"></path>
+      <circle cx="280" cy="610" r="9" fill="#012A17" stroke="#85DAA9" stroke-width="3"></circle>
+      <circle cx="580" cy="300" r="9" fill="#012A17" stroke="#85DAA9" stroke-width="3"></circle>
+    </svg>
+    <div style="display: flex; align-items: center; gap: var(--space-16); position: relative">
+      <svg role="img" aria-label="Korope mark" viewBox="0 0 48 48" style="width: 64px; height: 64px">
+        <circle cx="13" cy="32" r="6" fill="none" stroke="#FFFFFF" stroke-width="4"></circle>
+        <path d="M19 32h3a6 6 0 0 0 6-6v-4a6 6 0 0 1 6-6" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"></path>
+        <circle cx="35" cy="16" r="7" fill="#FFC347"></circle>
+      </svg>
+      <span style="font-size: 56px; line-height: 56px; font-weight: 700; letter-spacing: -0.035em">korope</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: var(--space-16); position: relative; max-width: 520px">
+      <p class="t-eyebrow" style="color: var(--primary-200)">Design system v1.0 · Phase 1 passenger PWA</p>
+      <h1 class="t-display" style="color: var(--neutral-0)">Book a seat on the bus you already know.</h1>
+      <p class="t-subtitle" style="color: var(--primary-100); font-weight: 400">Scheduled shared minibuses on the Lekki to Victoria Island and Lagos Island corridor. Fixed routes, real seats, wallet payments, QR boarding.</p>
+    </div>
+  </div>
+  <div style="padding: var(--space-64); display: flex; flex-direction: column; gap: var(--space-32)">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">On this canvas</p>
+      <h2 class="t-h2">Four pages, one system</h2>
+    </div>
+    <ol style="display: flex; flex-direction: column; gap: var(--space-4)">
+      <li class="list-row" style="border-bottom: 1px solid var(--border-default)"><span class="icon-tile brand"><span class="ic ic-20 ic-route" aria-hidden="true"></span></span><div class="grow"><p class="t-subtitle">Brand foundations</p><p class="t-caption t-secondary">Logo directions and refined mark, colour scales, light and dark semantics, type, tokens, icons, map style</p></div></li>
+      <li class="list-row" style="border-bottom: 1px solid var(--border-default)"><span class="icon-tile brand"><span class="ic ic-20 ic-layers" aria-hidden="true"></span></span><div class="grow"><p class="t-subtitle">Components</p><p class="t-caption t-secondary">Buttons to boarding pass, every state, light and dark</p></div></li>
+      <li class="list-row" style="border-bottom: 1px solid var(--border-default)"><span class="icon-tile brand"><span class="ic ic-20 ic-phone-device" aria-hidden="true"></span></span><div class="grow"><p class="t-subtitle">Passenger screens</p><p class="t-caption t-secondary">Splash to arrival, account, Korope+, system states, dark mode and 360 x 740 checks</p></div></li>
+      <li class="list-row"><span class="icon-tile brand"><span class="ic ic-20 ic-file" aria-hidden="true"></span></span><div class="grow"><p class="t-subtitle">Motion and handoff</p><p class="t-caption t-secondary">Transition timings, component inventory, token and map files for Next.js + Tailwind</p></div></li>
+    </ol>
+    <div style="margin-top: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-16)">
+      <div class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-4)"><p class="t-label t-secondary">Typeface</p><p class="t-title">Onest</p><p class="t-caption t-secondary">400 · 500 · 600 · 700</p></div>
+      <div class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-4)"><p class="t-label t-secondary">Icons</p><p class="t-title">Lucide</p><p class="t-caption t-secondary">2px rounded stroke</p></div>
+      <div class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-8)"><p class="t-label t-secondary">Core colour</p><div style="display: flex; gap: var(--space-8)"><span style="width: 28px; height: 28px; border-radius: var(--radius-s); background: var(--primary-600)"></span><span style="width: 28px; height: 28px; border-radius: var(--radius-s); background: var(--secondary-400)"></span><span style="width: 28px; height: 28px; border-radius: var(--radius-s); background: var(--accent-500)"></span><span style="width: 28px; height: 28px; border-radius: var(--radius-s); background: var(--neutral-900)"></span></div></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

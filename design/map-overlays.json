@@ -1,0 +1,31 @@
+{
+  "overlays": {
+    "light": {
+      "routeLine": "#198ED2",
+      "routeCasing": "#FFFFFF",
+      "routeInactive": "#A7ACA9",
+      "busMarker": "#046940",
+      "myBusRing": "#FFC347",
+      "userLocation": "#198ED2",
+      "stopFill": "#FFFFFF",
+      "stopStroke": "#303431"
+    },
+    "night": {
+      "routeLine": "#4CAEF0",
+      "routeCasing": "#131619",
+      "routeInactive": "#46515A",
+      "busMarker": "#52BD85",
+      "myBusRing": "#FFC347",
+      "userLocation": "#4CAEF0",
+      "stopFill": "#1C2227",
+      "stopStroke": "#F1F4F2"
+    }
+  },
+  "widths": {
+    "routeLine": 6,
+    "routeCasing": 10,
+    "stop": 14,
+    "busMarker": 32
+  },
+  "nightSchedule": "18:30 to 06:00, or follow system theme"
+}

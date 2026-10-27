@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Korope+ coming soon</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column">
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: var(--space-24) var(--space-16) var(--space-16); display: flex; flex-direction: column; gap: var(--space-20)">
+    <section class="card-hero" style="background: var(--neutral-900); color: #F1F4F2; display: flex; flex-direction: column; gap: var(--space-12); position: relative; overflow: hidden">
+      <svg aria-hidden="true" viewBox="0 0 300 140" preserveAspectRatio="none" style="position: absolute; right: 0; bottom: 0; width: 70%; height: 100%; opacity: 0.35"><path d="M0 120h90a20 20 0 0 0 20-20V60a20 20 0 0 1 20-20h170" fill="none" style="stroke: var(--secondary-400)" stroke-width="2"></path><circle cx="110" cy="80" r="4" style="fill: var(--secondary-400)"></circle></svg>
+      <span class="badge badge-highlight" style="align-self: flex-start; position: relative">Coming soon</span>
+      <h1 class="t-h2" style="position: relative">Korope+ for companies and schools</h1>
+      <p class="t-caption" style="color: #A9B2AE; position: relative">Reserved seats on a fixed staff or school run, billed monthly to your organisation. We're starting with a few teams on the Lekki to Island corridor.</p>
+    </section>
+    <form style="display: flex; flex-direction: column; gap: var(--space-16)" aria-label="Register interest in Korope+">
+      <p class="t-subtitle t-semibold">Tell us about your team</p>
+      <div class="field"><label class="field-label" for="org">Company or school name</label><div class="field-control"><input id="org" placeholder="Registered name"></div></div>
+      <div class="field"><label class="field-label" for="size">Staff or students who would ride</label><div class="field-control"><input id="size" class="num" inputmode="numeric" placeholder="Approximate number"></div></div>
+      <div class="field"><label class="field-label" for="contact">Work email or phone</label><div class="field-control"><input id="contact" placeholder="So we can reach you"></div></div>
+    </form>
+  </div>
+  <div style="padding: 0 var(--space-16) var(--space-12); display: flex; flex-direction: column; gap: var(--space-8)">
+    <button type="button" class="btn btn-primary btn-block">Register interest</button>
+    <p class="t-label t-secondary" style="text-align: center">No commitment. We'll only contact you about Korope+.</p>
+  </div>
+  <nav class="nav glass" aria-label="Main">
+    <a class="nav-item" href="S05a_Home.dc.html"><span class="nav-pill"><span class="ic ic-home" aria-hidden="true"></span></span>Home</a>
+    <a class="nav-item" href="S16a_Trips.dc.html"><span class="nav-pill"><span class="ic ic-ticket" aria-hidden="true"></span></span>Trips</a>
+    <a class="nav-item is-active" href="S20_KoropePlus.dc.html" aria-current="page"><span class="nav-pill"><span class="ic ic-building" aria-hidden="true"></span></span>Korope+</a>
+    <a class="nav-item" href="S17a_Wallet.dc.html"><span class="nav-pill"><span class="ic ic-wallet" aria-hidden="true"></span></span>Wallet</a>
+    <a class="nav-item" href="S19_Profile.dc.html"><span class="nav-pill"><span class="ic ic-user" aria-hidden="true"></span></span>Profile</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    return { theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844 };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Confirm and pay</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column">
+  <div style="display: flex; align-items: center; gap: var(--space-8); padding: var(--space-16) var(--space-16) var(--space-8)">
+    <a class="btn btn-icon" href="S09_Seats.dc.html" aria-label="Back to seats" style="box-shadow: none; background: transparent"><span class="ic ic-back" aria-hidden="true"></span></a>
+    <h1 class="t-title grow">Confirm and pay</h1>
+    <span class="badge badge-neutral num"><span class="ic ic-16 ic-timer" aria-hidden="true"></span>3:41</span>
+  </div>
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: var(--space-8) var(--space-16); display: flex; flex-direction: column; gap: var(--space-12)">
+    <section class="card" style="display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-16)">
+      <div class="tl">
+        <div class="tl-item" style="min-height: 52px"><div class="tl-rail"><span class="tl-dot board"></span><span class="tl-line active"></span></div><div style="display: flex; justify-content: space-between; flex: 1 1 auto"><div><p class="t-body t-semibold">Chevron Roundabout</p><p class="t-label t-secondary">Board beside Access Bank</p></div><span class="t-body t-semibold num">7:15</span></div></div>
+        <div class="tl-item" style="min-height: 0"><div class="tl-rail"><span class="tl-dot alight" style="margin-top: 3px"></span></div><div style="display: flex; justify-content: space-between; flex: 1 1 auto"><div><p class="t-body t-semibold">CMS</p><p class="t-label t-secondary">5 stops in between · 42 min</p></div><span class="t-body t-semibold num">7:57</span></div></div>
+      </div>
+      <div class="divider"></div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8)">
+        <div><p class="t-label t-secondary">Seat</p><p class="t-subtitle t-semibold num">3B</p></div>
+        <div><p class="t-label t-secondary">Bus</p><p class="t-subtitle t-semibold num">KR 014</p></div>
+        <div><p class="t-label t-secondary">Date</p><p class="t-subtitle t-semibold">Today</p></div>
+      </div>
+    </section>
+    <section class="card" style="display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-16)">
+      <div style="display: flex; justify-content: space-between"><span class="t-caption">Seat fare, Chevron to CMS</span><span class="t-caption num">₦1,400</span></div>
+      <div style="display: flex; justify-content: space-between"><span class="t-caption">Service fee</span><span class="t-caption num">₦100</span></div>
+      <div class="divider" style="margin: var(--space-4) 0"></div>
+      <div style="display: flex; justify-content: space-between; align-items: baseline"><span class="t-body t-semibold">Total</span><span class="t-title num">₦1,500</span></div>
+    </section>
+    <sc-if value="{{ok}}" hint-placeholder-val="{{true}}">
+      <section class="card-flat" style="display: flex; align-items: center; gap: var(--space-12); padding: var(--space-12) var(--space-16)">
+        <span class="icon-tile brand"><span class="ic ic-20 ic-wallet" aria-hidden="true"></span></span>
+        <div class="grow"><p class="t-caption t-semibold">Korope wallet</p><p class="t-label t-secondary num">₦4,250 now · ₦2,750 after this trip</p></div>
+        <span class="ic ic-20 ic-ok" aria-hidden="true" style="color: var(--success-icon)"></span>
+      </section>
+    </sc-if>
+    <sc-if value="{{low}}" hint-placeholder-val="{{false}}">
+      <section class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-16); box-shadow: inset 0 0 0 1.5px var(--warning-border); background: var(--warning-bg)">
+        <div style="display: flex; align-items: center; gap: var(--space-12)">
+          <span class="icon-tile" style="background: var(--bg-surface); color: var(--warning-icon)"><span class="ic ic-20 ic-wallet" aria-hidden="true"></span></span>
+          <div class="grow"><p class="t-caption t-semibold" style="color: var(--warning-text)">Wallet balance ₦900</p><p class="t-label" style="color: var(--warning-text)">You need ₦600 more for this seat. Nothing has been charged.</p></div>
+        </div>
+        <div style="display: flex; gap: var(--space-8)">
+          <button type="button" class="chip is-selected num">₦600</button>
+          <button type="button" class="chip num">₦2,000</button>
+          <button type="button" class="chip num">₦5,000</button>
+        </div>
+      </section>
+    </sc-if>
+  </div>
+  <div style="padding: var(--space-12) var(--space-16) var(--space-16); border-top: 1px solid var(--border-subtle); background: var(--bg-surface); display: flex; flex-direction: column; gap: var(--space-8)">
+    <sc-if value="{{ok}}" hint-placeholder-val="{{true}}">
+      <a class="btn btn-primary btn-block" href="S11_Confirmed.dc.html">Reserve my seat · ₦1,500</a>
+      <p class="t-label t-secondary" style="text-align: center">Paid from your Korope wallet. Your receipt goes to Trips.</p>
+    </sc-if>
+    <sc-if value="{{low}}" hint-placeholder-val="{{false}}">
+      <a class="btn btn-primary btn-block" href="S18b_Add_Paystack.dc.html">Add ₦600 to continue</a>
+      <p class="t-label t-secondary" style="text-align: center">You'll pay securely with Paystack, then we reserve seat 3B straight away.</p>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"variant":{"editor":"enum","options":["enough","low"],"default":"enough"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const low = (this.props.variant ?? 'enough') === 'low';
+    return { theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844, low, ok: !low };
+  }
+}
+</script>
+</body>
+</html>

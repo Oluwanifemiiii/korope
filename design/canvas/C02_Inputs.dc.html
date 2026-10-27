@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Inputs, search, chips, badges</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1240px; padding: var(--space-64); display: flex; flex-direction: column; gap: var(--space-24); background: var(--neutral-100)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Components · Input, OTP, Search, Chip, Badge</p>
+      <h2 class="t-h2">Typing should feel like talking to someone who knows Lagos</h2>
+    </div>
+    <div style="display: flex; gap: var(--space-8)"><span class="anno">Field 56 · Radius/M</span><span class="anno">Search 56 · Radius/L · glass · Elevation-3</span><span class="anno">Chip 40, hit 48 · Radius/Pill</span></div>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-24); flex: 1 1 auto">
+    <sc-for list="{{themes}}" as="th" hint-placeholder-count="2">
+      <section data-theme="{{th}}" class="k" style="border-radius: var(--radius-xl); background: var(--bg-canvas); padding: var(--space-32); display: flex; flex-direction: column; gap: var(--space-24)">
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-16)">
+          <div class="field">
+            <label class="field-label" for="i1-{{th}}">Full name</label>
+            <div class="field-control"><input id="i1-{{th}}" placeholder="As it appears to your driver"></div>
+            <p class="field-help">Default</p>
+          </div>
+          <div class="field">
+            <label class="field-label" for="i2-{{th}}">Full name</label>
+            <div class="field-control is-focused"><input id="i2-{{th}}" value="Adaeze Okafor"></div>
+            <p class="field-help">Focused</p>
+          </div>
+          <div class="field">
+            <label class="field-label" for="i3-{{th}}">Phone number</label>
+            <div class="field-control is-error"><span class="t-body t-semibold" style="display: flex; align-items: center; gap: var(--space-8); padding-right: var(--space-12); border-right: 1px solid var(--border-default); height: 28px">+234</span><input id="i3-{{th}}" value="803 412 77" class="num"></div>
+            <p class="field-help is-error"><span class="ic ic-16 ic-alert-circle" aria-hidden="true" style="margin-top: 2px"></span>That number looks short. Nigerian numbers have 10 digits after +234.</p>
+          </div>
+          <div class="field">
+            <label class="field-label" for="i4-{{th}}">Promo code</label>
+            <div class="field-control is-disabled"><input id="i4-{{th}}" placeholder="Not available on this trip" disabled></div>
+            <p class="field-help">Disabled</p>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+          <p class="doc-label">OTP · empty, typing, error</p>
+          <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-16)">
+            <div class="otp" role="group" aria-label="Verification code">
+              <span class="otp-cell is-filled">4</span><span class="otp-cell is-filled">8</span><span class="otp-cell is-filled">1</span><span class="otp-cell is-active"><span class="caret"></span></span><span class="otp-cell"></span><span class="otp-cell"></span>
+            </div>
+            <div class="otp" role="group" aria-label="Verification code, incorrect">
+              <span class="otp-cell is-error">4</span><span class="otp-cell is-error">8</span><span class="otp-cell is-error">1</span><span class="otp-cell is-error">0</span><span class="otp-cell is-error">9</span><span class="otp-cell is-error">2</span>
+            </div>
+          </div>
+          <p class="field-help is-error"><span class="ic ic-16 ic-alert-circle" aria-hidden="true" style="margin-top: 2px"></span>That code didn't match. Check the latest SMS or request a new one.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-16); border-radius: var(--radius-l); background: var(--accent-100)">
+          <p class="doc-label" style="color: var(--accent-800)">Floating search over map</p>
+          <div class="search glass">
+            <span class="ic ic-search t-secondary" aria-hidden="true"></span>
+            <span class="search-placeholder">Find a bus stop, office or landmark</span>
+            <button type="button" class="btn btn-icon" aria-label="Search by voice" style="box-shadow: none; background: transparent"><span class="ic ic-20 ic-mic" aria-hidden="true"></span></button>
+          </div>
+          <div class="search" style="background: var(--bg-surface); box-shadow: inset 0 0 0 2px var(--border-focus), var(--elevation-3)">
+            <span class="ic ic-back" aria-hidden="true"></span>
+            <span class="t-body grow">Chevron<span class="caret" style="display: inline-block; height: 20px; vertical-align: middle; margin-left: 2px"></span></span>
+            <button type="button" class="btn btn-icon" aria-label="Clear" style="box-shadow: none; background: var(--bg-sunken); width: 32px; height: 32px"><span class="ic ic-16 ic-x" aria-hidden="true"></span></button>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+          <p class="doc-label">Chips</p>
+          <div style="display: flex; gap: var(--space-8); flex-wrap: wrap">
+            <span class="chip is-selected"><span class="ic ic-16 ic-check" aria-hidden="true"></span>Soonest</span>
+            <span class="chip">Fewest stops</span>
+            <span class="chip"><span class="ic ic-16 ic-snow" aria-hidden="true"></span>Air conditioned</span>
+            <span class="chip"><span class="ic ic-16 ic-seat" aria-hidden="true"></span>Window seat</span>
+            <span class="chip is-disabled">Wheelchair space</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+          <p class="doc-label">Badges</p>
+          <div style="display: flex; gap: var(--space-8); flex-wrap: wrap">
+            <span class="badge badge-highlight">Recommended</span>
+            <span class="badge badge-brand">6 seats left</span>
+            <span class="badge badge-success"><span class="ic ic-16 ic-check" aria-hidden="true"></span>On time</span>
+            <span class="badge badge-warning">Almost full</span>
+            <span class="badge badge-error">Full</span>
+            <span class="badge badge-info">Express</span>
+            <span class="badge badge-neutral">Departed</span>
+          </div>
+        </div>
+      </section>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() { return { themes: ['light', 'dark'] }; }
+}
+</script>
+</body>
+</html>

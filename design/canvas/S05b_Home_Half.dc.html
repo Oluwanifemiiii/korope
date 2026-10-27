@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home, sheet half open</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px">
+  <div class="map" style="top: -900px">
+    <img src="{{mapSrc}}" alt="Map of Lekki around Chevron">
+    <span class="mk mk-stop" style="left: 668px; top: 1040px"></span>
+    <span class="mk" style="left: 700px; top: 1150px; width: 18px; height: 18px; border-radius: 50%; background: var(--bg-surface); box-shadow: inset 0 0 0 4px var(--action-primary)"></span>
+    <span class="mk mk-me" style="left: 724px; top: 1176px"></span>
+    <span class="mk" style="left: 684px; top: 1095px"><span class="mk-bus breathe"><span class="ic ic-16 ic-bus" aria-hidden="true"></span></span></span>
+    <span class="mk" style="left: 646px; top: 968px"><span class="mk-bus"><span class="ic ic-16 ic-bus" aria-hidden="true"></span></span></span>
+  </div>
+  <div style="position: absolute; left: 0; right: 0; top: 0; padding: var(--space-16) var(--space-16) 0">
+    <a href="S06_Search.dc.html" class="search glass" style="text-decoration: none">
+      <span class="ic ic-search" aria-hidden="true" style="color: var(--text-brand)"></span>
+      <span class="search-placeholder">Where are you going today?</span>
+      <span class="btn btn-icon" aria-hidden="true" style="box-shadow: none; background: transparent; color: var(--text-secondary)"><span class="ic ic-20 ic-mic"></span></span>
+    </a>
+  </div>
+  <div class="sheet" style="position: absolute; left: 0; right: 0; bottom: 0; top: 46%">
+    <div class="sheet-head glass" style="padding-bottom: var(--space-8); align-items: stretch">
+      <span class="sheet-handle" aria-hidden="true" style="align-self: center"></span>
+      <p class="t-title">Leaving soon near you</p>
+    </div>
+    <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 0 var(--space-16); display: flex; flex-direction: column; gap: var(--space-16)">
+      <div class="card-flat" style="padding: 0 var(--space-16)">
+        <a href="S07_Departures.dc.html" class="list-row" style="border-bottom: 1px solid var(--border-subtle); color: var(--text-primary)"><span class="t-subtitle t-semibold num" style="width: 48px">7:15</span><div class="grow"><p class="t-caption t-semibold">Chevron to CMS</p><p class="t-label t-secondary num">6 seats left · ₦1,500</p></div><span class="badge badge-highlight">Best</span></a>
+        <a href="S07_Departures.dc.html" class="list-row" style="color: var(--text-primary)"><span class="t-subtitle t-semibold num" style="width: 48px">7:30</span><div class="grow"><p class="t-caption t-semibold">Lekki Phase 1 to CMS Express</p><p class="t-label t-secondary num">11 seats left · ₦1,800</p></div><span class="ic ic-20 ic-chev-r t-secondary" aria-hidden="true"></span></a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+        <p class="t-eyebrow">Saved places</p>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-12)">
+          <a href="S07_Departures.dc.html" class="card-flat" style="padding: var(--space-12); display: flex; align-items: center; gap: var(--space-12); color: var(--text-primary)"><span class="icon-tile accent"><span class="ic ic-20 ic-briefcase" aria-hidden="true"></span></span><div style="min-width: 0"><p class="t-caption t-semibold">Work</p><p class="t-label t-secondary num">Marina · 48 min</p></div></a>
+          <a href="#" class="card-flat" style="padding: var(--space-12); display: flex; align-items: center; gap: var(--space-12); color: var(--text-primary)"><span class="icon-tile highlight"><span class="ic ic-20 ic-home" aria-hidden="true"></span></span><div style="min-width: 0"><p class="t-caption t-semibold">Home</p><p class="t-label t-secondary num">Chevron Dr · 6 min</p></div></a>
+          <a href="#" class="card-flat" style="padding: var(--space-12); display: flex; align-items: center; gap: var(--space-12); color: var(--text-primary)"><span class="icon-tile"><span class="ic ic-20 ic-heart" aria-hidden="true"></span></span><div style="min-width: 0"><p class="t-caption t-semibold">Mum's place</p><p class="t-label t-secondary num">Ajah · 22 min</p></div></a>
+          <a href="#" class="card-flat" style="padding: var(--space-12); display: flex; align-items: center; gap: var(--space-12); color: var(--text-brand); box-shadow: none; border-style: dashed"><span class="icon-tile brand"><span class="ic ic-20 ic-plus" aria-hidden="true"></span></span><p class="t-caption t-semibold">Add a place</p></a>
+        </div>
+      </div>
+    </div>
+    <nav class="nav glass" aria-label="Main">
+      <a class="nav-item is-active" href="S05a_Home.dc.html" aria-current="page"><span class="nav-pill"><span class="ic ic-home" aria-hidden="true"></span></span>Home</a>
+      <a class="nav-item" href="S16a_Trips.dc.html"><span class="nav-pill"><span class="ic ic-ticket" aria-hidden="true"></span></span>Trips</a>
+      <a class="nav-item" href="S20_KoropePlus.dc.html"><span class="nav-pill"><span class="ic ic-building" aria-hidden="true"></span></span>Korope+</a>
+      <a class="nav-item" href="S17a_Wallet.dc.html"><span class="nav-pill"><span class="ic ic-wallet" aria-hidden="true"></span></span>Wallet</a>
+      <a class="nav-item" href="S19_Profile.dc.html"><span class="nav-pill"><span class="ic ic-user" aria-hidden="true"></span></span>Profile</a>
+    </nav>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const theme = this.props.theme ?? 'light';
+    return { theme, w: small ? 360 : 390, h: small ? 740 : 844, mapSrc: theme === 'dark' ? './map-night.svg' : './map-light.svg' };
+  }
+}
+</script>
+</body>
+</html>

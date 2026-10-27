@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Motion annotations</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1240px; padding: var(--space-48) var(--space-64); display: flex; flex-direction: column; gap: var(--space-24); background: var(--neutral-100)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Motion · deliberate, quick, never playful</p>
+      <h2 class="t-h2">Every movement answers "what just happened?"</h2>
+    </div>
+    <p class="t-caption t-secondary" style="max-width: 520px">No parallax, no scroll-triggered reveals, no cursor effects. With prefers-reduced-motion, durations go to 0, loops stop and state changes become a 100 ms cross-fade.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-24); flex: 1 1 auto">
+    <sc-for list="{{boards}}" as="b" hint-placeholder-count="3">
+      <section class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-24)">
+        <div style="display: flex; justify-content: space-between; align-items: baseline"><p class="t-title">{{b.name}}</p><span class="t-label t-secondary">{{b.where}}</span></div>
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-12)">
+          <sc-for list="{{b.steps}}" as="s" hint-placeholder-count="4">
+            <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+              <div style="height: 150px; border-radius: var(--radius-m); background: var(--bg-canvas); box-shadow: inset 0 0 0 1px var(--border-default); position: relative; overflow: hidden">
+                <div style="position: absolute; inset: 0; background: var(--accent-50); opacity: {{s.map}}"></div>
+                <div style="position: absolute; left: 10px; right: 10px; top: {{s.searchTop}}px; height: {{s.searchH}}px; border-radius: var(--radius-s); background: var(--bg-surface); box-shadow: var(--elevation-1)"></div>
+                <div style="position: absolute; left: 0; right: 0; bottom: 0; height: {{s.sheetH}}px; border-radius: var(--radius-m) var(--radius-m) 0 0; background: var(--bg-surface); box-shadow: var(--elevation-2)"><span style="display: block; width: 20px; height: 3px; border-radius: 2px; background: var(--border-strong); margin: 5px auto 0"></span></div>
+                <sc-if value="{{s.dot}}" hint-placeholder-val="{{false}}"><span style="position: absolute; left: 50%; top: 40%; width: 14px; height: 14px; margin: -7px; border-radius: 50%; background: var(--bus-marker); box-shadow: 0 0 0 {{s.ring}}px var(--bg-highlight-subtle)"></span></sc-if>
+                <sc-if value="{{s.btn}}" hint-placeholder-val="{{false}}"><span style="position: absolute; left: 10px; right: 10px; bottom: 10px; height: 18px; border-radius: var(--radius-xs); background: {{s.btnBg}}"></span></sc-if>
+              </div>
+              <p class="t-label t-semibold">{{s.t}}</p>
+              <p class="t-label t-secondary">{{s.d}}</p>
+              <span class="anno" style="align-self: flex-start; white-space: normal">{{s.tok}}</span>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-for>
+
+    <section class="card-flat" style="display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-24)">
+      <div style="display: flex; justify-content: space-between; align-items: baseline"><p class="t-title">Booking confirm, 600 ms</p><span class="t-label t-secondary">10a Confirm → 11 Confirmed</span></div>
+      <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: var(--space-8) var(--space-12); align-items: center">
+        <span></span>
+        <div style="display: flex; justify-content: space-between"><span class="t-label t-secondary num">0</span><span class="t-label t-secondary num">150</span><span class="t-label t-secondary num">300</span><span class="t-label t-secondary num">450</span><span class="t-label t-secondary num">600 ms</span></div>
+        <sc-for list="{{seq}}" as="q" hint-placeholder-count="6">
+          <span class="t-caption">{{q.n}}</span>
+          <div style="position: relative; height: 24px; border-radius: var(--radius-xs); background: var(--bg-sunken)"><span style="position: absolute; top: 0; bottom: 0; left: {{q.l}}%; width: {{q.w}}%; border-radius: var(--radius-xs); background: {{q.c}}"></span><span class="t-label" style="position: absolute; left: calc({{q.l}}% + 6px); top: 4px; color: var(--neutral-900); white-space: nowrap">{{q.tok}}</span></div>
+        </sc-for>
+      </div>
+      <p class="t-caption t-secondary">The button itself carries the state, so no separate toast. Medium haptic at check. If payment fails at 300 ms the ring stops, the button turns to its Error state and the copy says nothing was charged.</p>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const base = { map: 1, searchTop: 12, searchH: 18, sheetH: 40, dot: false, ring: 0, btn: false, btnBg: 'var(--action-primary)' };
+    const S = (o) => Object.assign({}, base, o);
+    const boards = [
+      { name: 'Search expand', where: '05 Home → 06 Search', steps: [
+        S({ t: '1 · Tap', d: 'Floating search pressed, scale 0.98', tok: 'Duration/Fast · Ease/Standard' }),
+        S({ t: '2 · Grow', d: 'Field widens to full bleed, gains focus ring', tok: 'Duration/Moderate · Ease/Standard', searchTop: 8, searchH: 22, map: 0.6 }),
+        S({ t: '3 · Map blurs', d: 'Backdrop blur 0 to 10 px, map stays visible', tok: 'Duration/Moderate · Ease/Standard', map: 0.3, searchTop: 8, searchH: 22 }),
+        S({ t: '4 · Results rise', d: 'Rows slide up 16 px, 30 ms stagger, max 6', tok: 'Duration/Base · Ease/Enter', map: 0.3, searchTop: 8, searchH: 22, sheetH: 110 })
+      ] },
+      { name: 'Sheet snap', where: 'Every bottom sheet', steps: [
+        S({ t: 'Peek · 176', d: 'Resting state on Home', tok: 'Snap point', sheetH: 40 }),
+        S({ t: 'Drag', d: 'Follows the finger 1:1, no lag', tok: 'No easing while dragging', sheetH: 70 }),
+        S({ t: 'Half · 50%', d: 'Release snaps to nearest point', tok: 'Duration/Moderate · Ease/Sheet', sheetH: 78 }),
+        S({ t: 'Full · top 56', d: 'Flick over 0.5 px/ms skips a point', tok: 'Spring 380 / 38, no overshoot', sheetH: 130 })
+      ] },
+      { name: 'Bus arriving', where: '12a Waiting → 12b Arriving', steps: [
+        S({ t: '2 stops away', d: 'Marker breathes 1 to 1.08', tok: 'Duration/Ambient loop', dot: true, ring: 2, sheetH: 50 }),
+        S({ t: 'At the stop', d: 'Ring expands 1 to 2.4, fades out', tok: 'Duration/Ambient · Ease/Standard', dot: true, ring: 10, sheetH: 50 }),
+        S({ t: 'Avatar pulses', d: 'Driver ring repeats with the marker', tok: 'Light haptic, once', dot: true, ring: 6, sheetH: 60 }),
+        S({ t: 'Pass up front', d: 'Pass card fades in, CTA turns golden', tok: 'Duration/Base · Ease/Enter', dot: true, ring: 4, sheetH: 70, btn: true, btnBg: 'var(--bg-highlight)' })
+      ] }
+    ];
+    const seq = [
+      { n: 'Press', l: 0, w: 25, c: 'var(--primary-200)', tok: 'Fast' },
+      { n: 'Loading ring', l: 25, w: 42, c: 'var(--accent-200)', tok: 'Ring completes' },
+      { n: 'Morph to check', l: 67, w: 16, c: 'var(--success-200)', tok: 'Base' },
+      { n: 'Card rises 24 px', l: 72, w: 28, c: 'var(--secondary-300)', tok: 'Moderate · Settle' },
+      { n: 'Bus appears', l: 80, w: 20, c: 'var(--accent-300)', tok: 'Enter' },
+      { n: 'Medium haptic', l: 67, w: 3, c: 'var(--neutral-500)', tok: '' }
+    ];
+    return { boards, seq };
+  }
+}
+</script>
+</body>
+</html>

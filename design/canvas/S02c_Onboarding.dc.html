@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Onboarding 3: track and board</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column; padding: var(--space-16) var(--space-24) var(--space-24)">
+  <div style="display: flex; justify-content: space-between; align-items: center; height: 48px">
+    <a class="btn btn-icon" href="S02b_Onboarding.dc.html" aria-label="Back" style="box-shadow: none; background: transparent"><span class="ic ic-back" aria-hidden="true"></span></a>
+  </div>
+  <div style="flex: 1 1 auto; min-height: 0; margin: var(--space-16) 0 var(--space-24); border-radius: var(--radius-xl); position: relative; overflow: hidden; box-shadow: inset 0 0 0 1px var(--border-default)">
+    <div class="map" style="top: -930px">
+      <img src="{{mapSrc}}" alt="">
+      <svg class="ov" viewBox="-400 0 1190 1400" aria-hidden="true">
+        <polyline points="352,1340 326,1245 300,1150 268,1040 228,900" fill="none" style="stroke: var(--route-casing)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></polyline>
+        <polyline points="352,1340 326,1245 300,1150 268,1040 228,900" fill="none" style="stroke: var(--route-line)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      </svg>
+      <span class="mk" style="left: 700px; top: 1150px; width: 18px; height: 18px; border-radius: 50%; background: var(--bg-surface); box-shadow: inset 0 0 0 4px var(--action-primary)"></span>
+      <span class="mk-label" style="left: 700px; top: 1150px">Chevron</span>
+      <span class="mk" style="left: 718px; top: 1206px; width: 32px; height: 32px"><span class="pulse-ring"></span><span class="mk-bus is-mine" style="position: relative"><span class="ic ic-16 ic-bus" aria-hidden="true"></span></span></span>
+    </div>
+    <div class="card" style="position: absolute; left: var(--space-16); bottom: var(--space-16); display: flex; align-items: center; gap: var(--space-12); padding: var(--space-12)">
+      <div style="width: 56px; height: 56px; border-radius: var(--radius-s); background: #FFFFFF; box-shadow: inset 0 0 0 1px var(--border-default); display: flex; align-items: center; justify-content: center; color: #181C19"><span class="ic ic-32 ic-qr" aria-hidden="true"></span></div>
+      <div><p class="t-label t-secondary">Boarding pass</p><p class="t-subtitle t-semibold num">Seat 3B · KR 014</p></div>
+    </div>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: var(--space-12)">
+    <h1 class="t-h2">Watch it arrive, scan, sit down</h1>
+    <p class="t-body t-secondary">Follow your bus to the stop, show your QR pass to the driver and take your seat. Share the trip with family in one tap.</p>
+  </div>
+  <div style="display: flex; gap: var(--space-8); margin: var(--space-24) 0 var(--space-16)" role="img" aria-label="Step 3 of 3">
+    <span style="width: 6px; height: 6px; border-radius: var(--radius-pill); background: var(--border-strong)"></span><span style="width: 6px; height: 6px; border-radius: var(--radius-pill); background: var(--border-strong)"></span><span style="width: 24px; height: 6px; border-radius: var(--radius-pill); background: var(--action-primary)"></span>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+    <a class="btn btn-primary btn-block" href="S03a_Phone.dc.html">Get started</a>
+    <a class="btn btn-tertiary btn-block" href="S03a_Phone.dc.html">I have an account · Sign in</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const theme = this.props.theme ?? 'light';
+    return { theme, w: small ? 360 : 390, h: small ? 740 : 844, mapSrc: theme === 'dark' ? './map-night.svg' : './map-light.svg' };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Seat selection</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column">
+  <div style="display: flex; align-items: center; gap: var(--space-8); padding: var(--space-16) var(--space-16) var(--space-8)">
+    <a class="btn btn-icon" href="S08_Stop.dc.html" aria-label="Back" style="box-shadow: none; background: transparent"><span class="ic ic-back" aria-hidden="true"></span></a>
+    <div class="grow"><h1 class="t-title">Choose your seat</h1><p class="t-caption t-secondary num">7:15 Chevron to CMS · KR 014</p></div>
+  </div>
+  <div style="padding: 0 var(--space-16)">
+    <div class="banner" role="timer" aria-live="off" style="background: var(--bg-highlight-subtle); color: var(--text-primary); box-shadow: inset 0 0 0 1px var(--secondary-300); align-items: center">
+      <span class="ic ic-20 ic-timer" aria-hidden="true" style="color: var(--secondary-700)"></span>
+      <span class="grow">Seat <strong>{{sel}}</strong> held for <strong class="num">{{left}}</strong></span>
+      <span class="t-label t-secondary">Pay to keep it</span>
+    </div>
+  </div>
+  <div style="flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-12); padding: var(--space-12) var(--space-16)">
+    <div style="width: 264px; border-radius: 44px 44px var(--radius-l) var(--radius-l); background: var(--bg-surface); box-shadow: inset 0 0 0 2px var(--border-default), var(--elevation-1); padding: var(--space-20); display: flex; flex-direction: column; gap: var(--space-12)">
+      <div style="display: grid; grid-template-columns: repeat(4, 52px); justify-content: space-between; align-items: center">
+        <span style="width: 52px; height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary)"><span class="ic ic-wheel" aria-hidden="true"></span><span class="t-label">Driver</span></span>
+        <span></span>
+        <sc-for list="{{front}}" as="s" hint-placeholder-count="2">
+          <button type="button" class="seat {{s.cls}}" style="width: 52px; height: 52px" aria-label="{{s.aria}}" aria-pressed="{{s.pressed}}" onClick="{{s.pick}}"><sc-if value="{{s.icon}}" hint-placeholder-val="{{false}}"><span class="ic ic-16 ic-{{s.icon}}" aria-hidden="true"></span></sc-if><span>{{s.id}}</span></button>
+        </sc-for>
+      </div>
+      <div style="height: 1px; background: var(--border-default)"></div>
+      <sc-for list="{{rows}}" as="r" hint-placeholder-count="4">
+        <div style="display: grid; grid-template-columns: repeat(4, 52px); justify-content: space-between">
+          <sc-for list="{{r}}" as="s" hint-placeholder-count="4">
+            <sc-if value="{{s.aisle}}" hint-placeholder-val="{{false}}"><span></span></sc-if>
+            <sc-if value="{{s.seat}}" hint-placeholder-val="{{true}}"><button type="button" class="seat {{s.cls}}" style="width: 52px; height: 52px" aria-label="{{s.aria}}" aria-pressed="{{s.pressed}}" onClick="{{s.pick}}"><sc-if value="{{s.icon}}" hint-placeholder-val="{{false}}"><span class="ic ic-16 ic-{{s.icon}}" aria-hidden="true"></span></sc-if><span>{{s.id}}</span></button></sc-if>
+          </sc-for>
+        </div>
+      </sc-for>
+      <div style="display: flex; justify-content: space-between"><span class="t-label t-secondary">Back of bus</span><span class="t-label t-secondary" style="display: flex; align-items: center; gap: var(--space-4)"><span class="ic ic-16 ic-door" aria-hidden="true"></span>Door</span></div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-8) var(--space-16)">
+      <span class="t-label" style="display: flex; align-items: center; gap: var(--space-4)"><span class="seat seat-available" style="width: 20px; height: 20px"></span>Available</span>
+      <span class="t-label" style="display: flex; align-items: center; gap: var(--space-4)"><span class="seat seat-held" style="width: 20px; height: 20px"></span>Being reserved</span>
+      <span class="t-label" style="display: flex; align-items: center; gap: var(--space-4)"><span class="seat seat-reserved" style="width: 20px; height: 20px"></span>Reserved</span>
+      <span class="t-label" style="display: flex; align-items: center; gap: var(--space-4)"><span class="seat seat-unavailable" style="width: 20px; height: 20px"></span>Unavailable</span>
+    </div>
+    <p class="t-caption t-secondary" aria-live="polite" style="min-height: 20px; text-align: center">{{msg}}</p>
+  </div>
+  <div style="padding: var(--space-12) var(--space-16) var(--space-16); border-top: 1px solid var(--border-subtle); background: var(--bg-surface); display: flex; flex-direction: column; gap: var(--space-8)">
+    <div style="display: flex; justify-content: space-between"><span class="t-caption">Seat {{sel}} · {{selNote}}</span><span class="t-caption t-semibold num">₦1,500</span></div>
+    <a class="btn btn-primary btn-block" href="S10a_Confirm.dc.html">Continue with seat {{sel}}</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: '3B', left: 298, msg: '' };
+  }
+  componentDidMount() {
+    this.t = setInterval(() => this.setState((s) => ({ left: Math.max(0, s.left - 1) })), 1000);
+  }
+  componentWillUnmount() { clearInterval(this.t); }
+  seat(id, st) {
+    const notes = { A: 'Window', B: 'Middle', C: 'Aisle by the door' };
+    const sel = this.state.sel === id;
+    const base = {
+      a: { cls: 'seat-available', aria: 'available' },
+      h: { cls: 'seat-held', aria: 'being reserved by someone else', icon: 'timer', why: 'Someone is paying for seat ' + id + ' right now. Pick another or check again in a minute.' },
+      r: { cls: 'seat-reserved', aria: 'reserved', icon: 'user', why: 'Seat ' + id + ' is already booked.' },
+      u: { cls: 'seat-unavailable', aria: 'unavailable', icon: 'x', why: 'Seat ' + id + ' is out of use on this bus today.' }
+    }[st];
+    const cls = sel ? 'seat-selected' : base.cls;
+    const pick = () => {
+      if (st === 'a') this.setState({ sel: id, left: 300, msg: 'Seat ' + id + ' is now held for you.' });
+      else this.setState({ msg: base.why });
+    };
+    return { seat: true, id, cls, icon: sel ? 'check' : base.icon, aria: 'Seat ' + id + ', ' + (sel ? 'your selection' : base.aria), pressed: sel ? 'true' : 'false', pick, note: id === '1B' ? 'Front, by the window' : notes[id.slice(-1)] };
+  }
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const A = { aisle: true };
+    const front = [this.seat('1A', 'r'), this.seat('1B', 'a')];
+    const rows = [
+      [this.seat('2A', 'r'), this.seat('2B', 'h'), A, this.seat('2C', 'a')],
+      [this.seat('3A', 'a'), this.seat('3B', 'a'), A, this.seat('3C', 'r')],
+      [this.seat('4A', 'u'), this.seat('4B', 'a'), A, this.seat('4C', 'r')],
+      [this.seat('5A', 'a'), this.seat('5B', 'r'), A, this.seat('5C', 'a')]
+    ];
+    const all = front.concat(...rows).filter((s) => s.seat);
+    const cur = all.find((s) => s.id === this.state.sel);
+    const m = Math.floor(this.state.left / 60), s = this.state.left % 60;
+    return {
+      theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844,
+      front, rows, sel: this.state.sel, selNote: cur ? cur.note : '', left: m + ':' + String(s).padStart(2, '0'), msg: this.state.msg
+    };
+  }
+}
+</script>
+</body>
+</html>

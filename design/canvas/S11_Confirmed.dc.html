@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Booking confirmed</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px">
+  <div class="map" style="top: -275px; transform: scale(0.5)"><img src="{{mapSrc}}" alt="Map showing bus KR 014 heading to Chevron Roundabout"></div>
+  <svg aria-hidden="true" viewBox="0 0 390 420" style="position: absolute; left: 50%; margin-left: -195px; top: 0; width: 390px; height: 420px">
+    <polyline points="273.5,395 260.5,347.5 247.5,300" fill="none" style="stroke: var(--route-inactive)" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 6"></polyline>
+    <polyline points="247.5,300 231.5,245 211.5,175 200,140 185,85 167.5,25 150,-25" fill="none" style="stroke: var(--route-casing)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <polyline points="247.5,300 231.5,245 211.5,175 200,140 185,85 167.5,25 150,-25" fill="none" style="stroke: var(--route-line)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></polyline>
+  </svg>
+  <span class="mk" style="left: calc(50% + 52px); top: 300px; width: 22px; height: 22px; border-radius: 50%; background: var(--bg-surface); box-shadow: inset 0 0 0 6px var(--action-primary), var(--elevation-2)"></span>
+  <span class="mk-label" style="left: calc(50% + 58px); top: 296px">Board here · 7:15</span>
+  <span class="mk" style="left: calc(50% + 66px); top: 348px; animation: k-fade var(--duration-moderate) var(--ease-enter) 0.4s both"><span class="mk-bus is-mine"><span class="ic ic-16 ic-bus" aria-hidden="true"></span></span></span>
+  <span class="mk mk-me" style="left: calc(50% + 66px); top: 318px"></span>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: var(--space-12); padding: 0 var(--space-16) var(--space-16)">
+    <section class="card-hero rise" style="background: var(--bg-surface); display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-20)">
+      <div style="display: flex; align-items: center; gap: var(--space-12)">
+        <span style="width: 48px; height: 48px; border-radius: 50%; background: var(--success-bg); color: var(--success-icon); display: flex; align-items: center; justify-content: center; flex: none"><span class="ic ic-check" aria-hidden="true"></span></span>
+        <div><h1 class="t-title">Seat 3B is yours</h1><p class="t-caption t-secondary num">₦1,500 paid from your wallet</p></div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8); padding: var(--space-12); border-radius: var(--radius-m); background: var(--bg-sunken)">
+        <div><p class="t-label t-secondary">Bus</p><p class="t-body t-semibold num">KR 014</p></div>
+        <div><p class="t-label t-secondary">Board at</p><p class="t-body t-semibold">Chevron</p></div>
+        <div><p class="t-label t-secondary">Arrives in</p><p class="t-body t-semibold num">9 min</p></div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8)">
+        <a class="btn btn-secondary btn-m" href="S13_Pass.dc.html" style="min-width: 0"><span class="ic ic-20 ic-qr" aria-hidden="true"></span>Boarding pass</a>
+        <button type="button" class="btn btn-secondary btn-m" style="min-width: 0"><span class="ic ic-20 ic-share" aria-hidden="true"></span>Share trip</button>
+      </div>
+    </section>
+    <a class="btn btn-primary btn-block is-success" href="S12a_Waiting.dc.html"><span class="ic ic-check" aria-hidden="true"></span>Seat reserved</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const theme = this.props.theme ?? 'light';
+    return { theme, w: small ? 360 : 390, h: small ? 740 : 844, mapSrc: theme === 'dark' ? './map-night.svg' : './map-light.svg' };
+  }
+}
+</script>
+</body>
+</html>

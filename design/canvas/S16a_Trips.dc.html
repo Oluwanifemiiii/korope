@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trips</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k screen" data-theme="{{theme}}" style="width: {{w}}px; height: {{h}}px; display: flex; flex-direction: column">
+  <div style="padding: var(--space-24) var(--space-16) var(--space-12)"><h1 class="t-h2">Trips</h1></div>
+
+  <sc-if value="{{full}}" hint-placeholder-val="{{true}}">
+    <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 0 var(--space-16); display: flex; flex-direction: column; gap: var(--space-20)">
+      <a href="S14_Live.dc.html" class="card-hero" style="background: var(--bg-surface); padding: var(--space-20); display: flex; flex-direction: column; gap: var(--space-12); color: var(--text-primary); box-shadow: inset 0 0 0 2px var(--route-line), var(--elevation-2)">
+        <div style="display: flex; justify-content: space-between; align-items: center"><span class="badge badge-info"><span style="width: 8px; height: 8px; border-radius: 50%; background: var(--info-icon)"></span>On the bus now</span><span class="t-label t-secondary num">Seat 3B · KR 014</span></div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline"><p class="t-title">Chevron to CMS</p><p class="t-title num">23 min</p></div>
+        <div style="position: relative; height: 6px; border-radius: var(--radius-pill); background: var(--bg-sunken)"><div style="position: absolute; left: 0; top: 0; bottom: 0; width: 45%; border-radius: var(--radius-pill); background: var(--route-line)"></div></div>
+        <p class="t-caption t-secondary">Next stop Adeola Odeku · arrive 7:57</p>
+      </a>
+      <section style="display: flex; flex-direction: column; gap: var(--space-8)">
+        <p class="t-eyebrow">Upcoming</p>
+        <a href="#" class="card-flat" style="padding: var(--space-12) var(--space-16); display: flex; align-items: center; gap: var(--space-12); color: var(--text-primary)">
+          <div style="width: 48px; text-align: center; flex: none"><p class="t-label t-secondary">WED</p><p class="t-title num">28</p></div>
+          <div class="grow"><p class="t-caption t-semibold">Chevron to CMS · 7:15</p><p class="t-label t-secondary num">Seat 2C · ₦1,500 paid</p></div>
+          <span class="badge badge-brand">Booked</span>
+        </a>
+      </section>
+      <section style="display: flex; flex-direction: column; gap: var(--space-4)">
+        <p class="t-eyebrow" style="margin-bottom: var(--space-4)">Past</p>
+        <sc-for list="{{past}}" as="p" hint-placeholder-count="4">
+          <a href="#" class="list-row" style="color: var(--text-primary); border-bottom: 1px solid var(--border-subtle); padding: var(--space-8) 0">
+            <span class="icon-tile"><span class="ic ic-20 ic-{{p.icon}}" aria-hidden="true"></span></span>
+            <div class="grow"><p class="t-caption t-semibold">{{p.route}}</p><p class="t-label t-secondary num">{{p.when}}</p></div>
+            <div style="text-align: right"><p class="t-caption t-semibold num">{{p.fare}}</p><p class="t-label" style="color: {{p.statusColor}}">{{p.status}}</p></div>
+          </a>
+        </sc-for>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+    <div style="flex: 1 1 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: var(--space-16); padding: 0 var(--space-32)">
+      <svg role="img" aria-label="City skyline with a dashed route waiting to be drawn" viewBox="0 0 240 110" style="width: 240px; height: auto">
+        <g style="fill: var(--primary-50)"><rect x="14" y="52" width="22" height="44" rx="3"></rect><rect x="62" y="64" width="30" height="32" rx="3"></rect><rect x="122" y="48" width="26" height="48" rx="3"></rect><rect x="176" y="60" width="28" height="36" rx="3"></rect></g>
+        <g style="fill: var(--bg-sunken)"><rect x="38" y="34" width="20" height="62" rx="3"></rect><rect x="96" y="26" width="22" height="70" rx="3"></rect><rect x="152" y="40" width="20" height="56" rx="3"></rect><rect x="208" y="50" width="20" height="46" rx="3"></rect></g>
+        <path d="M6 96h228" style="stroke: var(--border-strong)" stroke-width="2" stroke-linecap="round"></path>
+        <path d="M40 86h60a14 14 0 0 0 14-14v-6a14 14 0 0 1 14-14h70" fill="none" style="stroke: var(--route-line)" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 8"></path>
+        <circle cx="40" cy="86" r="6" style="fill: var(--bg-surface); stroke: var(--action-primary)" stroke-width="3"></circle>
+        <circle cx="198" cy="52" r="7" style="fill: var(--secondary-400)"></circle>
+      </svg>
+      <h2 class="t-title">No trips yet</h2>
+      <p class="t-body t-secondary">Book a seat on a scheduled bus from Lekki to the Island. Your trips, passes and receipts will live here.</p>
+      <a class="btn btn-primary" href="S06_Search.dc.html">Plan a trip</a>
+      <div style="display: flex; flex-direction: column; gap: var(--space-8); width: 100%; margin-top: var(--space-16)">
+        <p class="t-eyebrow">Popular from Lekki</p>
+        <div style="display: flex; gap: var(--space-8); flex-wrap: wrap; justify-content: center">
+          <a href="#" class="chip">Chevron to CMS</a><a href="#" class="chip">Ajah to Marina</a><a href="#" class="chip">Lekki Phase 1 to Falomo</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <nav class="nav glass" aria-label="Main">
+    <a class="nav-item" href="S05a_Home.dc.html"><span class="nav-pill"><span class="ic ic-home" aria-hidden="true"></span></span>Home</a>
+    <a class="nav-item is-active" href="S16a_Trips.dc.html" aria-current="page"><span class="nav-pill"><span class="ic ic-ticket" aria-hidden="true"></span></span>Trips</a>
+    <a class="nav-item" href="S20_KoropePlus.dc.html"><span class="nav-pill"><span class="ic ic-building" aria-hidden="true"></span></span>Korope+</a>
+    <a class="nav-item" href="S17a_Wallet.dc.html"><span class="nav-pill"><span class="ic ic-wallet" aria-hidden="true"></span></span>Wallet</a>
+    <a class="nav-item" href="S19_Profile.dc.html"><span class="nav-pill"><span class="ic ic-user" aria-hidden="true"></span></span>Profile</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"device":{"editor":"enum","options":["390x844","360x740"],"default":"390x844"},"variant":{"editor":"enum","options":["full","empty"],"default":"full"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const small = (this.props.device ?? '390x844') === '360x740';
+    const empty = (this.props.variant ?? 'full') === 'empty';
+    const ok = 'var(--success-text)';
+    const past = [
+      { icon: 'bus', route: 'CMS to Chevron', when: 'Mon 26 Oct · 17:45', fare: '₦1,500', status: 'Completed', statusColor: ok },
+      { icon: 'bus', route: 'Chevron to CMS', when: 'Mon 26 Oct · 7:15', fare: '₦1,500', status: 'Completed', statusColor: ok },
+      { icon: 'undo', route: 'Chevron to Marina', when: 'Fri 23 Oct · 7:45', fare: '₦1,400', status: 'Refunded', statusColor: 'var(--info-text)' },
+      { icon: 'bus', route: 'Ajah to Lekki Phase 1', when: 'Thu 22 Oct · 18:10', fare: '₦800', status: 'Completed', statusColor: ok }
+    ];
+    return { theme: this.props.theme ?? 'light', w: small ? 360 : 390, h: small ? 740 : 844, empty, full: !empty, past };
+  }
+}
+</script>
+</body>
+</html>

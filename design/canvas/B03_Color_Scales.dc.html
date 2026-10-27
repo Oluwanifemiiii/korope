@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Colour scales</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./korope-tokens.css">
+<link rel="stylesheet" href="./korope-ui.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div class="k" style="width: 1440px; height: 1320px; padding: var(--space-64); display: flex; flex-direction: column; gap: var(--space-32)">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+      <p class="t-eyebrow">Colour · primitives</p>
+      <h2 class="t-h2">Scales 50 to 900</h2>
+    </div>
+    <p class="t-caption t-secondary" style="max-width: 520px">Built in OKLCH so every 500 sits at a similar perceived weight. Each chip shows the contrast of its label colour (white or Neutral/900) against the swatch. No purple anywhere in the system.</p>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: var(--space-16)">
+    <sc-for list="{{scales}}" as="sc" hint-placeholder-count="8">
+      <div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--space-24); align-items: stretch">
+        <div style="display: flex; flex-direction: column; justify-content: center; gap: var(--space-4)">
+          <p class="t-subtitle t-semibold">{{sc.name}}</p>
+          <p class="t-caption t-secondary">{{sc.role}}</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: var(--space-8)">
+          <sc-for list="{{sc.steps}}" as="s" hint-placeholder-count="10">
+            <div style="display: flex; flex-direction: column; gap: var(--space-8)">
+              <div style="height: 72px; border-radius: var(--radius-m); background: {{s.hex}}; box-shadow: inset 0 0 0 1px rgba(24, 28, 25, 0.06); padding: var(--space-8); display: flex; flex-direction: column; justify-content: space-between; color: {{s.fg}}">
+                <span class="t-label t-semibold">{{s.step}}</span>
+                <span class="t-label num">Aa {{s.ratio}}</span>
+              </div>
+              <div style="display: flex; flex-direction: column">
+                <span class="t-label num" style="font-weight: 600">{{s.hex}}</span>
+                <span class="t-label t-secondary">{{s.token}}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1320}}'>
+class Component extends DCLogic {
+  lum(hex) {
+    const v = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((x) => (x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4)));
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  }
+  ratio(a, b) {
+    const la = this.lum(a), lb = this.lum(b);
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+  }
+  renderVals() {
+    const steps = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
+    const data = [
+      ['Primary', 'Deep emerald. Actions, selection, progress', ['#EAFCF1', '#D6F6E2', '#B3ECCA', '#85DAA9', '#52BD85', '#078754', '#046940', '#015332', '#023E24', '#012A17']],
+      ['Secondary', 'Warm golden yellow. Your seat, highlights', ['#FFF9F0', '#FFF2DB', '#FEE4B6', '#FFD486', '#FFC347', '#F5B40E', '#CA9408', '#9D7205', '#765400', '#573D02']],
+      ['Accent', 'Sky blue. Maps, routes, live tracking', ['#F1F8FE', '#DDF0FF', '#BDE2FE', '#8ACCFE', '#4CAEF0', '#198ED2', '#0372AD', '#045B8A', '#024469', '#012E4A']],
+      ['Neutral', 'Green-tinted grey. Text, surfaces, borders', ['#F6F9F7', '#EFF3F0', '#E2E5E3', '#CDD3CF', '#A7ACA9', '#7D827E', '#606561', '#474C48', '#303431', '#181C19']],
+      ['Success', 'Fresh green. Paid, boarded, on time', ['#EBFDEA', '#D7F7D7', '#B6EDB6', '#89DB8C', '#5ABE61', '#2F9F3D', '#0E8225', '#026819', '#004E10', '#013609']],
+      ['Warning', 'Amber. Delays, low balance, hold expiring', ['#FEF9F4', '#FEF1E3', '#FFE2C5', '#FFD2A2', '#FFB764', '#F69E23', '#C77C03', '#9B5F02', '#744703', '#573401']],
+      ['Error', 'Soft coral. Failures, never alarm red', ['#FFF4F2', '#FFE7E3', '#FFCFC9', '#FEABA1', '#FE7F73', '#DE5C53', '#B53D36', '#932B27', '#721D1A', '#520E0D']],
+      ['Info', 'Calm blue. Tips, notices, system info', ['#F2F7FE', '#E2EEFF', '#C7DFFE', '#9DC7FE', '#63A7FC', '#4087DE', '#286CBC', '#19559A', '#0E3F77', '#032B57']]
+    ];
+    const scales = data.map(([name, role, hexes]) => ({
+      name, role,
+      steps: hexes.map((hex, i) => {
+        const w = this.ratio(hex, '#FFFFFF');
+        const k = this.ratio(hex, '#181C19');
+        const useWhite = w >= k;
+        return { step: steps[i], hex, token: name + '/' + steps[i], fg: useWhite ? '#FFFFFF' : '#181C19', ratio: (useWhite ? w : k).toFixed(1) };
+      })
+    }));
+    return { scales };
+  }
+}
+</script>
+</body>
+</html>
