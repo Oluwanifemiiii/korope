@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Runs the pgTAP SQL tests in a throwaway `korope_test` database on the given server:
-// creates it, applies every migration, runs db/tests/database/*.test.sql, drops it.
+// creates it, applies every migration and seed, runs db/tests/database/*.test.sql, drops it.
 // Works on local Postgres (with PostGIS) and on a Neon branch.
 //
 //   TEST_DATABASE_URL=postgres://localhost:54329/postgres npm run test:sql
@@ -13,6 +13,7 @@ import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import pg from "pg";
 import { migrate } from "../migrate.mjs";
+import { seed } from "../seed.mjs";
 
 const here = import.meta.dirname;
 const base = process.env.TEST_DATABASE_URL ?? "postgres://localhost:54329/postgres";
@@ -20,13 +21,19 @@ const testUrl = new URL(base);
 testUrl.pathname = "/korope_test";
 const url = testUrl.toString();
 
-async function admin(sql) {
-  const c = new pg.Client({ connectionString: base });
-  await c.connect();
+async function admin(sql, attempt = 1) {
+  const c = new pg.Client({ connectionString: base, connectionTimeoutMillis: 15000, query_timeout: 60000 });
   try {
+    await c.connect();
     return await c.query(sql);
+  } catch (e) {
+    // Neon computes may be waking up, and networks drop; retry setup a few times.
+    if (attempt >= 4) throw e;
+    process.stderr.write(`  retrying after ${e.code ?? e.message}\n`);
+    await new Promise((r) => setTimeout(r, 2000 * attempt));
+    return admin(sql, attempt + 1);
   } finally {
-    await c.end();
+    await c.end().catch(() => {});
   }
 }
 
@@ -34,13 +41,21 @@ const psql = (args) =>
   execFileSync("psql", [url, "-X", "-q", "-v", "ON_ERROR_STOP=1", "-At", ...args], {
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
+    // verify-full with the OS trust store (Neon uses a public CA).
+    env: { ...process.env, PGSSLROOTCERT: process.env.PGSSLROOTCERT ?? "system" },
   });
 
+const step = (m) => process.stderr.write(`· ${m}\n`);
+step("creating korope_test");
 await admin("drop database if exists korope_test with (force)");
 await admin("create database korope_test");
 
 try {
+  step("migrating");
   await migrate(url, { log: () => {} });
+  step("seeding");
+  await seed(url, { log: () => {} });
+  step("running tests");
 
   const hasPgtap = (
     await (async () => {

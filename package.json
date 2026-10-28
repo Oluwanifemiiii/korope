@@ -13,9 +13,11 @@
     "test:sql": "node supabase/tests/run.mjs",
     "format": "prettier --write .",
     "check": "npm run typecheck && npm run lint && npm test",
-    "icons": "node scripts/generate-icons.mjs"
+    "icons": "node scripts/generate-icons.mjs",
+    "db:seed": "node --env-file-if-exists=.env.local db/seed.mjs"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^2.1.3",
     "@sentry/nextjs": "^11.9.0",
     "@tanstack/react-query": "^5.105.0",
     "better-auth": "^1.7.14",
@@ -31,6 +33,7 @@
     "@playwright/test": "^1.64.1",
     "@serwist/turbopack": "^9.5.13",
     "@tailwindcss/turbopack": "^4",
+    "@types/google.maps": "^3.66.8",
     "@types/node": "^20",
     "@types/pg": "^8.23.1",
     "@types/react": "^19",
