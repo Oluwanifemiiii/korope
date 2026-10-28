@@ -7,6 +7,8 @@ describe("requiredRole", () => {
     ["/sign-in", null],
     ["/terms", null],
     ["/t/abc123", null],
+    ["/search", null],
+    ["/stops/chevron", null],
     ["/api/paystack/webhook", null],
     ["/auth/callback", null],
     ["/driver/sign-in", null],

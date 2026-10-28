@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  relativeDay,
   formatCountdown,
   formatDayTime,
   formatTime,
@@ -36,6 +37,14 @@ describe("time in Africa/Lagos", () => {
     expect(isNightInLagos("2026-10-27T17:30:00Z")).toBe(true); // 18:30
     expect(isNightInLagos("2026-10-27T04:59:00Z")).toBe(true); // 05:59
     expect(isNightInLagos("2026-10-27T05:00:00Z")).toBe(false); // 06:00
+  });
+
+  it("labels days relative to Lagos today", () => {
+    const now = "2026-10-28T12:00:00Z";
+    expect(relativeDay("2026-10-28T17:00:00Z", now)).toBe("Today");
+    expect(relativeDay("2026-10-29T05:15:00Z", now)).toBe("Tomorrow");
+    expect(relativeDay("2026-10-28T23:30:00Z", now)).toBe("Tomorrow"); // 00:30 Lagos on the 29th
+    expect(relativeDay("2026-10-30T05:15:00Z", now)).toBe("Fri 30 Oct");
   });
 
   it("formats countdowns", () => {

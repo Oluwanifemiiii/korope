@@ -8,7 +8,7 @@ export const SIGN_IN = {
 } as const;
 
 // Exact paths, or prefixes ending in "/". Home is public so the map shows before sign-in.
-const PUBLIC_PASSENGER = ["/welcome", "/sign-in", "/legal", "/privacy", "/terms", "/t/", "/offline", "/plus"];
+const PUBLIC_PASSENGER = ["/welcome", "/sign-in", "/legal", "/privacy", "/terms", "/t/", "/offline", "/plus", "/search", "/stops/"];
 
 /** Which role a path needs, or null if it is public. Routing only; RLS is the real gate. */
 export function requiredRole(pathname: string): AppRole | null {

@@ -1,6 +1,6 @@
 "use client";
 
-import { House, Sparkles, Ticket, User, Wallet } from "lucide-react";
+import { Building2, House, Ticket, User, Wallet } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 const TABS = [
   { href: "/", label: "Home", Icon: House },
   { href: "/trips", label: "Trips", Icon: Ticket },
-  { href: "/plus", label: "Korope+", Icon: Sparkles },
+  { href: "/plus", label: "Korope+", Icon: Building2 },
   { href: "/wallet", label: "Wallet", Icon: Wallet },
   { href: "/profile", label: "Profile", Icon: User },
 ] as const;

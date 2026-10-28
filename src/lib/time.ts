@@ -77,6 +77,16 @@ export function isNightInLagos(d: DateInput = new Date()): boolean {
   return minutes >= 18 * 60 + 30 || minutes < 6 * 60;
 }
 
+/** "Today", "Tomorrow" or "Thu 29 Oct", relative to now in Lagos. */
+export function relativeDay(d: DateInput, now: DateInput = new Date()): string {
+  const day = lagosDate(d);
+  const today = lagosDate(now);
+  if (day === today) return "Today";
+  const tomorrow = lagosDate(toDate(now).getTime() + 24 * 3600 * 1000);
+  if (day === tomorrow) return "Tomorrow";
+  return formatDay(d);
+}
+
 /** "0:42", "4:58" for hold timers and resend countdowns. */
 export function formatCountdown(totalSeconds: number): string {
   const s = Math.max(0, Math.floor(totalSeconds));

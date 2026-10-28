@@ -25,14 +25,15 @@ Legend: `[ ]` todo, `[x]` done.
 - [ ] Phone-required gate after Google sign-in (before first booking, M2)
 - [ ] Middleware role routing for `/driver` and `/ops`
 - [ ] PWA shell: manifest (passenger and driver scopes), Serwist SW, offline banner, placeholder icons (maskable)
-- [ ] Custom 404, `/legal`, `/privacy`, `/terms` shells
+- [x] Custom 404, `/privacy`, `/terms` shells (draft copy, needs legal review)
 - [ ] Sentry (client, server, edge) with PII scrubbing
 - [ ] GitHub Actions CI; Vercel project with preview deploys; `.env.example`
 
 ## M1 Network and simulator
 
 - [ ] Migrations: stops, place_aliases, routes, route_stops, seat_layouts, layout_seats, vehicles, vehicle_blocked_seats, drivers, timetables, departures, departure_stop_times, fare_rules, fare_matrix, vehicle_positions, vehicle_live, simulator_state, audit_log
-- [ ] `generate_departures()` + nightly cron; pgTAP tests (idempotent, respects days and validity)
+- [x] `generate_departures()`; pgTAP tests (idempotent, ops only)
+- [ ] Nightly `pg_cron` job to extend departures
 - [ ] Seed: Lekki → VI / Lagos Island corridor. Coordinates captured from Google Maps and verified against the Geocoding API, each with a landmark line and `is_lit` / `is_sheltered`:
   - Stops (target 14): Ajah, Abraham Adesanya, Jakande, Chevron, Ikota, Lekki Phase 1 gate, Admiralty Way, Lekki toll gate, Falomo, Adeola Odeku, Ahmadu Bello Way, Bonny Camp, CMS, Marina
   - Routes (3): **L1** Ajah → CMS/Marina (expressway, toll gate, Ozumba Mbadiwe); **L2** Chevron → Ahmadu Bello Way (Admiralty Way, toll gate, Adeola Odeku); **L3** Lekki Phase 1 → Falomo (Lekki–Ikoyi link bridge) → CMS
@@ -46,6 +47,9 @@ Legend: `[ ]` todo, `[x]` done.
 - [ ] Ops: timetable editor → generate departures; vehicles CRUD + seat layout editor; drivers CRUD + assignment; fare tables
 
 ## M2 Passenger booking
+
+Done early (2026-10-28): Home (05a/05b) with nearest stop and next buses, Search (06) over stops and aliases, Stop detail (08), Trips/Wallet empty states, Profile with appearance and sign-out, Korope+ interest form (20). Map is schematic until Google Maps keys are set.
+
 
 Screens follow `design/canvas/S*.dc.html`, checked against the 360 x 740 (X*) and dark (D*) artboards.
 
